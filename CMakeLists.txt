@@ -51,26 +51,69 @@ add_proof_test(test_safety tests/test_safety.cpp)
 add_proof_test(test_loop_fault tests/test_loop_fault.cpp)
 add_proof_test(test_fault_gates_plasticity tests/test_fault_gates_plasticity.cpp)
 
+# Fault injection through the real loop: watchdog overrun, estop latch,
+# sensor dropout, single late tick.
+add_proof_test(test_fault_injection tests/test_fault_injection.cpp)
+
 # ESC pulse mapping: input us -> exact FlexPWM counts.
 add_proof_test(test_esc_pulse tests/test_esc_pulse.cpp)
 target_include_directories(test_esc_pulse PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/platforms/teensy)
 
-# Full-loop drone simulation: 10,000 ticks with a motor failure at tick
-# 9000; safety ramps to hover, plasticity freezes, snapshot fires.
-add_executable(test_drone_sim
-    tests/test_drone_sim.cpp
+# Drone plant suites (split of the former 10k-tick episode):
+# motor-loss survival (golden-pinned), tilt-fault response, invariants.
+function(add_drone_proof_test name source)
+    add_executable(${name} ${source} platforms/sim/hal_drone_sim.cpp)
+    target_include_directories(${name} PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests
+        ${CMAKE_CURRENT_SOURCE_DIR}/train/sim
+        ${CMAKE_CURRENT_SOURCE_DIR}/platforms/sim
+    )
+    if(MSVC)
+        target_compile_options(${name} PRIVATE /wd4710 /wd4711 /wd4820 /wd4626 /wd5027 /wd5045 /wd4189 /wd4101 /wd4514)
+    else()
+        target_compile_options(${name} PRIVATE -Wno-sign-conversion -Wno-sign-compare -Wno-unused-variable -Wno-padded)
+    endif()
+    target_link_libraries(${name} arc_runtime)
+    add_test(NAME ${name} COMMAND ${name})
+endfunction()
+add_drone_proof_test(test_motor_loss_survival tests/test_motor_loss_survival.cpp)
+add_drone_proof_test(test_tilt_fault_response tests/test_tilt_fault_response.cpp)
+add_drone_proof_test(test_drone_sim_env tests/test_drone_sim_env.cpp)
+
+# Loader robustness: arc_load is the only untrusted-input parser.
+add_executable(test_arc_load_fuzz
+    tests/test_arc_load_fuzz.cpp
     platforms/sim/hal_drone_sim.cpp
 )
-target_include_directories(test_drone_sim PRIVATE
+target_include_directories(test_arc_load_fuzz PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests
     ${CMAKE_CURRENT_SOURCE_DIR}/train/sim
     ${CMAKE_CURRENT_SOURCE_DIR}/platforms/sim
 )
 if(MSVC)
-    target_compile_options(test_drone_sim PRIVATE /wd4710 /wd4711 /wd4820 /wd4626 /wd5027 /wd5045 /wd4189 /wd4101)
+    target_compile_options(test_arc_load_fuzz PRIVATE /wd4710 /wd4711 /wd4820 /wd4626 /wd5027 /wd5045 /wd4189 /wd4101 /wd4514)
 else()
-    target_compile_options(test_drone_sim PRIVATE -Wno-sign-conversion -Wno-sign-compare -Wno-unused-variable -Wno-padded)
+    target_compile_options(test_arc_load_fuzz PRIVATE -Wno-sign-conversion -Wno-sign-compare -Wno-unused-variable -Wno-padded)
 endif()
-target_link_libraries(test_drone_sim arc_runtime)
-add_test(NAME test_drone_sim COMMAND test_drone_sim)
+target_link_libraries(test_arc_load_fuzz arc_runtime)
+add_test(NAME test_arc_load_fuzz COMMAND test_arc_load_fuzz)
+
+# Trained prior determinism: the committed models load and replay identically.
+add_executable(test_brain_prior_load tests/test_brain_prior_load.cpp)
+target_include_directories(test_brain_prior_load PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests
+)
+if(MSVC)
+    target_compile_options(test_brain_prior_load PRIVATE /wd4365 /wd4267 /wd4189 /wd4710 /wd4711 /wd4820 /wd4626 /wd5027 /wd5045 /wd4514 /wd4996)
+else()
+    target_compile_options(test_brain_prior_load PRIVATE -Wno-sign-conversion -Wno-sign-compare -Wno-unused-variable -Wno-padded)
+endif()
+target_link_libraries(test_brain_prior_load arc_runtime)
+add_test(NAME test_brain_prior_load COMMAND test_brain_prior_load
+    ${CMAKE_CURRENT_SOURCE_DIR}/models/prior_car.arc002
+    ${CMAKE_CURRENT_SOURCE_DIR}/models/prior_servo.arc002)

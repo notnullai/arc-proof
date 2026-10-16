@@ -63,7 +63,7 @@ struct DroneBrain {
 
     DroneBrain() = default;
 
-    explicit DroneBrain(const DroneConfig& c) : dcfg(c) { build(); }
+    explicit DroneBrain(const DroneConfig& c) : dcfg(c), pcfg{} { build(); }
 
     /* Tuned plasticity matching the Step 1a/2 drone episode, calmed for the
        stronger station PD (trace_threshold/interval stop rapid wiring

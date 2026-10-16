@@ -1,8 +1,10 @@
 name: proof
 
+# Manual-only: GitHub-hosted runners bill the owner. The suite is fully
+# verifiable locally with the Dockerfile (linux/amd64) — trigger this
+# workflow by hand only when a hosted run is wanted.
 on:
-  push:
-  pull_request:
+  workflow_dispatch:
 
 jobs:
   windows:
