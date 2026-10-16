@@ -19,6 +19,9 @@ add_library(arc_runtime STATIC IMPORTED)
 if(WIN32)
     set_target_properties(arc_runtime PROPERTIES
         IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/x64-windows/arc_runtime.lib)
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64")
+    set_target_properties(arc_runtime PROPERTIES
+        IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/x64-linux-aarch64/libarc_runtime.a)
 else()
     set_target_properties(arc_runtime PROPERTIES
         IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/x64-linux/libarc_runtime.a)

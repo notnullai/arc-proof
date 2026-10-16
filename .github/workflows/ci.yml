@@ -26,3 +26,23 @@ jobs:
         run: cmake --build build --parallel
       - name: Test
         run: ctest --test-dir build --output-on-failure
+
+  arm64:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: cmake --build build --parallel
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+
+  qemu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install QEMU and ARM binutils
+        run: sudo apt-get update && sudo apt-get install -y qemu-system-arm gcc-arm-none-eabi
+      - name: Run Cortex-M3 and Cortex-M7 twins, verify golden hash
+        run: bash ci/run_mcu_qemu.sh
