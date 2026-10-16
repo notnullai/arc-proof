@@ -1,0 +1,20 @@
+PROPRIETARY LICENSE - All Rights Reserved
+
+Copyright (c) 2026 notnullai. All rights reserved.
+
+This repository is published as a proof artifact. Permission is granted
+to view, clone, build and run the tests in this repository solely for
+the purpose of evaluating the claims stated in README.md.
+
+The Arc engine library (lib/) is provided as a binary-only artifact.
+No permission is granted to reverse engineer, decompile, redistribute,
+or derive works from the library or from the trained model files
+(models/).
+
+The source files published in this repository (include/, tests/,
+train/sim/, platforms/) may be read and referenced for evaluation only.
+No other rights are granted.
+
+THE SOFTWARE AND LIBRARIES ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
