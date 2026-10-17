@@ -95,6 +95,27 @@ build within 0.4 %. At 600 MHz and 1–2 cycles per instruction that is
 inside the 1000 µs budget. The cycles-per-instruction factor is what a
 hardware day confirms.
 
+## Random faults, not fixed ones (added 2026-10-17)
+
+Every earlier fault was injected at a fixed time. A seeded campaign
+through the runtime loop with the trained prior (300 ten-second episodes
+per sweep, 1–4 random, overlapping events each: total sensor dropout,
+estimator-frozen dropout with rates fresh, GPS-loss dropout with
+attitude/rates/baro fresh, gusts, ±2 rad/s attitude kicks, estop pulses,
+motor loss; ≈2,900 events over five sweeps) never missed the contract:
+estop → fault within one tick, exact safe-state hold, resume after
+clear, every time. Survival by class: gusts and kicks ≥ 97 %, GPS-loss
+dropouts ≥ 93 %, estop pulses 96 % with the opt-in live-torque fault
+policy; total or attitude-frozen dropouts longer than a few hundred
+milliseconds are fatal under any policy because the airframe is
+open-loop unstable. On Gazebo with random schedules (6 seeds): the Arc
+cascade survived 6 of 6, the trained reflex 4 of 6 with both losses
+being total dropouts; partial dropouts (GPS loss 1–3 s, estimator frozen
+1 s) were survived by both arms. The runtime now ships an opt-in
+per-axis fault policy (thrust ramps, torque axes keep the live loop;
+default behaviour bit-exact) that removes most estop-pulse and kick
+crashes and is not claimed to help stale-frame faults.
+
 ## What this does and does not show
 
 It shows the runtime's timing, fault contract and determinism on
