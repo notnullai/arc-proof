@@ -24,12 +24,12 @@ repo proves behavior; it does not publish the engine source).
 | ESC pulse mapping: 1000/1500/2000 us -> exactly 18750/28125/37500 counts | `test_esc_pulse` | `PASS` |
 
 **Cross-architecture:** the hash `ac29f2cfa8126d1b` is verified on
-**Windows x64**, **Linux x86_64**, and on **QEMU-emulated Cortex-M3 and
-Cortex-M7** (`ci/run_mcu_qemu.sh` reads the hash out of guest memory for
-each machine). One sequence, one hash, every platform shown here.
-**Linux ARM64** ships as a library (`lib/x64-linux-aarch64/`) and all 11
-tests cross-link against it, but the hash has not yet been run on ARM64
-hardware or emulation; the manual CI job does that when dispatched.
+**Windows x64**, **Linux x86_64**, **Linux ARM64** (all 11 suites
+cross-built against `lib/x64-linux-aarch64/` and executed under
+`qemu-aarch64`, see `ci/aarch64-linux-gnu.cmake`), and on **QEMU-emulated
+Cortex-M3 and Cortex-M7** (`ci/run_mcu_qemu.sh` reads the hash out of
+guest memory for each machine). One sequence, one hash, every platform
+shown here. ARM64 is emulated, not silicon.
 Local verification log: `docs/verification/local-2026-10-17.md`.
 
 ## Run it — one command (Docker, Linux x86_64)
@@ -38,7 +38,8 @@ Local verification log: `docs/verification/local-2026-10-17.md`.
 docker build --platform linux/amd64 -t arc-proof .
 ```
 
-The build compiles everything, runs all 11 suites, and runs the QEMU
+The build compiles everything, runs all 11 suites on x86_64, runs the
+same 11 suites cross-built for ARM64 under `qemu-aarch64`, and runs the QEMU
 M3/M7 golden-twin checks. A green build **is** the proof. Re-run the
 suite in the image with `docker run --rm arc-proof`.
 
