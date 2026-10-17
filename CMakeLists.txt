@@ -81,6 +81,8 @@ endfunction()
 add_drone_proof_test(test_motor_loss_survival tests/test_motor_loss_survival.cpp)
 add_drone_proof_test(test_tilt_fault_response tests/test_tilt_fault_response.cpp)
 add_drone_proof_test(test_drone_sim_env tests/test_drone_sim_env.cpp)
+# PRELIMINARY — toy plant: PID-cascade vs reflex baseline (determinism gate).
+add_drone_proof_test(test_drone_baseline tests/test_drone_baseline.cpp)
 
 # Loader robustness: arc_load is the only untrusted-input parser.
 add_executable(test_arc_load_fuzz

@@ -2,8 +2,8 @@
 #
 #   docker build --platform linux/amd64 -t arc-proof .
 #
-# The build runs configure + compile + all 11 test suites on x86_64,
-# the same 11 suites cross-built for ARM64 and run under qemu-user, and
+# The build runs configure + compile + all 12 test suites on x86_64,
+# the same 12 suites cross-built for ARM64 and run under qemu-user, and
 # the QEMU Cortex-M3/M7 golden-twin checks. A green build is the proof.
 # Re-run the suite in the built image with:
 #
@@ -22,7 +22,7 @@ RUN cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
     && cmake --build build \
     && ctest --test-dir build --output-on-failure
 
-# ARM64: the same 11 suites, cross-built against lib/x64-linux-aarch64
+# ARM64: the same 12 suites, cross-built against lib/x64-linux-aarch64
 # and executed under qemu-aarch64 (CMAKE_CROSSCOMPILING_EMULATOR).
 RUN cmake -S . -B build-aarch64 -G Ninja -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_TOOLCHAIN_FILE=ci/aarch64-linux-gnu.cmake \

@@ -26,9 +26,10 @@ repo proves behavior; it does not publish the engine source).
 | Loader robustness — `arc_load` is the only untrusted-input parser: truncations, magic, header bombs, 2000 seeded bitflips never crash | `test_arc_load_fuzz` | `PASS` |
 | Committed trained priors load and replay deterministically across reset | `test_brain_prior_load` | `PASS` |
 | ESC pulse mapping: 1000/1500/2000 us -> exactly 18750/28125/37500 counts | `test_esc_pulse` | `PASS` |
+| **PRELIMINARY — toy plant:** PID-cascade vs reflex baseline, same plant/seed/schedule — both survive, deterministic | `test_drone_baseline` | `PASS` (metrics table printed) |
 
 **Cross-architecture:** the hash `ac29f2cfa8126d1b` is verified on
-**Windows x64**, **Linux x86_64**, **Linux ARM64** (all 11 suites
+**Windows x64**, **Linux x86_64**, **Linux ARM64** (all 12 suites
 cross-built against `lib/x64-linux-aarch64/` and executed under
 `qemu-aarch64`, see `ci/aarch64-linux-gnu.cmake`), and on **QEMU-emulated
 Cortex-M3 and Cortex-M7** (`ci/run_mcu_qemu.sh` reads the hash out of
@@ -42,8 +43,8 @@ Local verification log: `docs/verification/local-2026-10-17.md`.
 docker build --platform linux/amd64 -t arc-proof .
 ```
 
-The build compiles everything, runs all 11 suites on x86_64, runs the
-same 11 suites cross-built for ARM64 under `qemu-aarch64`, and runs the QEMU
+The build compiles everything, runs all 12 suites on x86_64, runs the
+same 12 suites cross-built for ARM64 under `qemu-aarch64`, and runs the QEMU
 M3/M7 golden-twin checks. A green build **is** the proof. Re-run the
 suite in the image with `docker run --rm arc-proof`.
 
@@ -57,7 +58,7 @@ cmake --build build --config Release
 ctest --test-dir build -C Release --output-on-failure
 ```
 
-Expected: `100% tests passed, 0 tests failed out of 11`.
+Expected: `100% tests passed, 0 tests failed out of 12`.
 
 The QEMU twin check needs `qemu-system-arm` and `arm-none-eabi-nm`
 (`apt install qemu-system-arm gcc-arm-none-eabi`):
