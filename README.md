@@ -28,6 +28,8 @@ repo proves behavior; it does not publish the engine source).
 | ESC pulse mapping: 1000/1500/2000 us -> exactly 18750/28125/37500 counts | `test_esc_pulse` | `PASS` |
 | **PRELIMINARY — toy plant:** PID-cascade vs reflex baseline, same plant/seed/schedule — both survive, deterministic | `test_drone_baseline` | `PASS` (metrics table printed) |
 | **PX4 SITL (Gazebo Harmonic x500 + PX4 EKF), measured 2026-10-17:** Arc 1 kHz tick locked to sim time; sensor dropout → fault path → hover hold → auto-clear (raw hold within 0.20 m / 3°, stabilised 5 cm / 0.6°); motor loss → fault path < 1.2 s in every run; Arc-in-the-loop cascade hovers like PX4 (1.0 m ± 2–7 cm, station 4–7 cm) and recovers from 3.35 N gusts in 2.2 s; reflex residual safe at 10 % authority, not at 25 % | method + numbers: `docs/px4_sitl_method.md`, table: `docs/px4_sitl_summary_table.md` | scenario statistics, not bit-exact (bridge code stays private) |
+| **Trained prior flies the x500 as sole controller** (2026-10-17): 1.1 m ± 1–2 cm, 0.5 m station, 60 s × 4, plasticity on or off, 0 faults; wind survived | `docs/px4_sitl_method.md` | prior bytes and training in the private repo |
+| **Cortex-M7 per-tick instruction bound** under QEMU icount, same sequence as the golden twin: p50 23,040 instr, plasticity tick 197,440 → 38–77 / 329–658 µs at 600 MHz (1–2 cycles/instr) | `ci/run_mcu_timing.sh targets/mcu_drone_loop_timing_m7 mps2-an500` | `PASS`-style deterministic numbers; silicon cycles = hardware day |
 
 **Cross-architecture:** the hash `ac29f2cfa8126d1b` is verified on
 **Windows x64**, **Linux x86_64**, **Linux ARM64** (all 12 suites

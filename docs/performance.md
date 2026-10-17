@@ -21,6 +21,8 @@ is the on-target DWT cycle-count, below.
 
 | Metric | Value | Notes |
 |---|---|---|
+| Instruction count per tick under QEMU `-icount` (Cortex-M7 build, `targets/mcu_drone_loop_timing_m7`, same 2000-tick sequence as the golden twin, hash matches) | p50 **23,040** instr; every 10th tick (plasticity pass) **197,440** instr; mean 30,440 | `ci/run_mcu_timing.sh targets/mcu_drone_loop_timing_m7 mps2-an500` — deterministic; Cortex-M3 build: 23,120 / 197,520 |
+| Derived tick time at 600 MHz | normal tick 38–77 µs, plasticity tick 329–658 µs (1–2 cycles/instr) | inside the 1000 µs budget with the plasticity pass as the dominant term; the cycles-per-instruction factor is what silicon adds |
 | DWT cycle-counted tick min/avg/max | **hardware day** | no silicon run yet; the on-target binary (`targets/teensy4_teensy_drone_loop.hex`) prints it over UART on first boot |
 | QEMU tick time | not representative | instruction-set emulation, no cycle accuracy |
 

@@ -61,10 +61,46 @@ The full table is `px4_sitl_summary_table.md`. In words:
   residual, 10 % authority is indistinguishable from `pid`; 25 % with
   online plasticity crashed one of two hover runs; plasticity off held.
 
+## Trained prior (added 2026-10-17)
+
+A prior trained for this plant (supervised imitation of the cascade
+through the runtime's own spike decoder; 480-bit frame with attitude at
+±0.5 rad, the decoder's integrator state and yaw rate as channels; the
+four WTA groups are thrust / roll / pitch / yaw, mixed to rotors on the
+HAL side) flies the x500 as the **sole controller**: 1.11–1.13 m with
+1.1–1.7 cm altitude jitter, station within 0.52–0.55 m, tilt ≤ 5.2°, 60 s
+per run, four runs (one with online plasticity on), zero faults. Under
+the same seven 3.35 N gusts it survives with altitude within 0.32 m but
+is pushed 3.6–4.2 m (PX4 1.9 m, the Arc cascade 2.0–2.9 m). Motor loss
+remains unflyable for every arm. The prior's bytes, the training command
+and the selection procedure are in the private repo; the EKF record
+streams of every run are committed there and replayable.
+
+## Safe-state envelope (added 2026-10-17)
+
+A quad is open-loop unstable. The runtime's "ramp to hover thrust, zero
+torque" hold survives a 0.3 s sensor dropout in 1 of 2 runs and tumbles
+within 0.7 s in all four 1.0 s runs across controllers; keeping an
+attitude loop alive on the ramp turns the same 1.0 s dropout into 5 cm
+and 0.6°. The contract text now carries these numbers.
+
+## On-target timing bound (added 2026-10-17)
+
+`ci/run_mcu_timing.sh targets/mcu_drone_loop_timing_m7 mps2-an500`
+runs the golden 2000-tick sequence (hash matches) under QEMU with
+deterministic instruction counting: p50 23,040 instructions per tick,
+197,440 on the plasticity tick (every 10th), mean 30,479; Cortex-M3
+build within 0.4 %. At 600 MHz and 1–2 cycles per instruction that is
+38–77 µs for a normal tick and 329–658 µs for the plasticity tick,
+inside the 1000 µs budget. The cycles-per-instruction factor is what a
+hardware day confirms.
+
 ## What this does and does not show
 
 It shows the runtime's timing, fault contract and determinism on
-PX4-grade physics and sensors, and an Arc-in-the-loop controller that
-matches PX4's own on the same plant. It does not show the untrained
-reflex flying on its own; that needs a prior trained on this plant.
-Silicon numbers (DWT tick time) remain hardware-day items.
+PX4-grade physics and sensors, an Arc-in-the-loop controller that
+matches PX4's own on the same plant, a trained prior flying the plant
+on its own authority (looser than PX4 on station, weaker under gusts),
+the measured limits of the hover-hold safe state, and a deterministic
+per-tick instruction bound on Cortex-M. Silicon cycle counts remain the
+hardware-day item, now with a predicted range to confirm.

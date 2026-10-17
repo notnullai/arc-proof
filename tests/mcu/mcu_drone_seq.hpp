@@ -156,8 +156,12 @@ static inline void dloop_reward(void* ctx, int32_t* r, int n) {
 
 static inline uint8_t dloop_phase(void* ctx) { (void)ctx; return 0; }
 static inline bool dloop_estop(void* ctx) { return ((DLoopCtx*)ctx)->tick >= kEstopTick; }
+#ifndef ARC_MCU_TICK_HOOK
+#define ARC_MCU_TICK_HOOK() ((void)0)   /* timing builds sample SysTick here; no effect on the hash */
+#endif
 static inline void dloop_wait(void* ctx, uint64_t /*deadline*/) {
     DLoopCtx* c = (DLoopCtx*)ctx;
+    ARC_MCU_TICK_HOOK();
     ++c->tick;
     c->now_us += 1000;
 }
