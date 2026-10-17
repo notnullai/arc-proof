@@ -116,6 +116,39 @@ per-axis fault policy (thrust ramps, torque axes keep the live loop;
 default behaviour bit-exact) that removes most estop-pulse and kick
 crashes and is not claimed to help stale-frame faults.
 
+## Frozen estimator with a live IMU (added 2026-10-18)
+
+Track E's one fatal class was an attitude estimate stale for more than
+~0.3 s, because the bridge's only attitude source was PX4's EKF stream.
+The PX4 integration layer now takes a second record field set from the
+raw IMU (`HIGHRES_IMU`, requested at 50 Hz: gyro and baro altitude, each
+with its own timestamp, plus the ATTITUDE message's timestamp). When the
+attitude timestamp is older than 100 ms but the gyro is fresh, the last
+good attitude is propagated by fixed-point Euler integration of the body
+rates for at most 2 s, and the altitude and vertical-velocity channels are
+carried on the baro altitude (offset to continue the last good value);
+past the window, or with the gyro stale too, the frame is declared stale
+and the bridge estops exactly as before. Opt-in; the default record,
+behaviour and every hash are unchanged. Nothing in the runtime changed.
+
+Measured the same way as Track E. Hermetic (300 seeded episodes, same
+≈2,900 events): frozen-estimator crashes 46 of 137 → 43 with the gyro
+alone → **7** with gyro + baro; isolating that class (750 freezes of
+50–1000 ms over 300 episodes) 232 → 204 → **15** episodes lost, with the
+178 ground impacts of the no-fallback case going to 0: three quarters of
+the losses came from the frozen altitude channel, not the attitude, so an
+attitude-only fallback is not enough. With the freezes stretched to
+150–3000 ms (past the window) 14 of 137 are lost, all in the post-window
+hold. Gazebo (fresh container per run, PX4 x500, freeze at 30 s): 0.3 s,
+1 s and 3 s freezes survived by both the trained reflex and the cascade
+(8 of 8; on the 3 s freeze the bridge carried 2 s and then held hover for
+the last second), and the six Track E random schedules with their
+dropouts delivered as estimator freezes survived 12 of 12 (seeds 1, 3, 5,
+6 froze for 0.21–0.33 s; the fallback engaged and no fault tick was
+taken). What this does not change: a total dropout, where no record
+arrives at all, has nothing to fall back on and keeps the limits measured
+before; beyond the 2 s window the hover hold applies.
+
 ## What this does and does not show
 
 It shows the runtime's timing, fault contract and determinism on
@@ -123,5 +156,6 @@ PX4-grade physics and sensors, an Arc-in-the-loop controller that
 matches PX4's own on the same plant, a trained prior flying the plant
 on its own authority (looser than PX4 on station, weaker under gusts),
 the measured limits of the hover-hold safe state, and a deterministic
-per-tick instruction bound on Cortex-M. Silicon cycle counts remain the
+per-tick instruction bound on Cortex-M, and a frozen estimator survived
+for up to 2 s on the raw IMU. Silicon cycle counts remain the
 hardware-day item, now with a predicted range to confirm.
