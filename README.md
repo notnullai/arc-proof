@@ -1,5 +1,9 @@
 # Arc Proof
 
+A deterministic, fail-safe reflex runtime, verified on five targets
+(Windows x64, Linux x86_64, Linux ARM64, QEMU Cortex-M3, QEMU Cortex-M7).
+**Give us a board: DWT cycle numbers + hover video within the week.**
+
 Runnable evidence for the Arc reflex runtime: **deterministic, bit-exact
 across architectures, with a tested safety contract** — verified on
 Windows x64 and Linux x86_64 from one command.
@@ -127,7 +131,9 @@ binaries are checksummed in `SHA256SUMS`.
 
 Engine implementation source, the trainer, and the target-hardware
 support code. The libraries and target artifacts here were built from
-the private repository at commit `fba7469`.
+the private repository at commit `fba7469`. Evaluators can review the
+source under NDA: a pinned-commit escrow snapshot plus a verification
+walkthrough session is available on request (see License).
 
 ## License
 
