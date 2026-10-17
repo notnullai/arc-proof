@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.a binary
+*.lib binary
+*.hex binary
+*.arc002 binary
+targets/* binary
