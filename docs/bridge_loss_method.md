@@ -1,7 +1,7 @@
 # Arc process loss mid-flight: handover to PX4 (gap register G6)
 
 Measured 2026-10-18 on PX4 SITL + Gazebo Harmonic x500 (`px4io/px4-sitl-gazebo`),
-fresh container per run. The bridge and tooling are private; this page is method and numbers.
+fresh container per run. The bridge source is private; the stripped bridge binary, the flight default and the harness are public, so these runs can be repeated: `docs/run_it_yourself.md`.
 
 ## The gap
 

@@ -2,7 +2,9 @@
 
 What was run, how, and what came out. The bridge source stays private;
 this page carries the method and the measured numbers so the result can
-be judged and, with the private repo under NDA, rerun.
+be judged. The stripped bridge binaries, the flight default and the
+harness are public, so the flight-default runs can be repeated without
+us: `docs/run_it_yourself.md`.
 
 ## Setup
 

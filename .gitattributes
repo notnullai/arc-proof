@@ -4,3 +4,6 @@
 *.hex binary
 *.arc002 binary
 targets/* binary
+bin/** binary
+*.exe binary
+*.bin binary

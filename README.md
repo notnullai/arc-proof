@@ -31,6 +31,7 @@ repo proves behavior; it does not publish the engine source).
 | **Trained prior flies the x500 as sole controller** (2026-10-17): 1.1 m ± 1–2 cm, 0.5 m station, 60 s × 4, plasticity on or off, 0 faults; wind survived | `docs/px4_sitl_method.md` | prior bytes and training in the private repo |
 | **Flight default: compiled station cascade** (2026-10-18): a gain-matched frame (832 bits) compiles the station cascade exactly into ternary weights; plasticity off, no learning claim. Gazebo x500: hover station 0.24–0.30 m (trained prior 0.52–0.55 m); wind 3/3 at 2.96–3.05 m excursion and 17.6–18.4° peak tilt, no rotor saturation, against the trained prior in the same matrix at 3.19–4.44 m, 34.7–39.2°, 0.46–0.64 %; all 43 plant-mismatch cells incl. 60 ms delay. The trained prior stays as the learning demonstration | `docs/px4_sitl_method.md`, `docs/gap_register.md` G4/G7/G8/G15–G18 |
 | **Arc process loss mid-flight** (2026-10-18): Arc killed or hung while flying the Gazebo x500, an unmodified PX4 takes over (route outputs, arm in the air, Takeoff then Hold): 13 / 13 survived, 0 / 1 without the fallback; takeover costs 0.16–0.70 m from a 1.1 m hover, stated as a 1 m minimum altitude | `docs/bridge_loss_method.md` | scenario statistics, fresh container per run |
+| **Fly the flight default in Gazebo yourself** (2026-10-18): the PX4 bridge ships as stripped release binaries with the engine statically linked (`bin/linux-x86_64/px4_bridge`, `bin/windows-x64/px4_bridge.exe`), with the flight default `models/prior_x500_candidate_v5.arc002` and the Python harness (`tools/px4/`): hover, wind and the Arc-loss handover from a clean Linux machine with Docker and the public PX4 image; offline check, recorded PX4 stream in, same rotor-command hash out on both binaries | `docs/run_it_yourself.md` | offline: `hash=00cffd5d35dc57d9`; flights: the published ranges, up to run-to-run noise (scenario statistics). Bridge source stays private; a stripped binary can still be disassembled |
 | **Gap register** (2026-10-18): every remaining weakness a hardware signatory would raise, each measured and closed, in progress, or stated as physics/hardware; plant-mismatch sweep (43 cells, mass/thrust ±30 %, delay 20–60 ms) and 30/60-minute plasticity-on soak with no drift | `docs/gap_register.md` | hermetic, private test `test_x500_robustness` |
 | **Frozen estimator with a live IMU** (2026-10-18): the one fatal Track E class, attitude stale > 0.3 s, is carried by the raw gyro (attitude) and baro (altitude) for up to 2 s in the PX4 integration layer: hermetic crashes 46 → 7 of 137 (gyro alone 43: the frozen altitude channel did most of the damage), Gazebo 0.3–3 s freezes 8/8 and random schedules 12/12 survived; total dropouts (no records) stay fatal; opt-in, default bit-exact | `docs/px4_sitl_method.md` | hermetic + Gazebo scenario statistics |
 | **Random faults** (2026-10-17): ≈2,900 randomly timed, overlapping faults through the loop, contract never missed; disturbances and GPS-loss dropouts survivable on the real x500, total dropouts > ~0.3 s fatal for any controller; opt-in live-axis fault policy in the runtime (default bit-exact) | `docs/px4_sitl_method.md` | hermetic campaign + Gazebo schedules |
@@ -124,7 +125,10 @@ binaries are checksummed in `SHA256SUMS`.
 - `tests/` — the proof tests above, exactly as run in the engine's
   private CI
 - `models/` — two trained priors (`prior_car.arc002`,
-  `prior_servo.arc002`)
+  `prior_servo.arc002`) and the x500 flight default
+  (`prior_x500_candidate_v5.arc002`, compiled, 832 bits)
+- `bin/` — the PX4 bridge, prebuilt and stripped (Linux x86_64, Windows x64)
+- `tools/px4/` — the PX4 SITL harness (Python), see `docs/run_it_yourself.md`
 - `lib/` — the engine as a prebuilt static library:
   - `lib/x64-windows/arc_runtime.lib` (MSVC 19.44, x64)
   - `lib/x64-linux/libarc_runtime.a` (GCC 13, x86_64)
