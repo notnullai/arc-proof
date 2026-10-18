@@ -133,31 +133,52 @@ crashes and is not claimed to help stale-frame faults.
 Track E's one fatal class was an attitude estimate stale for more than
 ~0.3 s, because the bridge's only attitude source was PX4's EKF stream.
 The PX4 integration layer now takes a second record field set from the
-raw IMU (`HIGHRES_IMU`, requested at 50 Hz: gyro and baro altitude, each
-with its own timestamp, plus the ATTITUDE message's timestamp). When the
-attitude timestamp is older than 100 ms but the gyro is fresh, the last
-good attitude is propagated by fixed-point Euler integration of the body
-rates for at most 2 s, and the altitude and vertical-velocity channels are
-carried on the baro altitude (offset to continue the last good value);
-past the window, or with the gyro stale too, the frame is declared stale
-and the bridge estops exactly as before. Opt-in; the default record,
-behaviour and every hash are unchanged. Nothing in the runtime changed.
+raw IMU (`HIGHRES_IMU`, requested at 50 Hz: gyro, accelerometer and baro
+altitude, each with its own timestamp, plus the ATTITUDE message's
+timestamp). When the attitude timestamp is older than 100 ms but the
+gyro is fresh, the last good attitude is propagated by fixed-point Euler
+integration of the body rates for at most 2 s, and the altitude and
+vertical-velocity channels are carried by a baro + accelerometer
+complementary filter (specific force rotated by the carried attitude,
+gravity removed, integrated, pulled towards the baro with a 1.5 s time
+constant, offset to continue the last good value); past the window, or
+with the gyro stale too, the frame is declared stale and the bridge
+estops exactly as before. Opt-in; the default record, behaviour and
+every hash are unchanged. Nothing in the runtime changed.
+
+A first version carried the vertical velocity as a baro difference. It
+survived with the trained prior but regressed the flight default (the
+compiled, gain-matched controller) on Gazebo: PX4 SITL's pressure
+altitude carries 0.23 m of correlated noise per 50 Hz record, so a baro
+difference is ±9 m/s of velocity noise, which saturated the controller's
+vertical-velocity channel and the thrust axis (1 s freeze: 1.4 m
+altitude excursion; 3 s freeze lost). Replaying the recorded stream
+through the bridge shows the thrust axis hitting 0 and full scale with
+that carry and staying within ±20 % of hover with the complementary
+filter. The hermetic sensor model was made SITL-like (baro sd 0.23 m,
+lag-1 autocorrelation 0.7, records 16/24 ms apart, accelerometer noise
+±0.05 m/s²) and the altitude integral is held while the altitude is
+carried.
 
 Measured the same way as Track E. Hermetic (300 seeded episodes, same
-≈2,900 events): frozen-estimator crashes 46 of 137 → 43 with the gyro
-alone → **7** with gyro + baro; isolating that class (750 freezes of
-50–1000 ms over 300 episodes) 232 → 204 → **15** episodes lost, with the
-178 ground impacts of the no-fallback case going to 0: three quarters of
-the losses came from the frozen altitude channel, not the attitude, so an
-attitude-only fallback is not enough. With the freezes stretched to
-150–3000 ms (past the window) 14 of 137 are lost, all in the post-window
-hold. Gazebo (fresh container per run, PX4 x500, freeze at 30 s): 0.3 s,
+≈2,900 events, SITL-like sensor model): frozen-estimator crashes 46 of
+137 → 43 with the gyro alone → **4** with the full carry for the trained
+prior, and 46 → 46 → **1** for the flight default; isolating that class
+(750 freezes of 50–1000 ms over 300 episodes) 232 → 214 → **10**
+episodes lost for the trained prior and 253 → 250 → **0** for the flight
+default, with the ground impacts of the no-fallback case (178 and 249)
+going to 0: most of the losses came from the frozen altitude channel,
+not the attitude, so an attitude-only fallback is not enough. With the
+freezes stretched to 150–3000 ms (past the window) 16 and 9 of 137 are
+lost, in the post-window hold. Gazebo (fresh container per run, PX4 x500, freeze at 30 s): 0.3 s,
 1 s and 3 s freezes survived by both the trained reflex and the cascade
 (8 of 8; on the 3 s freeze the bridge carried 2 s and then held hover for
 the last second), and the six Track E random schedules with their
 dropouts delivered as estimator freezes survived 12 of 12 (seeds 1, 3, 5,
 6 froze for 0.21–0.33 s; the fallback engaged and no fault tick was
-taken). What this does not change: a total dropout, where no record
+taken). Those Gazebo runs used the first carry and the trained prior;
+the flight default's Gazebo re-run with the complementary filter is
+pending. What this does not change: a total dropout, where no record
 arrives at all, has nothing to fall back on and keeps the limits measured
 before; beyond the 2 s window the hover hold applies.
 
