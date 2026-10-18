@@ -19,6 +19,31 @@ is the on-target DWT cycle-count, below.
 
 ## On-target tick time (Cortex-M7, Teensy 4.x)
 
+**Restated 2026-10-18:** the first two rows below were measured on the
+timing twin's fixed 64-input × 64-hidden brain, not a shipped prior. The
+shipped x500 priors are 96 hidden with 480–832 input bits; the tick cost is
+word-level popcounts over hidden × input words, so they do 4–6× the
+inference work. At the real geometries (same sequence and harness,
+`ci/run_mcu_timing.sh <target> mps2-an500|mps2-an385`, QEMU icount,
+1 instruction = 1 ns):
+
+| geometry (input / hidden) | prior | mode | Cortex-M7 worst tick | Cortex-M3 worst tick | lowest clock for 1 kHz at 1 / 2 cycles per instruction | target |
+|---|---|---|---|---|---|---|
+| 832 / 96 | **flight default** (compiled cascade) | inference, plasticity off (how it flies) | **125,200** | 125,280 | **125 / 250 MHz** | `targets/mcu_drone_loop_timing_x500_832_inference_m7` / `_m3` |
+| 480 / 96 | learning demonstration (trained) | inference | 86,120 | 86,200 | 86 / 172 MHz | `targets/mcu_drone_loop_timing_x500_480_inference_m7` / `_m3` |
+| 480 / 96 | learning demonstration | plasticity on | 496,760 | 496,960 | 497 / 994 MHz | `targets/mcu_drone_loop_timing_x500_480_m7` / `_m3` |
+| 480 / 96 | learning demonstration | plasticity on, amortised over 10 ticks | 132,360 | 132,440 | 132 / 265 MHz | `targets/mcu_drone_loop_timing_x500_480_sliced_m7` / `_m3` |
+| 64 / 64 | synthetic golden twin (not a shipped prior) | plasticity on / amortised | 197,640 / 40,640 | 197,800 / 40,720 | – | `targets/mcu_drone_loop_timing_m7`, `_sliced_m7` |
+
+The timing images run a fixed brain at the shipped geometry, not the shipped weights. That times the same work: `arc_core`'s inference loops over every hidden × input word and every hidden × hidden word unconditionally (popcounts), and the only data-dependent work is each neuron's threshold compare and the winner-take-all bookkeeping for the motor neurons (4 here) that spike.
+
+For what flies, 125,200 instructions fits 1 kHz on a 600 MHz Cortex-M7
+with 4.8× margin at 1 cycle/instr and 2.4× at 2; a ≤ 120 MHz Cortex-M3
+does not fit 1 kHz. The earlier "~85 MHz amortised" figure held for the
+synthetic twin only.
+
+Synthetic twin (kept for the record):
+
 | Metric | Value | Notes |
 |---|---|---|
 | Instruction count per tick under QEMU `-icount` (Cortex-M7 build, `targets/mcu_drone_loop_timing_m7`, same 2000-tick sequence as the golden twin, hash matches) | p50 **23,040** instr; every 10th tick (plasticity pass) **197,440** instr; mean 30,440 | `ci/run_mcu_timing.sh targets/mcu_drone_loop_timing_m7 mps2-an500` — deterministic; Cortex-M3 build: 23,120 / 197,520 |

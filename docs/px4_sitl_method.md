@@ -95,6 +95,11 @@ build within 0.4 %. At 600 MHz and 1–2 cycles per instruction that is
 inside the 1000 µs budget. The cycles-per-instruction factor is what a
 hardware day confirms.
 
+*Restated 2026-10-18:* those figures are the 64 × 64 synthetic twin. At
+the shipped priors' geometry (96 hidden) the flight default (832 input
+bits, inference only) is 125,200 instructions per worst tick on M7 and
+125,280 on M3; table in `docs/performance.md`.
+
 ## Random faults, not fixed ones (added 2026-10-17)
 
 Every earlier fault was injected at a fixed time. A seeded campaign
@@ -191,6 +196,30 @@ survived; a hermetic gust test calibrated to those runs, 6 N in place
 of 3 N, reproduces it: 11.65 m vs 11.4 m on Gazebo), and online plasticity on the candidate (1 tip-over in 3
 Gazebo hover runs, not reproduced hermetically). Both are open in the
 gap register (G16, G17) with their closing work.
+
+## Flight default: compiled station cascade (added 2026-10-18)
+
+Two more structural faults surfaced in Gazebo wind and were fixed in the
+frame, not in training. The rate channels compressed above 0.52 rad/s,
+so kick recovery needed extra damping from a trained residual that then
+rang at 60 ms delay on a light airframe; the attitude channels compressed
+past 0.2 rad, so the compiled law lost stiffness at large tilt and
+overshot in gusts. Frame v5 (832 bits) keeps rates and attitude linear in
+extra bands. The flight default is the cascade compiled into that frame
+with a softer, capped station/velocity law, no training. A hermetic gust
+test calibrated to Gazebo (6 N in the hermetic plant reproduces the
+Gazebo 3 N response) gates excursion and peak tilt.
+
+| Gazebo wind, 3 N for 1 s every 6 s, same matrix | survived | excursion | peak tilt | altitude error | rotor saturated |
+|---|---|---|---|---|---|
+| flight default (compiled) | 3/3 | 2.96–3.05 m | 17.6–18.4° | 0.09–0.11 m | 0 % |
+| learning demonstration (trained) | 3/3 | 3.19–4.44 m | 34.7–39.2° | 0.28–0.32 m | 0.46–0.64 % |
+
+Hover: 0.24–0.30 m station (trained 0.52–0.55 m). Hermetic: all 43
+plant-mismatch cells including every 60 ms cell; random faults, more
+episodes survive than the trained prior in all 8 sweeps. Plasticity does
+nothing on the compiled flight default; learning claims belong to the
+trained prior. Cortex-M7 worst tick 125,200 instructions.
 
 ## What this does and does not show
 
