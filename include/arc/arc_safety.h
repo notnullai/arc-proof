@@ -27,6 +27,18 @@ int arc_safety_watchdog_counter(const arc_safety* s);
    setpoint; a fault_tick after completion writes the safe setpoint). */
 arc_status arc_safety_fault_tick(arc_safety* s, int32_t* setpoints_q16, int n_dofs);
 
+/* Live-DoF fault policy (cfg.live_dof_mask != 0): setpoints_q16 holds the
+   live decoded output on entry; on return every DoF whose mask bit is
+   clear carries the ramp (as arc_safety_fault_tick) and every DoF whose bit
+   is set carries its live value clamped to max_setpoint and rate-limited
+   against the last written value. */
+arc_status arc_safety_fault_tick_live(arc_safety* s, int32_t* setpoints_q16, int n_dofs);
+uint32_t   arc_safety_live_mask(const arc_safety* s);
+/* Change the live-DoF mask at runtime: the HAL clears it while its sensor
+   data is stale (a live torque loop on a frozen frame is worse than a
+   zero-torque hold) and restores it when data is fresh. */
+void       arc_safety_set_live_mask(arc_safety* s, uint32_t mask);
+
 /* RESIDUAL mode (2b): fault -> zero; else clamp to residual_clamp_q16 and
    rate-limit to residual_rate_q16 per tick. */
 arc_status arc_safety_post_tick_residual(arc_safety* s, int32_t* residuals_q16,

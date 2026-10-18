@@ -60,7 +60,15 @@ typedef struct {
     int      watchdog_misses;
     int32_t  residual_clamp_q16;   /* RESIDUAL mode (2b) */
     int32_t  residual_rate_q16;    /* RESIDUAL mode (2b) */
-    int32_t  _pad;                 /* explicit pad */
+    /* Live-DoF fault policy (opt-in; was the explicit pad, same size).
+       Bit g set: during a fault DoF g is NOT ramped to its safe setpoint;
+       the reflex keeps stepping (plasticity gated) and DoF g carries its
+       clamped, rate-limited live output. Bits clear ramp as before. 0 =
+       ramp every DoF (the original contract; all goldens). Multirotor use:
+       thrust ramps to hover, the torque axes keep the attitude loop alive,
+       because a zero-torque hold is survivable for only ~0.3 s
+       (docs/safety_contract.md, docs/px4_sitl.md D4). DIRECT decode only. */
+    uint32_t live_dof_mask;
 } arc_safety_config;
 
 typedef struct arc_safety arc_safety;

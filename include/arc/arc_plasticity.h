@@ -90,7 +90,10 @@ typedef struct arc_plasticity {
     uint32_t  last_revert_tick;
     uint8_t   phase;            /* latched phase tag */
     uint8_t   fault_gated;      /* set by the loop on safety fault: no flips */
-    uint8_t   _pad[6];          /* explicit pad */
+    uint8_t   slices;           /* amortisation: 0/1 = whole pass on one tick (bit-exact default),
+                                   n > 1 = hidden rows split over the first n ticks of each interval */
+    uint8_t   slice_skip;       /* this interval's pass is gated (revert / cooldown) */
+    uint8_t   _pad[4];          /* explicit pad */
 } arc_plasticity;
 
 /* 16-byte flip-log entry. */
@@ -122,6 +125,15 @@ void arc_plasticity_reward(arc_plasticity* p, const int32_t* reward,
 /* Call every tick; runs the batched plasticity pass every
    cfg.plasticity_interval ticks. Returns the number of flips applied. */
 uint32_t arc_plasticity_step(arc_engine* e, uint32_t tick);
+
+/* Amortised pass (runtime knob, not in the brain file): with slices n > 1
+   the hidden rows of each plasticity pass are processed in n equal chunks on
+   the first n ticks of every plasticity_interval, so the peak per-tick cost
+   is ~1/n of the whole pass. 0 or 1 keeps the whole pass on the last tick
+   of the interval, bit-exact with every golden. n is clamped to the
+   interval. The modulator sign, Hamming bound and flip log are the same
+   per chunk; each row still sees exactly one trace update per interval. */
+arc_status arc_plasticity_set_slices(arc_plasticity* p, uint32_t slices);
 
 /* Wire the reference-distribution monitor. ref_mean/ref_std are per-phase
    Q16.16 commissioning stats ([n_phases] each). arena holds the rolling

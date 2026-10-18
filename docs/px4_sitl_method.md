@@ -98,7 +98,12 @@ hardware day confirms.
 *Restated 2026-10-18:* those figures are the 64 × 64 synthetic twin. At
 the shipped priors' geometry (96 hidden) the flight default (832 input
 bits, inference only) is 125,200 instructions per worst tick on M7 and
-125,280 on M3; table in `docs/performance.md`.
+125,280 on M3, and 125,240 under dense-input stress with the hidden layer
+firing. With learning on (learning demonstration, plasticity pass
+amortised over 10 ticks, dense-input stress) it is 138,640 on M7, so 1 kHz
+needs ≥ 139 / 278 MHz at 1 / 2 cycles per instruction. The earlier
+132,360 was measured on a twin whose hidden layer never fires. Table in
+`docs/performance.md`.
 
 ## Random faults, not fixed ones (added 2026-10-17)
 
