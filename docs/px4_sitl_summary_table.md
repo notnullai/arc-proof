@@ -7,19 +7,22 @@
 | hover | residual | stabilised, gain 0.10 | 1 | 0.84 | 1.001 | 0.006 | 0.057 | 0.6 | - | - | - | - | 61.1 | - | 0 | 0 | 0.4 |
 | hover | residual | stabilised, plasticity off | 2 | 0.63..0.96 | 0.987..1.001 | 0.006..0.071 | 0.069..0.151 | 1.4..6.5 | - | - | - | - | 57.5..61.0 | - | 0 | 0 | 0.2..85.1 |
 | hover | reflex | raw | 1 | - | - | - | - | - | - | - | - | - | - | - | 0 | 0 | 0.5 |
-| hover | reflex | raw, plasticity off, prior_x500.arc002 | 3 | 0.54..0.80 | 1.114..1.128 | 0.011..0.017 | 0.523..0.554 | 4.1..5.2 | - | - | - | - | 61.0..61.4 | - | 0 | 0 | 0.4..0.4 |
-| hover | reflex | raw, prior_x500.arc002 | 1 | 0.78 | 1.113 | 0.013 | 0.509 | 4.1 | - | - | - | - | 61.1 | - | 0 | 0 | 0.3 |
+| hover | reflex | raw, plasticity off, prior_x500.arc002 (480 bits) | 3 | 0.54..0.80 | 1.114..1.128 | 0.011..0.017 | 0.523..0.554 | 4.1..5.2 | - | - | - | - | 61.0..61.4 | - | 0 | 0 | 0.4..0.4 |
+| hover | reflex | raw, plasticity off, prior_x500_flight.arc002 (512 bits) | 3 | 0.66..1.14 | 0.999 | 0.024..0.025 | 0.184..0.228 | 2.6..3.8 | - | - | - | - | 59.9..60.4 | - | 0 | 0 | 0.2..0.5 |
+| hover | reflex | raw, prior_x500.arc002 (480 bits) | 1 | 0.78 | 1.113 | 0.013 | 0.509 | 4.1 | - | - | - | - | 61.1 | - | 0 | 0 | 0.3 |
+| hover | reflex | raw, prior_x500_flight.arc002 (512 bits) | 3 | 0.78..0.96 | 0.537..1.000 | 0.013..0.827 | 0.214..55.476 | 2.9..180.0 | - | - | - | - | 42.6..59.7 | 43.38 | 0..17620 | 0 | 0.9..1.6 |
 | wind | px4 | - | 2 | 3.84..4.16 | 0.413..1.291 | 0.062..0.105 | 0.473..1.648 | 11.0..26.4 | 0.483..0.762 | 1.706..1.914 | 28.4..30.7 | - (7) | 49.9..52.3 | - | - | - | - |
 | wind | pid | stabilised | 2 | 0.50..0.52 | 0.945..0.995 | 0.040..0.070 | 1.886..2.254 | 17.4..17.6 | 0.296..0.323 | 2.867..2.895 | 18.5..23.2 | 16.14..26.29 (2..4) | 54.6..56.2 | - | 0 | 0 | 0.9..1.7 |
 | wind | pid | stabilised, max_tilt=0.5 | 1 | 0.48 | 1.010 | 0.009 | 1.397 | 24.0 | 0.169 | 1.977 | 27.9 | 2.24 (1) | 61.5 | - | 0 | 0 | 180.2 |
 | wind | residual | stabilised | 2 | 0.60..0.64 | 1.026..1.080 | 0.011..0.067 | 2.271..2.468 | 22.4..24.5 | 0.180..0.239 | 2.892..4.341 | 27.3..27.8 | - (7) | 54.9..55.8 | - | 0 | 0 | 0.3..1.3 |
 | wind | reflex | raw | 1 | - | - | - | - | - | - | - | - | - | - | - | 0 | 0 | 1.7 |
-| wind | reflex | raw, plasticity off, prior_x500.arc002 | 2 | 0.52 | 1.104..1.115 | 0.059..0.064 | 1.817..2.036 | 27.4..29.4 | 0.298..0.320 | 3.573..4.217 | 31.1..31.2 | - (8) | 61.2..61.4 | - | 0 | 0 | 0.3..0.4 |
+| wind | reflex | raw, plasticity off, prior_x500.arc002 (480 bits) | 2 | 0.52 | 1.104..1.115 | 0.059..0.064 | 1.817..2.036 | 27.4..29.4 | 0.298..0.320 | 3.573..4.217 | 31.1..31.2 | - (8) | 61.2..61.4 | - | 0 | 0 | 0.3..0.4 |
+| wind | reflex | raw, plasticity off, prior_x500_flight.arc002 (512 bits) | 3 | 0.54..0.90 | 0.534..1.008 | 0.027..0.186 | 1.060..1.153 | 9.9..17.8 | 0.285..42.771 | 11.388..493.796 | 44.3..180.0 | - (3..8) | 15.8..59.7 | 16.30..20.52 | 0..40480 | 0..55 | 8.4..13098.4 |
 | motor_loss | px4 | - | 2 | 1.09..6.18 | 0.740..0.797 | 0.278..0.722 | 0.221..5.317 | 17.4..180.0 | 1.477..1.548 | 0.423..7.278 | 57.3..180.0 | - | 24.0..25.2 | 26.25..33.26 | - | - | - |
 | motor_loss | pid | stabilised | 2 | 0.60..0.80 | 0.802..0.925 | 0.279..0.462 | 2.884..5.411 | 179.9 | 1.184..1.725 | 5.540..8.924 | 180.0 | - | 25.7..28.0 | 26.46..28.59 | 29536..33408 | 0 | 1.8..5.0 |
 | motor_loss | residual | stabilised | 2 | 0.60..0.62 | 0.980..0.982 | 0.110..0.121 | 0.657..1.354 | 140.6..146.7 | 3.293..281.277 | 19.998..1893.576 | 179.7..180.0 | - | 28.7..28.7 | 29.34 | 11656..32664 | 0..69 | 0.4..43.8 |
 | motor_loss | reflex | raw | 1 | - | - | - | - | - | - | - | - | - | - | - | 0 | 0 | 2.8 |
-| motor_loss | reflex | raw, plasticity off, prior_x500.arc002 | 1 | 0.54 | 1.086 | 0.189 | 1.521 | 179.3 | 5.669 | 92.006 | 180.0 | - | 28.7 | 29.25 | 32752 | 0 | 0.3 |
+| motor_loss | reflex | raw, plasticity off, prior_x500.arc002 (480 bits) | 1 | 0.54 | 1.086 | 0.189 | 1.521 | 179.3 | 5.669 | 92.006 | 180.0 | - | 28.7 | 29.25 | 32752 | 0 | 0.3 |
 | dropout | pid | raw, stall 1.0 s full | 2 | 0.54..0.82 | 1.004..1.040 | 0.011..0.307 | 0.052..0.237 | 0.4..4.1 | 0.048..0.186 | 0.060..0.195 | 0.8..2.7 | - | 55.3..61.1 | - | 1462..1518 | 2 | 0.3..36.0 |
 | dropout | pid | stabilised, stall 0.3 s ekf, imu fallback | 1 | 0.52 | 1.007 | 0.049 | 0.040 | 0.5 | 0.077 | 0.046 | 0.5 | - | 54.8 | - | 0 | 0 | 0.9 |
 | dropout | pid | stabilised, stall 1.0 s ekf, gyro fallback | 1 | 0.72 | 0.997 | 0.015 | 0.037 | 0.4 | 0.275 | 0.042 | 0.4 | - | 55.2 | - | 0 | 0 | 94.0 |
@@ -29,17 +32,17 @@
 | dropout | pid | stabilised, stall 3.0 s ekf, imu fallback | 1 | 0.72 | 0.965 | 0.151 | 0.089 | 1.3 | 0.094 | 0.045 | 1.2 | - | 53.4 | - | 815 | 0 | 1.0 |
 | dropout | pid | stabilised, stall 3.0 s pos | 1 | 0.80 | 1.003 | 0.008 | 0.036 | 0.4 | 0.014 | 0.261 | 3.1 | - | 61.1 | - | 0 | 0 | 65.0 |
 | dropout | residual | stabilised, stall 1.0 s full | 2 | 0.62..0.88 | 1.024..1.034 | 0.024..0.075 | 0.071..2.739 | 2.4..39.4 | 0.244..0.478 | 1.466..7.866 | 17.3..22.7 | - | 52.9..55.1 | - | 1258..1956 | 2..25 | 1.5..638.1 |
-| dropout | reflex | live, plasticity off, prior_x500.arc002, stall 0.3 s full | 1 | 0.76 | 1.113 | 0.016 | 0.534 | 3.9 | 3.954 | 36.056 | 180.0 | - | 29.8 | 30.54 | 31804 | 0 | 23.4 |
-| dropout | reflex | live, plasticity off, prior_x500.arc002, stall 1.0 s full | 2 | 0.78..0.80 | 1.110..1.114 | 0.011..0.012 | 0.485..0.507 | 3.7..3.9 | 2.971..7.080 | 62.371..71.365 | 180.0 | - | 30.0..30.1 | 30.84 | 32079..32095 | 2 | 0.1..0.3 |
-| dropout | reflex | raw, plasticity off, prior_x500.arc002, stall 0.3 s ekf, imu fallback | 1 | 0.54 | 1.088 | 0.047 | 0.595 | 5.0 | 0.162 | 0.718 | 3.5 | - | 54.8 | - | 0 | 0 | 0.7 |
-| dropout | reflex | raw, plasticity off, prior_x500.arc002, stall 0.3 s full | 2 | 0.50..0.78 | 1.111..1.121 | 0.012..0.013 | 0.496..0.525 | 3.8..4.0 | 0.361..1290253.250 | 1.029..3350347.484 | 21.9..178.7 | - | 29.9..61.4 | 30.64 | 503..5740 | 0..86 | 0.3..0.4 |
-| dropout | reflex | raw, plasticity off, prior_x500.arc002, stall 1.0 s ekf | 1 | 0.74 | 1.115 | 0.014 | 0.569 | 5.6 | 1.064 | 0.672 | 7.2 | - | 61.1 | - | 0 | 0 | 0.2 |
-| dropout | reflex | raw, plasticity off, prior_x500.arc002, stall 1.0 s ekf, gyro fallback | 1 | 0.52 | 1.184 | 0.045 | 0.619 | 7.2 | 0.231 | 0.840 | 27.1 | - | 56.2 | - | 0 | 0 | 1.3 |
-| dropout | reflex | raw, plasticity off, prior_x500.arc002, stall 1.0 s ekf, imu fallback | 1 | 0.48 | 1.069 | 0.106 | 2.479 | 23.8 | 0.183 | 1.704 | 15.2 | - | 54.8 | - | 0 | 0 | 1.0 |
-| dropout | reflex | raw, plasticity off, prior_x500.arc002, stall 1.0 s full | 2 | 0.48..0.52 | 1.122..1.125 | 0.010..0.013 | 0.506..0.531 | 3.5..4.0 | 11.579..12.291 | 90.982..174.170 | 179.7..179.9 | - | 30.0..30.4 | 30.52..30.86 | 32043..32135 | 2 | 0.3..1.9 |
-| dropout | reflex | raw, plasticity off, prior_x500.arc002, stall 1.0 s pos | 2 | 0.78..0.80 | 1.117..1.121 | 0.011 | 0.474..0.502 | 2.8..3.9 | 0.139..0.142 | 0.508..0.594 | 4.5..14.8 | - | 61.0..61.1 | - | 0 | 0 | 0.3..56.6 |
-| dropout | reflex | raw, plasticity off, prior_x500.arc002, stall 3.0 s ekf, imu fallback | 1 | 0.58 | 1.073 | 0.155 | 1.814 | 12.8 | 0.770 | 1.819 | 13.3 | - | 53.9 | - | 943 | 0 | 113.4 |
-| dropout | reflex | raw, plasticity off, prior_x500.arc002, stall 3.0 s pos | 1 | 0.80 | 1.116 | 0.013 | 0.643 | 5.0 | 0.141 | 1.024 | 7.4 | - | 61.0 | - | 0 | 0 | 0.2 |
+| dropout | reflex | live, plasticity off, prior_x500.arc002 (480 bits), stall 0.3 s full | 1 | 0.76 | 1.113 | 0.016 | 0.534 | 3.9 | 3.954 | 36.056 | 180.0 | - | 29.8 | 30.54 | 31804 | 0 | 23.4 |
+| dropout | reflex | live, plasticity off, prior_x500.arc002 (480 bits), stall 1.0 s full | 2 | 0.78..0.80 | 1.110..1.114 | 0.011..0.012 | 0.485..0.507 | 3.7..3.9 | 2.971..7.080 | 62.371..71.365 | 180.0 | - | 30.0..30.1 | 30.84 | 32079..32095 | 2 | 0.1..0.3 |
+| dropout | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), stall 0.3 s ekf, imu fallback | 1 | 0.54 | 1.088 | 0.047 | 0.595 | 5.0 | 0.162 | 0.718 | 3.5 | - | 54.8 | - | 0 | 0 | 0.7 |
+| dropout | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), stall 0.3 s full | 2 | 0.50..0.78 | 1.111..1.121 | 0.012..0.013 | 0.496..0.525 | 3.8..4.0 | 0.361..1290253.250 | 1.029..3350347.484 | 21.9..178.7 | - | 29.9..61.4 | 30.64 | 503..5740 | 0..86 | 0.3..0.4 |
+| dropout | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), stall 1.0 s ekf | 1 | 0.74 | 1.115 | 0.014 | 0.569 | 5.6 | 1.064 | 0.672 | 7.2 | - | 61.1 | - | 0 | 0 | 0.2 |
+| dropout | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), stall 1.0 s ekf, gyro fallback | 1 | 0.52 | 1.184 | 0.045 | 0.619 | 7.2 | 0.231 | 0.840 | 27.1 | - | 56.2 | - | 0 | 0 | 1.3 |
+| dropout | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), stall 1.0 s ekf, imu fallback | 1 | 0.48 | 1.069 | 0.106 | 2.479 | 23.8 | 0.183 | 1.704 | 15.2 | - | 54.8 | - | 0 | 0 | 1.0 |
+| dropout | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), stall 1.0 s full | 2 | 0.48..0.52 | 1.122..1.125 | 0.010..0.013 | 0.506..0.531 | 3.5..4.0 | 11.579..12.291 | 90.982..174.170 | 179.7..179.9 | - | 30.0..30.4 | 30.52..30.86 | 32043..32135 | 2 | 0.3..1.9 |
+| dropout | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), stall 1.0 s pos | 2 | 0.78..0.80 | 1.117..1.121 | 0.011 | 0.474..0.502 | 2.8..3.9 | 0.139..0.142 | 0.508..0.594 | 4.5..14.8 | - | 61.0..61.1 | - | 0 | 0 | 0.3..56.6 |
+| dropout | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), stall 3.0 s ekf, imu fallback | 1 | 0.58 | 1.073 | 0.155 | 1.814 | 12.8 | 0.770 | 1.819 | 13.3 | - | 53.9 | - | 943 | 0 | 113.4 |
+| dropout | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), stall 3.0 s pos | 1 | 0.80 | 1.116 | 0.013 | 0.643 | 5.0 | 0.141 | 1.024 | 7.4 | - | 61.0 | - | 0 | 0 | 0.2 |
 | random | pid | stabilised, seed 1 | 1 | 0.64 | 1.083 | 0.020 | 1.367 | 16.8 | 0.067 | 1.585 | 17.4 | 2.46 | 59.5 | - | 503 | 0 | 3.0 |
 | random | pid | stabilised, seed 1 (ekf dropouts), imu fallback | 1 | 0.52 | 0.991 | 0.030 | 1.493 | 17.3 | 0.183 | 0.785 | 11.0 | 1.52 | 54.9 | - | 0 | 0 | 0.7 |
 | random | pid | stabilised, seed 2 | 1 | 0.46 | 1.003 | 0.026 | 2.572 | 18.4 | 0.087 | 2.676 | 18.2 | 5.41 | 57.5 | - | 0 | 0 | 1.2 |
@@ -52,21 +55,21 @@
 | random | pid | stabilised, seed 5 (ekf dropouts), imu fallback | 1 | 0.54 | 1.012 | 0.004 | 0.023 | 0.4 | 0.104 | 3.755 | 19.3 | 6.04 | 58.6 | - | 0 | 0 | 1.7 |
 | random | pid | stabilised, seed 6 | 1 | 0.50 | 1.008 | 0.007 | 0.031 | 0.3 | 0.043 | 1.609 | 17.6 | 2.25 | 61.4 | - | 503 | 0 | 0.2 |
 | random | pid | stabilised, seed 6 (ekf dropouts), imu fallback | 1 | 0.56 | 0.953 | 0.077 | 0.055 | 0.5 | 0.149 | 1.698 | 17.6 | 1.26 | 55.7 | - | 0 | 0 | 0.7 |
-| random | reflex | live, plasticity off, prior_x500.arc002, seed 2 | 1 | 0.54 | 1.113 | 0.024 | 2.335 | 16.1 | 1.435 | 13.009 | 180.0 | - (2) | 54.1 | 54.64 | 7763 | 2 | 13.2 |
-| random | reflex | live, plasticity off, prior_x500.arc002, seed 3 | 1 | 0.56 | 1.111 | 0.013 | 0.467 | 3.5 | 4.895 | 44.859 | 180.0 | - | 31.9 | 32.44 | 29055 | 0 | 7.2 |
-| random | reflex | live, plasticity off, prior_x500.arc002, seed 4 | 1 | 0.56 | 1.111 | 0.034 | 0.496 | 9.5 | 0.160 | 1.715 | 26.2 | - (2) | 60.5 | - | 0 | 0 | 38.1 |
-| random | reflex | live, plasticity off, prior_x500.arc002, seed 5 | 1 | 0.48 | 1.126 | 0.013 | 0.558 | 3.9 | 3.789 | 54.081 | 180.0 | - (3) | 14.8 | 15.28 | 47223 | 0 | 135.7 |
-| random | reflex | live, plasticity off, prior_x500.arc002, seed 6 | 1 | 0.52 | 1.118 | 0.008 | 0.512 | 4.5 | 1640704897.000 | 17912097.023 | 180.0 | - (2) | 16.6 | 17.14 | 32216 | 42 | 0.2 |
-| random | reflex | raw, plasticity off, prior_x500.arc002, seed 1 | 1 | 0.50 | 1.116 | 0.058 | 1.802 | 17.8 | 0.381 | 1.241 | 40.6 | 28.19 | 53.2 | - | 499 | 0 | 1.0 |
-| random | reflex | raw, plasticity off, prior_x500.arc002, seed 1 (ekf dropouts), imu fallback | 1 | 0.36 | 1.097 | 0.078 | 1.593 | 18.9 | 0.261 | 1.106 | 10.6 | - (1) | 55.7 | - | 0 | 0 | 2.2 |
-| random | reflex | raw, plasticity off, prior_x500.arc002, seed 2 | 1 | 0.54 | 1.087 | 0.031 | 2.528 | 16.3 | 0.165 | 3.722 | 16.4 | - (2) | 57.9 | - | 0 | 0 | 1.2 |
-| random | reflex | raw, plasticity off, prior_x500.arc002, seed 2 (ekf dropouts), imu fallback | 1 | 0.74 | 1.112 | 0.132 | 2.869 | 15.5 | 0.229 | 2.437 | 13.9 | - (2) | 53.4 | - | 0 | 0 | 1.0 |
-| random | reflex | raw, plasticity off, prior_x500.arc002, seed 2, imu fallback | 1 | 0.42 | 0.861 | 0.139 | 4.118 | 19.5 | 0.283 | 3.442 | 23.7 | - (2) | 52.5 | - | 487 | 0 | 5.8 |
-| random | reflex | raw, plasticity off, prior_x500.arc002, seed 3 | 1 | 0.60 | 1.124 | 0.023 | 0.589 | 4.6 | 52.847 | 88.784 | 179.9 | - | 31.1 | 31.75 | 13743 | 54 | 4.1 |
-| random | reflex | raw, plasticity off, prior_x500.arc002, seed 3 (ekf dropouts), imu fallback | 1 | 0.87 | 1.210 | 0.052 | 0.777 | 7.1 | 0.451 | 1.717 | 29.3 | - | 54.8 | - | 0 | 0 | 1.8 |
-| random | reflex | raw, plasticity off, prior_x500.arc002, seed 4 | 1 | 0.58 | 1.078 | 0.073 | 0.555 | 9.5 | 0.196 | 2.326 | 27.9 | - (2) | 57.6 | - | 0 | 0 | 9.6 |
-| random | reflex | raw, plasticity off, prior_x500.arc002, seed 4 (ekf dropouts), imu fallback | 1 | 0.40 | 1.170 | 0.041 | 0.672 | 9.2 | 0.188 | 2.437 | 24.7 | 34.22 | 54.3 | - | 0 | 0 | 0.9 |
-| random | reflex | raw, plasticity off, prior_x500.arc002, seed 5 | 1 | 0.90 | 1.023 | 0.015 | 0.498 | 3.0 | 0.400 | 6.992 | 37.4 | - (3) | 57.4 | - | 503 | 0 | 9.4 |
-| random | reflex | raw, plasticity off, prior_x500.arc002, seed 5 (ekf dropouts), imu fallback | 1 | 0.44 | 1.057 | 0.084 | 0.372 | 4.6 | 0.313 | 5.542 | 20.1 | - (3) | 54.7 | - | 0 | 0 | 2.2 |
-| random | reflex | raw, plasticity off, prior_x500.arc002, seed 6 | 1 | 0.52 | 1.117 | 0.011 | 0.522 | 3.3 | 97.117 | 93.430 | 179.7 | - | 16.6 | 17.14 | 8184 | 122 | 0.2 |
-| random | reflex | raw, plasticity off, prior_x500.arc002, seed 6 (ekf dropouts), imu fallback | 1 | 0.76 | 1.118 | 0.033 | 0.578 | 3.1 | 0.189 | 2.122 | 16.1 | - (3) | 52.6 | - | 0 | 0 | 0.9 |
+| random | reflex | live, plasticity off, prior_x500.arc002 (480 bits), seed 2 | 1 | 0.54 | 1.113 | 0.024 | 2.335 | 16.1 | 1.435 | 13.009 | 180.0 | - (2) | 54.1 | 54.64 | 7763 | 2 | 13.2 |
+| random | reflex | live, plasticity off, prior_x500.arc002 (480 bits), seed 3 | 1 | 0.56 | 1.111 | 0.013 | 0.467 | 3.5 | 4.895 | 44.859 | 180.0 | - | 31.9 | 32.44 | 29055 | 0 | 7.2 |
+| random | reflex | live, plasticity off, prior_x500.arc002 (480 bits), seed 4 | 1 | 0.56 | 1.111 | 0.034 | 0.496 | 9.5 | 0.160 | 1.715 | 26.2 | - (2) | 60.5 | - | 0 | 0 | 38.1 |
+| random | reflex | live, plasticity off, prior_x500.arc002 (480 bits), seed 5 | 1 | 0.48 | 1.126 | 0.013 | 0.558 | 3.9 | 3.789 | 54.081 | 180.0 | - (3) | 14.8 | 15.28 | 47223 | 0 | 135.7 |
+| random | reflex | live, plasticity off, prior_x500.arc002 (480 bits), seed 6 | 1 | 0.52 | 1.118 | 0.008 | 0.512 | 4.5 | 1640704897.000 | 17912097.023 | 180.0 | - (2) | 16.6 | 17.14 | 32216 | 42 | 0.2 |
+| random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 1 | 1 | 0.50 | 1.116 | 0.058 | 1.802 | 17.8 | 0.381 | 1.241 | 40.6 | 28.19 | 53.2 | - | 499 | 0 | 1.0 |
+| random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 1 (ekf dropouts), imu fallback | 1 | 0.36 | 1.097 | 0.078 | 1.593 | 18.9 | 0.261 | 1.106 | 10.6 | - (1) | 55.7 | - | 0 | 0 | 2.2 |
+| random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 2 | 1 | 0.54 | 1.087 | 0.031 | 2.528 | 16.3 | 0.165 | 3.722 | 16.4 | - (2) | 57.9 | - | 0 | 0 | 1.2 |
+| random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 2 (ekf dropouts), imu fallback | 1 | 0.74 | 1.112 | 0.132 | 2.869 | 15.5 | 0.229 | 2.437 | 13.9 | - (2) | 53.4 | - | 0 | 0 | 1.0 |
+| random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 2, imu fallback | 1 | 0.42 | 0.861 | 0.139 | 4.118 | 19.5 | 0.283 | 3.442 | 23.7 | - (2) | 52.5 | - | 487 | 0 | 5.8 |
+| random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 3 | 1 | 0.60 | 1.124 | 0.023 | 0.589 | 4.6 | 52.847 | 88.784 | 179.9 | - | 31.1 | 31.75 | 13743 | 54 | 4.1 |
+| random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 3 (ekf dropouts), imu fallback | 1 | 0.87 | 1.210 | 0.052 | 0.777 | 7.1 | 0.451 | 1.717 | 29.3 | - | 54.8 | - | 0 | 0 | 1.8 |
+| random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 4 | 1 | 0.58 | 1.078 | 0.073 | 0.555 | 9.5 | 0.196 | 2.326 | 27.9 | - (2) | 57.6 | - | 0 | 0 | 9.6 |
+| random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 4 (ekf dropouts), imu fallback | 1 | 0.40 | 1.170 | 0.041 | 0.672 | 9.2 | 0.188 | 2.437 | 24.7 | 34.22 | 54.3 | - | 0 | 0 | 0.9 |
+| random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 5 | 1 | 0.90 | 1.023 | 0.015 | 0.498 | 3.0 | 0.400 | 6.992 | 37.4 | - (3) | 57.4 | - | 503 | 0 | 9.4 |
+| random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 5 (ekf dropouts), imu fallback | 1 | 0.44 | 1.057 | 0.084 | 0.372 | 4.6 | 0.313 | 5.542 | 20.1 | - (3) | 54.7 | - | 0 | 0 | 2.2 |
+| random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 6 | 1 | 0.52 | 1.117 | 0.011 | 0.522 | 3.3 | 97.117 | 93.430 | 179.7 | - | 16.6 | 17.14 | 8184 | 122 | 0.2 |
+| random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 6 (ekf dropouts), imu fallback | 1 | 0.76 | 1.118 | 0.033 | 0.578 | 3.1 | 0.189 | 2.122 | 16.1 | - (3) | 52.6 | - | 0 | 0 | 0.9 |

@@ -149,6 +149,49 @@ taken). What this does not change: a total dropout, where no record
 arrives at all, has nothing to fall back on and keeps the limits measured
 before; beyond the 2 s window the hover hold applies.
 
+## Position loop: gain-matched frame, three priors (added 2026-10-18)
+
+The trained x500 prior held attitude and altitude but its station hold
+was weak (0.52 m on Gazebo vs 0.05 m for the cascade it was trained
+from), seed-dependent (1 of 5 training seeds passed the gates) and lost
+4 of 9 cells at 60 ms observation delay. Cause: the policy's direct
+path is one ternary weight (−1/0/+1) per thermometer bit, and with
+equal-range channels one attitude bit is worth 2.4 actuator bits of the
+cascade's output and one position bit 0.7, ratios a per-bit ternary map
+cannot express.
+
+Method. A new 512-bit frame (v3) sizes every channel's first bits so
+that one bit moves the cascade's axis target by exactly one actuator
+bit, with cubic spacing beyond for range, plus an altitude-error
+integral channel kept by the frame source. In that frame the cascade's
+linearised law is a sum of ±1 weights per bit and compiles exactly. The
+candidate keeps that compiled law as a fixed direct path and
+trains (supervised DAgger) only a residual hidden layer that sees the
+outer thermometer bits, so it is silent near hover and active on large
+errors. The 480-bit frame and the prior trained on it are unchanged.
+
+Three priors ship, each claim stated for what it is. The flight default
+stays the trained v2 prior (plasticity off) until the candidate passes
+the Gazebo wind matrix (owner decision):
+
+| prior | what it is | seeds | hermetic: 43 mismatch cells / 60 ms cells | Gazebo hover station | Gazebo wind (3 N, 1 s every 6 s) |
+|---|---|---|---|---|---|
+| candidate | compiled cascade + learned residual, plasticity off | 4 of 5 pass every gate | 43/43, 9/9 | **0.18–0.23 m** (3/3) | **1/3 survived**, 11.4 m on the survivor (open) |
+| compiled reference | the cascade in ternary weights, not learned | seed-independent | 43/43, 9/9 | not flown | not flown |
+| trained v2 prior (**flight default**) | pure DAgger, 480-bit frame, unchanged | 1 of 5 pass | 39/43, 5/9 | 0.52–0.55 m (3/3) | 2/2, 3.6–4.2 m |
+
+Random-fault campaign (same 300 seeded episodes per sweep): the candidate survives more episodes than the trained v2 prior in all
+8 sweeps (for example 128 → 149, and 173 → 199 with the raw-IMU
+fallback), with more crashes on ±2 rad/s attitude kicks; the compiled
+reference alone survives far fewer (53–93), which is what the residual
+is for.
+
+Not claimed: strong gusts on the candidate (1 of 3 Gazebo wind runs
+survived; a hermetic gust test calibrated to those runs, 6 N in place
+of 3 N, reproduces it: 11.65 m vs 11.4 m on Gazebo), and online plasticity on the candidate (1 tip-over in 3
+Gazebo hover runs, not reproduced hermetically). Both are open in the
+gap register (G16, G17) with their closing work.
+
 ## What this does and does not show
 
 It shows the runtime's timing, fault contract and determinism on
