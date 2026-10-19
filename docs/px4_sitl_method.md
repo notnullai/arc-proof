@@ -109,14 +109,18 @@ needs ≥ 139 / 278 MHz at 1 / 2 cycles per instruction. The earlier
 
 *Popcount inlined and cycle bound, 2026-10-18:* the popcount is now an
 inline branch-free sequence (it was a libgcc call on Cortex-M), every
-hash unchanged. On the shipped images the flight default is 103,800
-instructions per worst tick on M7 (104,160 on M3) and the learning
-demonstration amortised under dense stress 123,600 (124,200). A static
-worst-case cycle bound from the exact executed instruction mix
-(`tools/mcu_cycle_bound.py`) gives the flight default 140,858 cycles on
-Cortex-M3, 140,241 on Cortex-M4 (Arm TRM tables) and 169,671 on a stated
-Cortex-M7 envelope, so 1 kHz needs ≥ 141 MHz on M3/M4 and ≥ 170 MHz on
-M7. The bound is analytic; a board's DWT cycle count confirms it.
+hash unchanged. Since 2026-10-19 the popcounts are fused into one
+running sum per neuron and the plasticity flips and trace decay are
+reworked, again with every hash unchanged. On the shipped images the
+flight default is 79,880 instructions per worst tick on M7 (80,160 on M3)
+and the learning demonstration amortised under dense stress 93,200
+(93,240). A static worst-case cycle bound from the exact executed
+instruction mix (`tools/mcu_cycle_bound.py`) gives the flight default
+124,082 cycles on Cortex-M3, 123,061 on Cortex-M4 (Arm TRM tables) and
+156,042 on a stated Cortex-M7 envelope (≥ 125 / 124 / 157 MHz for 1 kHz),
+and the learning demonstration with learning on 167,964 / 161,378 /
+199,456 (≥ 168 / 162 / 200 MHz), so a 168/180 MHz Cortex-M4 fits both.
+The bound is analytic; a board's DWT cycle count confirms it.
 
 ## Random faults, not fixed ones (added 2026-10-17)
 
@@ -259,8 +263,8 @@ Hover: 0.24–0.30 m station (trained 0.52–0.55 m). Hermetic: all 43
 plant-mismatch cells including every 60 ms cell; random faults, more
 episodes survive than the trained prior in all 8 sweeps. Plasticity does
 nothing on the compiled flight default; learning claims belong to the
-trained prior. Cortex-M7 worst tick 103,800 instructions (125,200 before
-the inline popcount).
+trained prior. Cortex-M7 worst tick 79,880 instructions (103,800 before
+the fused popcount, 125,200 before the inline popcount).
 
 ## Failure tests on the flight default v5 (Track H, added 2026-10-19)
 
