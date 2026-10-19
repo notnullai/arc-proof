@@ -9,6 +9,13 @@ metrics JSON, and appends a Markdown row.
          [--fail-motor 1] [--fail-at 30] [--gains k=v,...] [--residual-gain 16384]
          [--fault raw|stabilised]
 
+G6 handover: [--standby px4 --handover-ms 200 --watchdog-clock sim|wall]
+[--scenario bridge_loss --loss-kind kill|hang --loss-at 30]
+[--arc-side host|container --bridge-linux bin/linux-x86_64/px4_bridge]
+(container = the Arc side next to PX4 as on a companion computer: its own PX4
+MAVLink link, the static Linux bridge and the motor publisher on local pipes
+inside the container; docs/bridge_loss_method.md).
+
 Arms: px4 = PX4's own controller (px4-owns; takeoff via MAVLink, hold);
 reflex / pid / residual = Arc bridge arms (arc-owns, PX4 estimator only).
 Scenarios: hover (nothing); wind = lateral force pulses on the model via
@@ -21,6 +28,8 @@ import argparse
 import json
 import math
 import os
+import re
+import shlex
 import struct
 import subprocess
 import sys
@@ -31,6 +40,7 @@ from pymavlink import mavutil
 
 from mavparam import set_int_param, set_float_param
 import flight_default
+from gap_attribution import attribute_gaps, FLIGHT_FROM_S
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REC = struct.Struct('<Q12f')
@@ -60,6 +70,67 @@ def restart_container(name):
             '-e', 'HEADLESS=1', '-e', 'PX4_SIM_MODEL=gz_x500'] + ports + [IMAGE])
     if r.returncode != 0:
         raise SystemExit('docker run failed: ' + r.stderr)
+
+
+PX4_BIN = '/opt/px4-gazebo/bin'
+CT_DIR = '/tmp/arc'          # in-container work dir (records, logs, binaries)
+CT_PYLIB = '/tmp/arc/pylib'  # in-container copy of pymavlink (the image ships without it)
+# Extra PX4 MAVLink instances inside the container, each sending to 127.0.0.1:
+ARC_LINK = (14600, 14601)    # Arc's companion link: same stream config as the GCS link (normal mode)
+WD_LINK = (14602, 14603)     # the handover watchdog's command link (minimal mode)
+
+
+def stage_pymavlink(container):
+    """Copy the host's pymavlink (pure Python: core modules, CRC, the all, common and
+    ardupilotmega dialects) into the container, for the in-container streamer
+    and the watchdog's MAVLink link."""
+    import io
+    import tarfile
+    import pymavlink
+    root = os.path.dirname(pymavlink.__file__)
+    keep = {'all.py', 'ardupilotmega.py', 'common.py', 'minimal.py', '__init__.py'}
+
+    def wanted(parts):
+        if '__pycache__' in parts:
+            return False
+        if len(parts) == 1:
+            return parts[0].endswith('.py')
+        if parts[0] == 'generator':
+            return len(parts) == 2 and parts[1] in ('__init__.py', 'mavcrc.py', 'mavparse.py')
+        if parts[0] == 'dialects':
+            return (len(parts) == 2 and parts[1] == '__init__.py') or \
+                   (len(parts) == 3 and parts[1] in ('v10', 'v20') and parts[2] in keep)
+        return False
+    buf = io.BytesIO()
+    with tarfile.open(fileobj=buf, mode='w') as t:
+        for d, _, fs in os.walk(root):
+            for f in fs:
+                rel = os.path.relpath(os.path.join(d, f), root).replace('\\', '/')
+                if wanted(rel.split('/')):
+                    t.add(os.path.join(d, f), arcname='pymavlink/' + rel)
+    r = subprocess.run(['docker', 'exec', '-i', container, 'sh', '-c',
+                        'mkdir -p %s && tar xf - -C %s' % (CT_PYLIB, CT_PYLIB)], input=buf.getvalue(), capture_output=True)
+    if r.returncode != 0:
+        raise SystemExit('pymavlink staging failed: %s' % r.stderr.decode(errors='replace'))
+
+
+# The image's GCS link stream rates (etc/init.d-posix/px4-rc.mavlink), copied to Arc's link so
+# the record stream Arc sees is the same in both layouts (50 Hz LOCAL_POSITION_NED + ATTITUDE).
+GCS_STREAMS = [('POSITION_TARGET_LOCAL_NED', 50), ('LOCAL_POSITION_NED', 50), ('GLOBAL_POSITION_INT', 50),
+               ('ATTITUDE', 50), ('ATTITUDE_QUATERNION', 50), ('ATTITUDE_TARGET', 50), ('SERVO_OUTPUT_RAW_0', 50),
+               ('RC_CHANNELS', 20), ('OPTICAL_FLOW_RAD', 10)]
+
+
+def start_mavlink_link(container, link, mode=None, rate=4000000, streams=()):
+    """Start one more PX4 MAVLink instance in the container: PX4 binds link[0] and
+    sends to 127.0.0.1:link[1] (mode None = normal, as the GCS link)."""
+    m = PX4_BIN + '/px4-mavlink'
+    cmd = '%s start -x -t 127.0.0.1 -u %d -o %d -r %d -f%s' % (m, link[0], link[1], rate, (' -m ' + mode) if mode else '')
+    for name, hz in streams:
+        cmd += ' && %s stream -r %d -s %s -u %d' % (m, hz, name, link[0])
+    r = sh(['docker', 'exec', container, 'sh', '-c', cmd])
+    if r.returncode != 0:
+        raise SystemExit('mavlink start failed: %s %s' % (r.stdout, r.stderr))
 
 
 def gz_pub(container, topic, msgtype, payload):
@@ -298,6 +369,16 @@ def main():
                     help='bridge_loss: kill = process killed (crash), hang = process suspended (alive, silent)')
     ap.add_argument('--bridge', default=default_bridge(),
                     help='bridge binary (default: the prebuilt one under bin/ for this host)')
+    ap.add_argument('--arc-side', default='host', choices=['host', 'container'],
+                    help='where the Arc side (record streamer + bridge) runs: host = on this machine, records over '
+                         'UDP from the container and commands back through a docker exec pipe; container = next to '
+                         'PX4 as on a companion computer: its own PX4 MAVLink link, the Linux bridge and the motor '
+                         'publisher joined by local pipes inside the container')
+    ap.add_argument('--bridge-linux', default=os.path.join(HERE, '..', '..', 'bin', 'linux-x86_64', 'px4_bridge'),
+                    help='--arc-side container: the static Linux x86-64 bridge copied into the container')
+    ap.add_argument('--gap-log-ms', type=float, default=20.0, help='log every command gap over this (ms)')
+    ap.add_argument('--watchdog-clock', default='sim', choices=['sim', 'wall'],
+                    help='--standby px4: time base of the --handover-ms watchdog (sim = Gazebo sim time, the plant clock)')
     args = ap.parse_args()
 
     if args.arm == 'reflex' and args.brain is None:
@@ -347,6 +428,12 @@ def main():
             if not set_float_param(mav.gcs, name, v):
                 raise SystemExit('param %s not confirmed' % name)
     funcs = [101, 102, 103, 104] if args.arm == 'px4' else [0, 0, 0, 0]
+    if args.standby == 'px4' and args.arm != 'px4':
+        # Standby keep-alive (SITL profile): Constant_Min on the unused ESC channel 5. With every channel
+        # disabled PX4's output mixer runs at its 300 ms low rate and applies new routing only on that tick
+        # (0-300 ms of the takeover); with one channel set it runs at 250 Hz. Channel 1 stays unset, so
+        # gz_bridge publishes nothing (docs/bridge_loss_method.md).
+        funcs = funcs + [1]
     mav.set_params([('SIM_GZ_EC_FUNC%d' % i, v) for i, v in enumerate(funcs, start=1)])
     print('SCENARIO: mode %s' % ('px4-owns' if args.arm == 'px4' else 'arc-owns'), flush=True)
 
@@ -363,6 +450,22 @@ def main():
     # Hand the MAVLink port to the streamer process: the record path is then
     # streamer -> bridge -> container publisher over OS pipes only.
     mav.gcs.close()
+    in_ct = args.arc_side == 'container' and args.arm != 'px4'
+    if args.arm != 'px4':
+        sh(['docker', 'exec', args.container, 'mkdir', '-p', CT_DIR])
+        for f in ['gz_motor_pub.py', 'stall_probe.py'] + (['ekf_stream.py'] if in_ct else []):
+            subprocess.run(['docker', 'cp', os.path.join(HERE, f), '%s:%s/%s' % (args.container, CT_DIR, f)], check=True)
+        if in_ct or args.standby == 'px4':
+            stage_pymavlink(args.container)
+        if in_ct:
+            if not os.path.exists(args.bridge_linux):
+                raise SystemExit('no Linux bridge at %s (--bridge-linux)' % args.bridge_linux)
+            subprocess.run(['docker', 'cp', args.bridge_linux, '%s:%s/px4_bridge' % (args.container, CT_DIR)], check=True)
+            if args.brain:
+                subprocess.run(['docker', 'cp', args.brain, '%s:%s/brain.arc002' % (args.container, CT_DIR)], check=True)
+            start_mavlink_link(args.container, ARC_LINK, streams=GCS_STREAMS)
+        if args.standby == 'px4':
+            start_mavlink_link(args.container, WD_LINK, mode='minimal', rate=100000)
     inj = None
     if args.scenario in ('wind', 'motor_loss', 'random'):
         subprocess.run(['docker', 'cp', os.path.join(HERE, 'gz_inject.py'), '%s:/tmp/gz_inject.py' % args.container], check=True)
@@ -377,7 +480,9 @@ def main():
         ack = inj.stdout.readline().strip()
         print('SCENARIO: inject %s -> %s' % (cmd, ack), flush=True)
     stream_secs = args.seconds + 2.0
-    sargs = [sys.executable, os.path.join(HERE, 'ekf_stream.py'), '--seconds', str(stream_secs), '--tee', base + '.bin']
+    # Streamer and bridge options; paths depend on where the Arc side runs.
+    rec_path = CT_DIR + '/rec.bin' if in_ct else base + '.bin'
+    sargs = ['--seconds', str(stream_secs), '--tee', rec_path]
     v2 = args.att_fallback != 'none'
     if v2:
         sargs += ['--record', 'v2']
@@ -393,16 +498,20 @@ def main():
         drops = [e for e in random_events if e['kind'] == 'dropout']
         if drops:
             sargs += ['--stalls', ','.join('%.2f:%.2f' % (e['at'] + 1.0, e['len']) for e in drops), '--stall-kind', args.stall_kind]
-    streamer = subprocess.Popen(sargs, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    bridge = pub = None
+    streamer = bridge = pub = None
+    pub_lines = []   # (host wall time, line) as the motor publisher prints them
+
+    def read_pub():
+        for raw in pub.stdout:
+            pub_lines.append((time.time(), raw.decode(errors='replace').rstrip()))
     if args.arm != 'px4':
-        subprocess.run(['docker', 'cp', os.path.join(HERE, 'gz_motor_pub.py'), '%s:/tmp/gz_motor_pub.py' % args.container], check=True)
-        bargs = [args.bridge, '--hover', str(args.hover), '--alt', str(args.alt), '--every', '4',
-                 '--control', args.arm, '--log', base + '.csv', '--residual-gain', str(args.residual_gain)]
+        bargs = ['--hover', str(args.hover), '--alt', str(args.alt), '--every', '4',
+                 '--control', args.arm, '--log', CT_DIR + '/bridge.csv' if in_ct else base + '.csv',
+                 '--residual-gain', str(args.residual_gain)]
         if args.plasticity != 'on':
             bargs += ['--plasticity', args.plasticity]
         if args.brain:
-            bargs += ['--brain', args.brain]
+            bargs += ['--brain', CT_DIR + '/brain.arc002' if in_ct else args.brain]
         if args.bits:
             bargs += ['--bits', str(args.bits)]
         if args.gains:
@@ -411,15 +520,41 @@ def main():
             bargs += ['--fault', args.fault]
         if v2:
             bargs += ['--record', 'v2', '--att-fallback', args.att_fallback]
-        bridge = subprocess.Popen(bargs, stdin=streamer.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        pargs = ['docker', 'exec', '-i', args.container, 'python3', '/tmp/gz_motor_pub.py', '--stdin']
+        pargs = ['python3', '-u', CT_DIR + '/gz_motor_pub.py', '--stdin',
+                 '--gap-log', CT_DIR + '/gaps.txt', '--gap-log-ms', str(args.gap_log_ms)]
         if args.standby == 'px4':
-            pargs += ['--handover-ms', str(args.handover_ms)]
-        pub = subprocess.Popen(pargs,
-                               stdin=bridge.stdout, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        streamer.stdout.close()
-        bridge.stdout.close()
+            pargs += ['--handover-ms', str(args.handover_ms), '--mav', 'udp:127.0.0.1:%d' % WD_LINK[1],
+                      '--watchdog-clock', args.watchdog_clock]
+        pyenv = 'PYTHONPATH=' + CT_PYLIB
+        if in_ct:
+            # One pipeline inside the container: PX4 link -> streamer -> bridge -> motor publisher.
+            q = lambda xs: ' '.join(shlex.quote(x) for x in xs)
+            # stall_probe.py runs beside it as a witness for machine-wide stalls; the streamer logs record arrival gaps.
+            pipe = ('cd %s && (python3 stall_probe.py --seconds %.0f --out stalls.txt --over-ms %s &) && '
+                    '%s python3 -u ekf_stream.py --port %d %s --gap-log stream_gaps.txt --gap-log-ms %s 2>stream.err | '
+                    './px4_bridge %s 2>bridge.err | %s %s'
+                    % (CT_DIR, stream_secs, args.gap_log_ms, pyenv, ARC_LINK[1], q(sargs), args.gap_log_ms,
+                       q(bargs), pyenv, q(pargs)))
+            pub = subprocess.Popen(['docker', 'exec', args.container, 'sh', '-c', pipe],
+                                   stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        else:
+            # the same witnesses as the container layout: stall probe in the container, arrival gaps here
+            sh(['docker', 'exec', '-d', args.container, 'python3', CT_DIR + '/stall_probe.py', '--seconds',
+                '%.0f' % stream_secs, '--out', CT_DIR + '/stalls.txt', '--over-ms', str(args.gap_log_ms)])
+            streamer = subprocess.Popen([sys.executable, os.path.join(HERE, 'ekf_stream.py')] + sargs +
+                                        ['--gap-log', base + '.stream_gaps.txt', '--gap-log-ms', str(args.gap_log_ms)],
+                                        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            bridge = subprocess.Popen([args.bridge] + bargs, stdin=streamer.stdout, stdout=subprocess.PIPE,
+                                      stderr=subprocess.PIPE)
+            pub = subprocess.Popen(['docker', 'exec', '-i', args.container, 'env', pyenv] + pargs,
+                                   stdin=bridge.stdout, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            streamer.stdout.close()
+            bridge.stdout.close()
+        threading.Thread(target=read_pub, daemon=True).start()
     else:
+        streamer = subprocess.Popen([sys.executable, os.path.join(HERE, 'ekf_stream.py')] + sargs,
+                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
         # px4 flies itself; the streamer only records (drain its stdout).
         def drain():
             while True:
@@ -469,11 +604,14 @@ def main():
             inject('clear')
             wind_windows[-1][1] = now
             wind_off = None
-        if args.scenario == 'bridge_loss' and bridge is not None and not lost and now >= args.loss_at:
-            import psutil
-            if args.loss_kind == 'kill':
+        if args.scenario == 'bridge_loss' and pub is not None and not lost and now >= args.loss_at:
+            if in_ct:
+                sh(['docker', 'exec', args.container, 'pkill', '-KILL' if args.loss_kind == 'kill' else '-STOP',
+                    '-x', 'px4_bridge'])
+            elif args.loss_kind == 'kill':
                 bridge.kill()
             else:
+                import psutil
                 psutil.Process(bridge.pid).suspend()
             lost = True
             print('SCENARIO: bridge %s at %.1fs' % ('killed' if args.loss_kind == 'kill' else 'suspended', now), flush=True)
@@ -495,31 +633,68 @@ def main():
 
     stats = {}
     bridge_err = ''
-    try:
-        streamer.wait(timeout=stream_secs + 10)
-    except subprocess.TimeoutExpired:
-        streamer.kill()
-    serr = streamer.stderr.read().decode(errors='replace').strip()
+    serr = ''
+    if streamer is not None:
+        try:
+            streamer.wait(timeout=stream_secs + 10)
+        except subprocess.TimeoutExpired:
+            streamer.kill()
+        serr = streamer.stderr.read().decode(errors='replace').strip()
+    elif in_ct:
+        if lost and args.loss_kind == 'hang':
+            sh(['docker', 'exec', args.container, 'pkill', '-KILL', '-x', 'px4_bridge'])
+        try:
+            pub.wait(timeout=stream_secs + 30)
+        except subprocess.TimeoutExpired:
+            sh(['docker', 'exec', args.container, 'pkill', '-KILL', '-f', CT_DIR])
+            pub.kill()
+        serr = sh(['docker', 'exec', args.container, 'cat', CT_DIR + '/stream.err']).stdout.strip()
+        bridge_err = sh(['docker', 'exec', args.container, 'cat', CT_DIR + '/bridge.err']).stdout
+        for src, dst in (('rec.bin', base + '.bin'), ('bridge.csv', base + '.csv'),
+                         ('stream_gaps.txt', base + '.stream_gaps.txt'), ('stalls.txt', base + '.stalls.txt')):
+            sh(['docker', 'cp', '%s:%s/%s' % (args.container, CT_DIR, src), dst])
     if serr:
         print('SCENARIO: streamer: %s' % serr.splitlines()[-1], flush=True)
     if not os.path.exists(base + '.bin'):
         print('SCENARIO: no record file (streamer failed): %s' % serr, flush=True)
         return 3
     handover = None
-    if bridge is not None:
-        if lost and args.loss_kind == 'hang':
-            bridge.kill()
-        bridge.wait(timeout=30)
-        bridge_err = bridge.stderr.read().decode(errors='replace')
+    handover_t = None
+    gaps = None
+    if pub is not None:
+        if bridge is not None:
+            if lost and args.loss_kind == 'hang':
+                bridge.kill()
+            bridge.wait(timeout=30)
+            bridge_err = bridge.stderr.read().decode(errors='replace')
         try:
             pub.wait(timeout=15)
         except subprocess.TimeoutExpired:
             pub.kill()
-        pout = pub.stdout.read().decode(errors='replace')
-        for line in pout.splitlines():
+        time.sleep(0.2)   # let the reader thread take the last lines
+        sh(['docker', 'cp', '%s:%s/gaps.txt' % (args.container, CT_DIR), base + '.gaps.txt'])
+        if not in_ct:
+            sh(['docker', 'cp', '%s:%s/stalls.txt' % (args.container, CT_DIR), base + '.stalls.txt'])
+        for t_line, line in pub_lines:
             if 'HANDOVER' in line:
                 handover = line.strip()
-                print('SCENARIO: %s' % handover, flush=True)
+                handover_t = round(t_line - t0, 2)
+                print('SCENARIO: %s (host t=%.2fs)' % (handover, handover_t), flush=True)
+            elif 'input gap' in line:
+                print('SCENARIO: %s' % line.strip(), flush=True)
+            elif 'command gaps:' in line:
+                print('SCENARIO: %s' % line.strip(), flush=True)
+                gm = re.search(r'(\d+) lines, (\d+) over (\d+) ms, worst ([\d.]+) ms \(sim time in the logged gaps: '
+                               r'worst (-?[\d.]+) ms', line)
+                if gm:
+                    gaps = {'lines': int(gm.group(1)), 'over_ms': float(gm.group(3)), 'n_over': int(gm.group(2)),
+                            'worst_ms': float(gm.group(4)), 'worst_sim_ms_in_gaps': float(gm.group(5))}
+            elif 'no PX4 heartbeat' in line or 'Traceback' in line or 'Error' in line:
+                print('SCENARIO: publisher: %s' % line.strip(), flush=True)
+        if gaps is not None:
+            # in flight = from 3 s (spin-up and lift-off: takeoff_s is 1-2 s) to the end of the window
+            gaps.update(attribute_gaps(base, t0 + args.seconds, t0 + FLIGHT_FROM_S))
+            print('SCENARIO: gap attribution %s' % json.dumps(gaps), flush=True)
         for line in bridge_err.splitlines():
             if 'PX4_BRIDGE_STATS' in line:
                 for kv in line.split()[1:]:
@@ -545,8 +720,13 @@ def main():
               'random_stall_kind': args.stall_kind if args.scenario == 'random' else None,
               'random_schedule': random_events if args.scenario == 'random' else None, 'seed': args.seed,
               'standby': args.standby, 'handover_ms': args.handover_ms if args.standby == 'px4' else None,
+              'watchdog_clock': args.watchdog_clock if args.standby == 'px4' else None,
               'bridge_loss': {'at': args.loss_at, 'kind': args.loss_kind} if args.scenario == 'bridge_loss' else None,
-              'handover': handover,
+              'handover': handover, 'handover_host_t_s': handover_t, 'arc_side': args.arc_side if args.arm != 'px4' else None,
+              # a takeover before the loss (or, without a loss, inside the flight window) is a false takeover
+              'false_takeover': (handover_t is not None and handover_t < (args.loss_at if args.scenario == 'bridge_loss'
+                                                                          else args.seconds)) if args.standby == 'px4' else None,
+              'command_gaps': gaps,
               'bridge': stats, 'metrics': m}
     with open(base + '.json', 'w') as f:
         json.dump(result, f, indent=1)

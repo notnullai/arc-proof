@@ -35,7 +35,12 @@ def main():
                     help='full: no records at all; ekf: attitude/position/velocity frozen, rates fresh; pos: horizontal position/velocity frozen (GPS loss), attitude, rates and altitude fresh')
     ap.add_argument('--record', default='v1', choices=['v1', 'v2'],
                     help='v2 (88 bytes): appends the ATTITUDE timestamp, the raw gyro and baro altitude (HIGHRES_IMU, else ATTITUDE rates and NaN) with their timestamp; an ekf stall freezes the attitude timestamp too')
+    ap.add_argument('--gap-log', default=None,
+                    help='write every LOCAL_POSITION_NED arrival gap over --gap-log-ms here as "wall_time wall_gap_ms sim_gap_ms"')
+    ap.add_argument('--gap-log-ms', type=float, default=20.0)
     args = ap.parse_args()
+    gap_f = open(args.gap_log, 'w') if args.gap_log else None
+    last_arr = None
     v2 = args.record == 'v2'
     stalls = []
     if args.stall_at is not None:
@@ -99,6 +104,12 @@ def main():
             if att is None:
                 continue
             t_us = int(m.time_boot_ms) * 1000
+            if gap_f is not None:
+                t_arr = time.time()
+                if last_arr is not None and (t_arr - last_arr[0]) * 1000.0 > args.gap_log_ms:
+                    gap_f.write('%.3f %.1f %.1f\n' % (t_arr, (t_arr - last_arr[0]) * 1000.0, (t_us - last_arr[1]) / 1000.0))
+                    gap_f.flush()
+                last_arr = (t_arr, t_us)
             att_t = int(att.time_boot_ms) * 1000
             # raw body rates: the IMU stream when PX4 sends one, else the ATTITUDE rates
             # (then gyro freshness is attitude freshness and the fallback cannot engage)

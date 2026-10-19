@@ -13,7 +13,7 @@ is in this repository plus the public PX4 image; nothing is fetched from us.
 | `bin/linux-x86_64/px4_bridge` | the Arc PX4 bridge: release build, symbols stripped, Arc engine and C/C++ runtime statically linked (no shared-library dependencies) |
 | `bin/windows-x64/px4_bridge.exe` | the same bridge for Windows x64 (static C runtime, depends on `KERNEL32.dll` only) |
 | `models/prior_x500_candidate_v5.arc002` | the flight default: candidate v5, 832 input bits, the station cascade compiled into ternary weights, flown with plasticity off (no learning claim) |
-| `tools/px4/*.py` | the harness, readable Python: scenario runner, PX4 estimator streamer, Gazebo motor publisher and disturbance injector (these two run inside the PX4 container), MAVLink parameter helpers, summarizers |
+| `tools/px4/*.py` | the harness, readable Python: scenario runner, PX4 estimator streamer, Gazebo motor publisher and disturbance injector (these two run inside the PX4 container; with `--arc-side container` the streamer and the Linux bridge do too), MAVLink parameter helpers, the stall probe and command-gap attribution, summarizers |
 | `tests/fixtures/px4_ekf_ground.bin` | 922 PX4 estimator records from a disarmed gz_x500 on the ground, for the offline determinism check |
 
 Both binaries were built from the private repository at commit `396cc0f`, the
@@ -93,14 +93,17 @@ python3 tools/px4/summarize_runs.py runs/me
 Wind = lateral force pulses of 3.0 N + 1.5 N on the model, 1 s long, every
 6 s from 15 s (the defaults `--wind-n 3 --wind-every 6 --wind-len 1 --wind-from 15`).
 
-Arc process loss with handover to PX4 (kill = crash, hang = process suspended):
+Arc process loss with handover to PX4 (kill = crash, hang = process suspended).
+`--arc-side container` runs the Arc side next to PX4 inside the container, as on
+a companion computer (the Linux bridge from `bin/linux-x86_64`, local pipes);
+the watchdog counts Gazebo sim time (`--watchdog-clock sim`, the default):
 
 ```sh
 mkdir -p runs/loss
 for i in 1 2 3; do python3 tools/px4/run_scenario.py --arm reflex --seconds 50 --scenario bridge_loss \
-    --loss-at 30 --loss-kind kill --standby px4 --out runs/loss --tag kill_$i 2>&1 | tee runs/loss/kill_$i.log; done
+    --loss-at 30 --loss-kind kill --standby px4 --arc-side container --out runs/loss --tag kill_$i 2>&1 | tee runs/loss/kill_$i.log; done
 for i in 1 2 3; do python3 tools/px4/run_scenario.py --arm reflex --seconds 50 --scenario bridge_loss \
-    --loss-at 30 --loss-kind hang --standby px4 --out runs/loss --tag hang_$i 2>&1 | tee runs/loss/hang_$i.log; done
+    --loss-at 30 --loss-kind hang --standby px4 --arc-side container --out runs/loss --tag hang_$i 2>&1 | tee runs/loss/hang_$i.log; done
 python3 tools/px4/summarize_bridge_loss.py runs/loss
 ```
 
@@ -143,9 +146,15 @@ Arc process loss (`docs/bridge_loss_method.md`): every loss survived with the
 PX4 fallback (13 / 13 published; 0 / 1 without it). Detection 3..27 ms after
 a kill (stream closed) and 201..203 ms after a hang (200 ms watchdog); route +
 arm + takeoff 95..330 ms; altitude lost 0.16..0.70 m from a ~1.1 m hover;
-after takeover PX4 climbs to 2.0 m and holds. Those published rows were
-measured with the trained reflex and the Arc cascade flying; the same runs
-with the flight default flying are being added to that page.
+after takeover PX4 climbs to 2.0 m and holds. Those rows were measured with
+the trained reflex and the Arc cascade flying. With the flight default flying
+(2026-10-19, Arc side in the container, MAVLink takeover): kills 6 / 6, hangs
+3 / 3, no-fault flights 4 / 4 with no false takeover; detection 4..20 ms after
+a kill and 200..204 ms after a hang; route + arm + takeoff 21..37 ms; altitude
+lost 0.45..0.54 m from a ~1.0 m hover. Each run also writes `<tag>.gaps.txt`,
+`<tag>.stream_gaps.txt` and `<tag>.stalls.txt`; `summarize_bridge_loss.py`
+attributes every command gap (machine-wide stall, a gap in PX4's own stream,
+or added by the Arc side).
 
 ### Checked from these files (2026-10-19)
 
