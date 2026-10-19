@@ -45,6 +45,7 @@ from gap_attribution import attribute_gaps, FLIGHT_FROM_S
 HERE = os.path.dirname(os.path.abspath(__file__))
 REC = struct.Struct('<Q12f')
 REC2 = struct.Struct('<Q12fQQ4f')   # v2 record (Track F)
+REC3 = struct.Struct('<Q12fQQ7f')   # v3 record (Track F fix: + accelerometer)
 IMAGE = 'px4io/px4-sitl-gazebo:latest'
 TILT_FAULT = 0.7854
 
@@ -360,7 +361,7 @@ def main():
     ap.add_argument('--bits', type=int, default=None)
     ap.add_argument('--fault', default=None, choices=[None, 'raw', 'stabilised', 'live'])
     ap.add_argument('--att-fallback', default='none', choices=['none', 'gyro', 'imu'],
-                    help='Track F: v2 records (attitude timestamp, raw gyro, baro) and the bridge fallback: gyro = attitude propagated with the gyro while the estimator attitude is stale; imu = gyro + altitude carried by the baro')
+                    help='Track F: v3 records (attitude timestamp, raw gyro, baro, accelerometer) and the bridge fallback: gyro = attitude propagated with the gyro while the estimator attitude is stale; imu = gyro + altitude/vertical velocity from a baro + accelerometer complementary filter')
     ap.add_argument('--standby', default='none', choices=['none', 'px4'],
                     help='G6: PX4 (disarmed estimator) is the fallback controller: when Arc goes stale the motor publisher routes PX4 outputs, arms it in the air and switches it to Hold')
     ap.add_argument('--handover-ms', type=float, default=200.0)
@@ -485,7 +486,7 @@ def main():
     sargs = ['--seconds', str(stream_secs), '--tee', rec_path]
     v2 = args.att_fallback != 'none'
     if v2:
-        sargs += ['--record', 'v2']
+        sargs += ['--record', 'v3']
     if args.scenario == 'bridge_loss':
         # kill: direct writes, keep recording after the pipe breaks; hang: a bounded queue so a
         # suspended consumer cannot block the recorder (one extra thread on the record path)
@@ -519,7 +520,7 @@ def main():
         if args.fault:
             bargs += ['--fault', args.fault]
         if v2:
-            bargs += ['--record', 'v2', '--att-fallback', args.att_fallback]
+            bargs += ['--record', 'v3', '--att-fallback', args.att_fallback]
         pargs = ['python3', '-u', CT_DIR + '/gz_motor_pub.py', '--stdin',
                  '--gap-log', CT_DIR + '/gaps.txt', '--gap-log-ms', str(args.gap_log_ms)]
         if args.standby == 'px4':
@@ -707,7 +708,7 @@ def main():
 
     # Record timestamps are sim time; convert wall-based wind windows to sim offsets via the first record.
     m = metrics_from_records(base + '.bin', args.alt, t_dist, [(a, b) for a, b in wind_windows if b is not None],
-                             REC2 if v2 else REC)
+                             REC3 if v2 else REC)
     result = {'tag': tag, 'arm': args.arm, 'scenario': args.scenario, 'seconds': args.seconds, 'alt': args.alt,
               'hover_rad_s': args.hover, 'px4_hover_mean_rad_s': hover_speed, 'gains': args.gains,
               'residual_gain': args.residual_gain, 'plasticity': args.plasticity, 'fault_policy': args.fault,

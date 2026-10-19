@@ -1,7 +1,7 @@
 # Arc — Performance and Footprint
 
 Measured numbers for the binary-only engine shipped in this repository
-(built from the private Arc repo at commit `fba7469`). Every row is measured, none estimated; rows marked private repo are
+(built from the private Arc repo at commit `3ce6f7d`). Every row is measured, none estimated; rows marked private repo are
 reported here and reproducible only from that repo.
 
 ## Tick time (host, x86_64)
@@ -19,36 +19,129 @@ is the on-target DWT cycle-count, below.
 
 ## On-target tick time (Cortex-M7, Teensy 4.x)
 
-**Restated 2026-10-18:** the first two rows below were measured on the
-timing twin's fixed 64-input × 64-hidden brain, not a shipped prior. The
-shipped x500 priors are 96 hidden with 480–832 input bits; the tick cost is
-word-level popcounts over hidden × input words, so they do 4–6× the
-inference work. At the real geometries (same sequence and harness,
-`ci/run_mcu_timing.sh <target> mps2-an500|mps2-an385`, QEMU icount,
-1 instruction = 1 ns):
+Every number in this section was measured on the ELFs in `targets/`
+(built from the private repo at `3ce6f7d`), with
+`ci/run_mcu_timing.sh <target> mps2-an500|mps2-an385` under QEMU icount
+(1 instruction = 1 ns, SysTick resolution 40 instructions). The x500 rows
+run a fixed brain at the shipped geometry (96 hidden, 480 or 832 input
+bits), not the shipped weights; the 64 × 64 row is the synthetic golden
+twin, not a shipped prior. Since 2026-10-18 the popcount at the heart of
+every tick is an inline branch-free SWAR sequence in the CPU abstraction
+(`include/arc/arc_types.h`; it was a libgcc `__popcountsi2` call on
+Cortex-M). The result is an exact integer, so every golden hash is
+unchanged; the figures before it are in the last column.
 
-| geometry (input / hidden) | prior | mode | Cortex-M7 worst tick | Cortex-M3 worst tick | lowest clock for 1 kHz at 1 / 2 cycles per instruction | target |
-|---|---|---|---|---|---|---|
-| 832 / 96 | **flight default** (compiled cascade) | inference, plasticity off (how it flies) | **125,200** | 125,280 | **125 / 250 MHz** | `targets/mcu_drone_loop_timing_x500_832_inference_m7` / `_m3` |
-| 832 / 96 | flight default | inference, dense-input stress (hidden layer firing) | 125,240 | 125,240 | 126 / 251 MHz | `targets/mcu_drone_loop_timing_x500_832_inference_dense_m7` / `_m3` |
-| 480 / 96 | learning demonstration (trained) | inference | 86,120 | 86,200 | 86 / 172 MHz | `targets/mcu_drone_loop_timing_x500_480_inference_m7` / `_m3` |
-| 480 / 96 | learning demonstration | inference, dense-input stress | 86,080 | 86,080 | 87 / 173 MHz | `targets/mcu_drone_loop_timing_x500_480_inference_dense_m7` / `_m3` |
-| 480 / 96 | learning demonstration | plasticity on, **dense-input stress** | **408,760** | 411,520 | 409 / 818 MHz | `targets/mcu_drone_loop_timing_x500_480_dense_m7` / `_m3` |
-| 480 / 96 | learning demonstration | plasticity on, **dense-input stress, amortised over 10 ticks** | **138,640** | 139,120 | **139 / 278 MHz** | `targets/mcu_drone_loop_timing_x500_480_sliced_dense_m7` / `_m3` |
-| 480 / 96 | learning demonstration | plasticity on, plain twin (traces stay zero) | 331,480 | 331,040 | – | `targets/mcu_drone_loop_timing_x500_480_m7` / `_m3` |
-| 480 / 96 | learning demonstration | plasticity on, plain twin, amortised | 114,400 | 114,480 | – | `targets/mcu_drone_loop_timing_x500_480_sliced_m7` / `_m3` |
-| 64 / 64 | synthetic golden twin (not a shipped prior) | plasticity on / amortised | 127,920 / 33,680 | 127,560 / 33,720 | – | `targets/mcu_drone_loop_timing_m7`, `_sliced_m7` |
+| geometry (input / hidden) | prior | mode | Cortex-M7 worst tick | Cortex-M3 worst tick | lowest clock for 1 kHz at 1 / 2 cycles per instruction | before the inline popcount (M7 / M3) | target |
+|---|---|---|---|---|---|---|---|
+| 832 / 96 | **flight default** (compiled cascade) | inference, plasticity off (how it flies) | **103,800** | 104,160 | **104 / 208 MHz** | 125,200 / 125,280 | `targets/mcu_drone_loop_timing_x500_832_inference_m7` / `_m3` |
+| 832 / 96 | flight default | inference, dense-input stress (hidden layer firing) | 103,840 | 104,040 | 105 / 209 MHz | 125,240 / 125,240 | `targets/mcu_drone_loop_timing_x500_832_inference_dense_m7` / `_m3` |
+| 480 / 96 | learning demonstration (trained) | inference | 71,040 | 71,440 | 72 / 143 MHz | 86,120 / 86,200 | `targets/mcu_drone_loop_timing_x500_480_inference_m7` / `_m3` |
+| 480 / 96 | learning demonstration | inference, dense-input stress | 71,000 | 71,200 | 72 / 143 MHz | 86,080 / 86,080 | `targets/mcu_drone_loop_timing_x500_480_inference_dense_m7` / `_m3` |
+| 480 / 96 | learning demonstration | plasticity on, **dense-input stress** | **393,760** | 396,600 | 397 / 794 MHz | 408,760 / 411,520 | `targets/mcu_drone_loop_timing_x500_480_dense_m7` / `_m3` |
+| 480 / 96 | learning demonstration | plasticity on, **dense-input stress, amortised over 10 ticks** | **123,600** | 124,200 | **125 / 249 MHz** | 138,640 / 139,120 | `targets/mcu_drone_loop_timing_x500_480_sliced_dense_m7` / `_m3` |
+| 480 / 96 | learning demonstration | plasticity on, plain twin (traces stay zero) | 316,400 | 316,280 | – | 331,480 / 331,040 | `targets/mcu_drone_loop_timing_x500_480_m7` / `_m3` |
+| 480 / 96 | learning demonstration | plasticity on, plain twin, amortised | 99,360 | 99,680 | – | 114,400 / 114,480 | `targets/mcu_drone_loop_timing_x500_480_sliced_m7` / `_m3` |
+| 64 / 64 | synthetic golden twin (not a shipped prior) | plasticity on / amortised | 124,000 / 29,800 | 123,880 / 30,000 | – | 127,920 / 33,680, 127,560 / 33,720 | `targets/mcu_drone_loop_timing_m7`, `_sliced_m7` (and `_m3`) |
 
-The timing images run a fixed brain at the shipped geometry, not the shipped weights. For inference that times the same work: `arc_core`'s inference loops over every hidden × input word and every hidden × hidden word unconditionally (popcounts), and the only data-dependent work is each neuron's threshold compare and the winner-take-all bookkeeping for the motor neurons (4 here) that spike. The dense-input rows confirm it: with 71 % of the hidden layer firing each tick, the flight default's worst tick is 125,240, against 125,200 on the plain twin.
+For inference the fixed brain times the same work as the shipped weights:
+`arc_core`'s inference loops over every hidden × input word and every
+hidden × hidden word unconditionally (popcounts), and the only
+data-dependent work is each neuron's threshold compare and the
+winner-take-all bookkeeping for the motor neurons (4 here) that spike. The
+dense-input rows confirm it: with 71 % of the hidden layer firing each tick
+the flight default's worst tick is 103,840, against 103,800 on the plain
+twin.
 
-**The plasticity pass is data-dependent, and the plain twin understated it (found 2026-10-18).** The plain twin feeds one input bit per tick against a hidden threshold of 2, so its hidden layer never fires. Every trace stays zero and nothing flips, so its plasticity-on rows only time the pass decaying zeros. The dense-input stress twins feed pseudo-random input words. Under that stress, 58 % of synapse visits cross the trace threshold and about 285 synapses flip per pass. They carry their own hashes (480 plain 0x06d80bb3fbefac89, amortised 0x83e4d89dc5e02f94, inference 0xd09e9fba89e283cf; 832 inference 0x628fde62eca6d3f1). On the old pass they cost 927,600 instructions, or 191,600 amortised; the earlier published 496,760 / 132,360 were the plain twin. The pass was then rewritten without changing a result (every golden hash unchanged). The rewrite keeps loop invariants in registers and makes the skips word-level and bit-parallel against the 32-synapse mask words; flips stay in ascending order. It also specialises the trace loop on the post spike and uses the ARMv7-M SMLAL and SSAT instructions, which the M3 has too. **1 kHz with learning on (amortised, dense stress) needs ≥ 139 MHz at 1 cycle/instr, ≥ 278 MHz at 2** (600 MHz M7: 4.3× / 2.2× margin). Not claimed: an analytic worst case. The stress twin is a measurement, and a pass that flips every one of the 8,464 hidden↔hidden synapses has not been timed (gap register G8).
+**The plasticity pass is data-dependent, and the plain twin understates it
+(found 2026-10-18).** The plain twin feeds one input bit per tick against
+a hidden threshold of 2, so its hidden layer never fires: every trace stays
+zero and nothing flips, and its plasticity-on rows only time the pass
+decaying zeros. The dense-input stress twins feed pseudo-random input
+words; under that stress 58 % of synapse visits cross the trace threshold
+and about 285 synapses flip per pass. They carry their own hashes (480
+plain 0x06d80bb3fbefac89, amortised 0x83e4d89dc5e02f94, inference
+0xd09e9fba89e283cf; 832 inference 0x628fde62eca6d3f1; all four reproduce
+from the files here). On the original pass they cost 927,600 instructions,
+or 191,600 amortised; the earlier published 496,760 / 132,360 were the
+plain twin. The pass was then rewritten without changing a result (every
+golden hash unchanged): loop invariants in registers, word-level
+bit-parallel skips against the 32-synapse mask words, flips in ascending
+order, the trace loop specialised on the post spike, and the ARMv7-M SMLAL
+and SSAT instructions (the M3 has them too). Not claimed: an analytic worst
+case for the pass. The stress twin is a measurement, and a pass that flips
+every one of the 8,464 hidden↔hidden synapses has not been timed (gap
+register G8).
 
-For what flies, 125,200 instructions fits 1 kHz on a 600 MHz Cortex-M7
-with 4.8× margin at 1 cycle/instr and 2.4× at 2; a ≤ 120 MHz Cortex-M3
-does not fit 1 kHz. The earlier "~85 MHz amortised" figure held for the
-synthetic twin only.
+So, counted in instructions: the flight default fits 1 kHz on a 600 MHz
+Cortex-M7 with 5.8× margin at 1 cycle/instr and 2.9× at 2; the learning
+demonstration with learning on (amortised, dense stress) needs ≥ 125 MHz
+at 1 cycle/instr, ≥ 249 MHz at 2.
 
-Synthetic twin (kept for the record):
+### Static worst-case cycle bound (gap register G9)
+
+QEMU counts instructions, not cycles. `tools/mcu_cycle_bound.py` turns the
+instruction counts into a cycle bound without hardware: it runs a timing
+ELF under `qemu -icount` with `-d in_asm,exec,nochain` and the
+`memory_region_ops_read` trace event, cuts the trace into ticks at the
+firmware's own SysTick CVR reads, and gets the exact executed instruction
+mix of every tick (it checks each tick's count against the firmware's
+SysTick delta and stops if any differs by one SysTick count or more). Each
+executed instruction is then charged a worst-case cost and the worst of the
+1,999 ticks is reported. Cost tables (zero wait states):
+
+- **Cortex-M4:** Arm DDI 0439B (Cortex-M4 TRM) Tables 3-1 / 3-2 and
+  section 3.3.2: data processing, MUL, long multiplies, SSAT, bitfield and
+  DSP multiplies 1; MLA/MLS 2; LDR/STR 2; LDRD/STRD 3; LDM/STM/PUSH/POP
+  1+N (+P if PC is loaded); branches 1+P; TBB/TBH ≥ 6; SDIV/UDIV ≤ 12;
+  IT 1; P = 3. On top: every branch charged as taken, +1 per load/store
+  for the address-generation interlock, no load/store pipelining credit,
+  +1 for LDR [PC], IT never folded.
+- **Cortex-M3:** Arm DDI 0337 (Cortex-M3 TRM r2p0, chapter 18): the same
+  figures except UMULL/SMULL 3–5 and UMLAL/SMLAL 4–7, charged at 5 and 7.
+- **Cortex-M7:** Arm publishes no per-instruction cycle table for the M7
+  (DDI 0489). The M7 column is a **stated envelope, not vendor data**: no
+  dual issue; every load 4; LDRD 5; LDM 2+N; store 2; multiply and long
+  multiply 2; divide 12; every branch and PC write a full mispredict of
+  1+8. It is the number a board run must confirm, not a guarantee.
+
+Worst tick in cycles and the lowest clock for 1 kHz, on the shipped images
+(`python tools/mcu_cycle_bound.py --elf targets/<image>_m7 --machine mps2-an500 --models m4,m7`,
+and `--elf targets/<image>_m3 --machine mps2-an385 --models m3,m4`; needs
+`qemu-system-arm` and Python 3). Exact instructions from the trace in the
+first column; the figures with the libgcc popcount call it replaced are in
+brackets.
+
+| workload (exact instructions, M3 / M7 image) | image | Cortex-M3 | Cortex-M4 | Cortex-M7 envelope |
+|---|---|---|---|---|
+| flight default, 832 / 96 inference, dense stress (104,015 / 103,823) | `x500_832_inference_dense_m3` | 140,858 → **141 MHz** (203,691) | 140,390 → 141 MHz (203,223) | – |
+| same | `x500_832_inference_dense_m7` | – | 140,241 → **141 MHz** (203,425) | 169,671 → **170 MHz** (294,527) |
+| learning demonstration, 480 / 96 amortised × 10, dense stress (124,195 / 123,566) | `x500_480_sliced_dense_m3` | 205,829 → **206 MHz** (249,692) | 199,435 → 200 MHz (243,298) | – |
+| same | `x500_480_sliced_dense_m7` | – | 195,292 → 196 MHz (239,458) | 248,233 → **249 MHz** (332,904) |
+
+So on this bound a 600 MHz Cortex-M7 flies the flight default with 3.5×
+margin on the envelope and runs the learning demonstration with 2.4×; a
+168 or 180 MHz Cortex-M4 fits the flight default at 1 kHz (141 MHz needed:
+1.19× / 1.28× margin) but not the learning demonstration with learning on
+(200 MHz needed on the M3-build image, 196 on the M7-build one); a Cortex-M3
+at ≤ 120 MHz fits neither.
+
+Requirements on the firmware for these numbers to hold: code and per-tick
+data in zero-wait memory (ITCM / DTCM on an M7, zero-wait SRAM or CCM on an
+M3/M4; each wait state adds at most `wf × (instructions + branches) + wd ×
+data words` per tick, and flash behind a cache is not covered); no
+interrupt load inside the tick; naturally aligned accesses (set
+`CCR.UNALIGN_TRP` on the board run so an unaligned access faults instead of
+slowing silently). The bound is analytic: published M3/M4 costs and a
+stated M7 envelope times the exact instruction mix. What a board run still
+adds (G9): the true cycles per instruction, the M7 envelope's confirmation
+and the real memory map; one DWT_CYCCNT reading of the same image's worst
+tick on the delivered board closes it.
+
+Synthetic twin, original measurements (kept for the record). They were
+taken on the images built from `fba7469`, before the plasticity-pass
+rewrite and the inline popcount; the images in `targets/` now give the
+64 × 64 row of the table above (p50 19,160 / 19,400 instructions on M7 /
+M3), and the commands below reproduce that row, not these figures:
 
 | Metric | Value | Notes |
 |---|---|---|
@@ -64,20 +157,20 @@ Synthetic twin (kept for the record):
 
 | Target | text | data | bss | Flash (text+data) | RAM (data+bss) |
 |---|---|---|---|---|---|
-| `teensy_drone_loop` (board image, ships as `.hex`) | 24668 | 368 | 69924 | 25.0 KB | 68.6 KB |
-| `teensy_robot` (wheeled board image, private repo, not shipped here) | 22860 | 332 | 70036 | 22.7 KB | 68.7 KB |
-| `targets/mcu_drone_loop_smoke_m7` (QEMU smoke, in repo) | 13353 | 320 | 69284 | 13.4 KB | 67.8 KB |
-| `targets/mcu_drone_loop_smoke_m3` (QEMU smoke, in repo) | 13169 | 320 | 69284 | 13.2 KB | 67.8 KB |
+| `teensy_drone_loop` (board image, ships as `.hex`) | 27400 | 368 | 70952 | 27.1 KB | 69.6 KB |
+| `teensy_robot` (wheeled board image, private repo, not shipped here) | 25568 | 332 | 70036 | 25.3 KB | 68.7 KB |
+| `targets/mcu_drone_loop_smoke_m7` (QEMU smoke, in repo) | 16057 | 320 | 70312 | 16.0 KB | 69.0 KB |
+| `targets/mcu_drone_loop_smoke_m3` (QEMU smoke, in repo) | 15845 | 320 | 70312 | 15.8 KB | 69.0 KB |
 
 The bulk of `bss` is the caller-supplied static engine arena (the board
 images allocate 70 KB). The engine library itself:
 
 | Library | Size |
 |---|---|
-| `lib/armv7e-m-soft/libarc_runtime.a` | 39668 bytes |
-| `lib/armv7e-m-hard/libarc_runtime.a` | 39692 bytes |
-| `lib/x64-linux/libarc_runtime.a` | 54 KB |
-| `lib/x64-windows/arc_runtime.lib` | 113 KB |
+| `lib/armv7e-m-soft/libarc_runtime.a` | 46074 bytes |
+| `lib/armv7e-m-hard/libarc_runtime.a` | 46274 bytes |
+| `lib/x64-linux/libarc_runtime.a` | 60 KB |
+| `lib/x64-windows/arc_runtime.lib` | 116 KB |
 
 ## Arena and model sizes
 

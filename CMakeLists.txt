@@ -14,7 +14,8 @@ elseif(MSVC)
 endif()
 
 # Engine: prebuilt, binary-only. Built from the private Arc repository
-# at commit fba7469 (Windows: MSVC 19.44 /x64; Linux: GCC 13 / x86_64).
+# at commit 3ce6f7d (Windows: MSVC 19.38 x64; Linux: GCC 13.3 x86_64 and aarch64;
+# Cortex-M7: Arm GNU Toolchain 14.2).
 add_library(arc_runtime STATIC IMPORTED)
 if(WIN32)
     set_target_properties(arc_runtime PROPERTIES
@@ -84,7 +85,7 @@ add_drone_proof_test(test_drone_sim_env tests/test_drone_sim_env.cpp)
 # PRELIMINARY — toy plant: PID-cascade vs reflex baseline (determinism gate).
 add_drone_proof_test(test_drone_baseline tests/test_drone_baseline.cpp)
 
-# Loader robustness: arc_load is the only untrusted-input parser.
+# Loader robustness: arc_load / arc_load_inference are the only untrusted-input parsers.
 add_executable(test_arc_load_fuzz
     tests/test_arc_load_fuzz.cpp
     platforms/sim/hal_drone_sim.cpp

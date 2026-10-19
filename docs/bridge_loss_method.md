@@ -119,7 +119,7 @@ Three causes, each measured:
    standby keep-alive channel, one status call.
 
 **Arc side next to PX4** (`--arc-side container`): the static Linux bridge
-(a static build of the private repo at `a915dc5` for the matrix; the shipped `bin/linux-x86_64/px4_bridge`, built from `396cc0f`, was checked in the same layout: a hang caught at 204 ms, takeover 23 ms), the record streamer on its own PX4 MAVLink link
+(a static build of the private repo at `a915dc5` for the matrix; the `bin/linux-x86_64/px4_bridge` shipped at the time, built from `396cc0f`, was checked in the same layout: a hang caught at 204 ms, takeover 23 ms; the binary now in `bin/` is built from `3ce6f7d`, whose bridge and engine source is the same as `a915dc5`'s, and has not been re-flown in this matrix), the record streamer on its own PX4 MAVLink link
 (same stream rates as the GCS link), and the motor publisher, joined by local
 pipes inside the container, as on a companion computer. Every command gap over
 20 ms is logged with the sim time that passed, next to the streamer's record

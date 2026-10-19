@@ -16,8 +16,13 @@ is in this repository plus the public PX4 image; nothing is fetched from us.
 | `tools/px4/*.py` | the harness, readable Python: scenario runner, PX4 estimator streamer, Gazebo motor publisher and disturbance injector (these two run inside the PX4 container; with `--arc-side container` the streamer and the Linux bridge do too), MAVLink parameter helpers, the stall probe and command-gap attribution, summarizers |
 | `tests/fixtures/px4_ekf_ground.bin` | 922 PX4 estimator records from a disarmed gz_x500 on the ground, for the offline determinism check |
 
-Both binaries were built from the private repository at commit `396cc0f`, the
-source the published runs used. **No engine or bridge source is published.**
+Both binaries were built on 2026-10-19 from the private repository at commit
+`3ce6f7d` (MSVC 19.38 x64; GCC 13.3 x86_64, `-static -s`). Its bridge and
+engine source is the same as at `a915dc5`, the build the published v5
+handover matrix used; the Track H freeze runs used the same carry (`1a5e83c`).
+The earlier binaries in this repository were built from `396cc0f`, before the
+baro + accelerometer carry, the inline popcount and `arc_load_inference`.
+**No engine or bridge source is published.**
 The binaries are stripped, which removes symbol names and debug information;
 it does not hide the machine code. **A binary can still be disassembled.**
 We say so plainly so nobody mistakes stripping for protection.
@@ -167,6 +172,20 @@ One hover each, from a clone of this repository, with the binaries, model and ha
 
 Both survived with 0 faults. Takeoff and tilt on the Linux run, and survival on both, sit just outside the 3-run published ranges: that is the run-to-run noise described above.
 The offline check printed `hash=00cffd5d35dc57d9` on both.
+
+Those two hovers used the binaries built from `396cc0f`. With the binaries now
+in `bin/` (built from `3ce6f7d`), from a clone of this repository, on 2026-10-19:
+
+| host | takeoff s | alt mean m | alt jitter rms m | station max m | tilt max ° | survival s | fault ticks | max wall stall ms |
+|---|---|---|---|---|---|---|---|---|
+| Windows 11 x64, Docker Desktop, Python 3.12 (`--container px4pub`) | 0.98 | 1.000 | 0.025 | 0.273 | 3.4 | 60.3 | 0 | 81.2 |
+
+Survived with 0 faults; station, jitter and tilt inside the published ranges,
+takeoff and survival just outside them (noise). The offline check printed
+`hash=00cffd5d35dc57d9` on both new binaries, the same as before: the carry,
+popcount and loader changes leave the fixture's commands bit-identical.
+The Arc-loss handover was not re-flown on these binaries; its numbers are the
+`a915dc5` build's, which has the same bridge source.
 
 ## Windows
 

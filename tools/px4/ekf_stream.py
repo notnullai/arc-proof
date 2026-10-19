@@ -17,6 +17,7 @@ from pymavlink import mavutil
 
 REC = struct.Struct('<Q12f')
 REC2 = struct.Struct('<Q12fQQ4f')   # v2 (Track F): + att_time_us, gyro_time_us, gx, gy, gz, baro_alt
+REC3 = struct.Struct('<Q12fQQ7f')   # v3: v2 + ax, ay, az (HIGHRES_IMU accelerometer, body FRD, m/s^2)
 
 
 def main():
@@ -33,15 +34,17 @@ def main():
     ap.add_argument('--stalls', default=None, help='several dropouts: "at:len,at:len" (wall seconds)')
     ap.add_argument('--stall-kind', default='full', choices=['full', 'ekf', 'pos'],
                     help='full: no records at all; ekf: attitude/position/velocity frozen, rates fresh; pos: horizontal position/velocity frozen (GPS loss), attitude, rates and altitude fresh')
-    ap.add_argument('--record', default='v1', choices=['v1', 'v2'],
-                    help='v2 (88 bytes): appends the ATTITUDE timestamp, the raw gyro and baro altitude (HIGHRES_IMU, else ATTITUDE rates and NaN) with their timestamp; an ekf stall freezes the attitude timestamp too')
+    ap.add_argument('--record', default='v1', choices=['v1', 'v2', 'v3'],
+                    help='v2 (88 bytes): appends the ATTITUDE timestamp, the raw gyro and baro altitude (HIGHRES_IMU, else ATTITUDE rates and NaN) with their timestamp; v3 (100 bytes): v2 + the raw accelerometer; an ekf stall freezes the attitude timestamp too')
     ap.add_argument('--gap-log', default=None,
                     help='write every LOCAL_POSITION_NED arrival gap over --gap-log-ms here as "wall_time wall_gap_ms sim_gap_ms"')
     ap.add_argument('--gap-log-ms', type=float, default=20.0)
     args = ap.parse_args()
     gap_f = open(args.gap_log, 'w') if args.gap_log else None
     last_arr = None
-    v2 = args.record == 'v2'
+    v2 = args.record in ('v2', 'v3')
+    v3 = args.record == 'v3'
+    RECX = REC3 if v3 else REC2
     stalls = []
     if args.stall_at is not None:
         stalls.append((args.stall_at, args.stall_len))
@@ -113,14 +116,19 @@ def main():
             att_t = int(att.time_boot_ms) * 1000
             # raw body rates: the IMU stream when PX4 sends one, else the ATTITUDE rates
             # (then gyro freshness is attitude freshness and the fallback cannot engage)
+            nan = float('nan')
             if imu is not None:
                 gyro = (int(imu.time_usec), imu.xgyro, imu.ygyro, imu.zgyro, imu.pressure_alt)
+                acc = (imu.xacc, imu.yacc, imu.zacc)
             else:
-                gyro = (att_t, att.rollspeed, att.pitchspeed, att.yawspeed, float('nan'))
+                gyro = (att_t, att.rollspeed, att.pitchspeed, att.yawspeed, nan)
+                acc = (nan, nan, nan)
+            if v3:
+                gyro = gyro + acc
             fields = [t_us, att.roll, att.pitch, att.yaw, att.rollspeed, att.pitchspeed, att.yawspeed,
                       m.x, m.y, m.z, m.vx, m.vy, m.vz]
             tail = [att_t] + list(gyro)
-            true_rec = REC2.pack(*(fields + tail)) if v2 else REC.pack(*fields)
+            true_rec = RECX.pack(*(fields + tail)) if v2 else REC.pack(*fields)
             if tee:
                 tee.write(true_rec)   # the tee holds the true stream; stalls apply to what is forwarded
             now = time.time() - t0
@@ -139,7 +147,7 @@ def main():
                               frozen[3], frozen[4], m.z, frozen[6], frozen[7], m.vz]
             else:
                 frozen = None
-            rec = true_rec if not stalled else (REC2.pack(*(fields + tail)) if v2 else REC.pack(*fields))
+            rec = true_rec if not stalled else (RECX.pack(*(fields + tail)) if v2 else REC.pack(*fields))
             if sink_q is not None:
                 if not sink_dead.is_set():
                     try:

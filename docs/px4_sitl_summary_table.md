@@ -78,3 +78,40 @@
 | random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 5 (ekf dropouts), imu fallback | 1 | 0.44 | 1.057 | 0.084 | 0.372 | 4.6 | 0.313 | 5.542 | 20.1 | - (3) | 54.7 | - | 0 | 0 | 2.2 |
 | random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 6 | 1 | 0.52 | 1.117 | 0.011 | 0.522 | 3.3 | 97.117 | 93.430 | 179.7 | - | 16.6 | 17.14 | 8184 | 122 | 0.2 |
 | random | reflex | raw, plasticity off, prior_x500.arc002 (480 bits), seed 6 (ekf dropouts), imu fallback | 1 | 0.76 | 1.118 | 0.033 | 0.578 | 3.1 | 0.189 | 2.122 | 16.1 | - (3) | 52.6 | - | 0 | 0 | 0.9 |
+
+## Track H: failure tests on the flight default v5 (2026-10-19)
+
+Same columns, same Gazebo setup, fresh container per run (method: `docs/px4_sitl_method.md`, Track H). Bridge with the baro + accelerometer carry (the one in `bin/`):
+
+| scenario | arm | fault policy | n | takeoff s | alt mean m | alt jitter rms m | station max m | tilt max ° | dist. alt err max m | dist. station max m | dist. tilt max ° | wind recovery max s (unrec.) | survival s | first fault / impact s | fault ticks | dropout ticks | max wall stall ms |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| dropout | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), stall 0.3 s ekf, imu fallback | 2 | 1.02..1.06 | 1.001..1.002 | 0.025..0.026 | 0.224..0.229 | 3.1..3.2 | 0.046..0.052 | 0.215..0.227 | 3.2..3.4 | - | 58.2..60.8 | - | 0 | 0 | 0.4..0.6 |
+| dropout | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), stall 1.0 s ekf, gyro fallback | 1 | 1.32 | 1.000 | 0.024 | 0.234 | 3.4 | 0.047 | 0.237 | 4.1 | - | 60.5 | - | 0 | 0 | 0.5 |
+| dropout | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), stall 1.0 s ekf, imu fallback | 2 | 1.00..1.06 | 1.001..1.003 | 0.024..0.026 | 0.220..0.222 | 3.2..3.5 | 0.048..0.078 | 0.198..0.228 | 3.1..3.3 | - | 60.8..60.9 | - | 0 | 0 | 0.3..0.4 |
+| dropout | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), stall 3.0 s ekf, imu fallback | 2 | 1.02..1.06 | 1.000..1.001 | 0.022..0.026 | 0.203..0.235 | 3.4..3.7 | 0.141..0.158 | 1.481..1.840 | 12.7..23.7 | - | 60.7..60.8 | - | 1319..1343 | 0 | 0.4..0.5 |
+| random | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), seed 1 (ekf dropouts), imu fallback | 1 | 0.98 | 0.990 | 0.019 | 1.429 | 16.5 | 0.063 | 1.682 | 17.9 | 0.97 | 60.8 | - | 0 | 0 | 0.4 |
+| random | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), seed 2 (ekf dropouts), imu fallback | 1 | 1.06 | 1.000 | 0.026 | 1.963 | 17.9 | 0.084 | 3.121 | 18.3 | 6.65 | 60.7 | - | 0 | 0 | 0.4 |
+| random | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), seed 3 (ekf dropouts), imu fallback | 1 | 1.08 | 1.003 | 0.025 | 0.250 | 3.0 | 0.054 | 0.248 | 3.7 | - | 60.7 | - | 0 | 0 | 0.4 |
+
+Not affected by the carry: the two 30-minute runs (1,800 s; the wind row is the flight default in gusts the whole flight, the hover row is the learning demonstration with **plasticity on**) and one 1.0 s freeze with no fallback:
+
+| scenario | arm | fault policy | n | takeoff s | alt mean m | alt jitter rms m | station max m | tilt max ° | dist. alt err max m | dist. station max m | dist. tilt max ° | wind recovery max s (unrec.) | survival s | first fault / impact s | fault ticks | dropout ticks | max wall stall ms |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| hover | reflex | raw, prior_x500.arc002 (480 bits) | 1 | 0.52 | 1.107 | 0.014 | 0.595 | 5.8 | - | - | - | - | 1725.8 | - | 0 | 0 | 1.1 |
+| wind | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits) | 1 | 1.00 | 1.003 | 0.024 | 2.652 | 17.0 | 0.132 | 3.567 | 20.0 | 1502.53 (6) | 1726.6 | - | 0 | 0 | 1.2 |
+| dropout | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), stall 1.0 s ekf | 1 | 1.08 | 0.997 | 0.031 | 0.239 | 8.1 | 0.181 | 0.431 | 11.7 | - | 58.5 | - | 0 | 0 | 0.7 |
+
+Before the fix (bridge with the baro-differenced carry; the 1.0 s and 3.0 s imu rows are the regression the fix removed):
+
+| scenario | arm | fault policy | n | takeoff s | alt mean m | alt jitter rms m | station max m | tilt max ° | dist. alt err max m | dist. station max m | dist. tilt max ° | wind recovery max s (unrec.) | survival s | first fault / impact s | fault ticks | dropout ticks | max wall stall ms |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| dropout | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), stall 0.3 s ekf, imu fallback | 1 | 1.00 | 0.994 | 0.040 | 0.202 | 3.5 | 0.061 | 0.246 | 3.4 | - | 58.7 | - | 0 | 0 | 0.3 |
+| dropout | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), stall 1.0 s ekf, gyro fallback | 1 | 0.96 | 1.002 | 0.026 | 0.202 | 3.5 | 0.049 | 0.274 | 3.1 | - | 58.7 | - | 0 | 0 | 0.4 |
+| dropout | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), stall 1.0 s ekf, imu fallback | 1 | 1.02 | 1.030 | 0.168 | 0.245 | 3.9 | 1.399 | 0.219 | 3.8 | - | 58.6 | - | 0 | 0 | 0.2 |
+| dropout | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), stall 3.0 s ekf, imu fallback | 1 | 0.98 | 1.014 | 0.059 | 0.217 | 3.3 | 2.303 | 0.977 | 16.7 | - | 32.6 | 33.58 | 1239 | 0 | 0.2 |
+| random | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), seed 1 (ekf dropouts), imu fallback | 1 | 1.02 | 1.006 | 0.021 | 1.528 | 16.1 | 0.184 | 1.581 | 15.9 | 0.74 | 58.6 | - | 0 | 0 | 0.6 |
+| random | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), seed 2 (ekf dropouts), imu fallback | 1 | 1.00 | 0.992 | 0.020 | 2.711 | 18.1 | 0.082 | 3.183 | 18.2 | 6.05 | 58.6 | - | 0 | 0 | 1.0 |
+| random | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), seed 3 (ekf dropouts), imu fallback | 1 | 0.94 | 1.003 | 0.026 | 0.240 | 3.2 | 0.180 | 0.224 | 3.2 | - | 58.6 | - | 0 | 0 | 0.6 |
+| random | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), seed 4 (ekf dropouts), imu fallback | 1 | 1.10 | 0.995 | 0.025 | 0.552 | 7.4 | 0.053 | 1.955 | 17.1 | 0.94 | 58.4 | - | 0 | 0 | 7.0 |
+| random | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), seed 5 (ekf dropouts), imu fallback | 1 | 1.04 | 0.979 | 0.023 | 0.198 | 2.7 | 0.168 | 4.654 | 19.4 | 8.68 | 58.5 | - | 0 | 0 | 0.5 |
+| random | reflex | raw, plasticity off, prior_x500_candidate_v5.arc002 (832 bits), seed 6 (ekf dropouts), imu fallback | 1 | 1.06 | 1.016 | 0.018 | 0.173 | 3.3 | 0.137 | 1.654 | 16.8 | 0.00 | 58.5 | - | 0 | 0 | 19.2 |

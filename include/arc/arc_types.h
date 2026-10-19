@@ -111,11 +111,32 @@ typedef struct {
 #endif
 
 #ifdef __cplusplus
+/* Population count of a 32-bit word: the inner operation of every tick
+   (hidden x input and hidden x hidden words). Exact integer result, so every
+   path below is bit-identical; the choice is only about cost.
+   - Portable path (any target, the default): branch-free SWAR, about 12
+     data-processing instructions and one multiply, no call, no table.
+   - A compiler builtin only where it is a single instruction or a short
+     inline sequence: x86 with POPCNT, AArch64 (CNT), RISC-V Zbb (CPOP).
+     Elsewhere (ARMv6-M/ARMv7-M/ARMv8-M, Xtensa, RISC-V without Zbb) the
+     builtin is a libgcc call (__popcountsi2), so it is not used.
+   ARC_CPU_POPCOUNT_PORTABLE forces the portable path (tests use it). */
+[[maybe_unused]] static inline int arc_cpu_popcount_portable(uint32_t v) {
+    v = v - ((v >> 1) & 0x55555555u);
+    v = (v & 0x33333333u) + ((v >> 2) & 0x33333333u);
+    v = (v + (v >> 4)) & 0x0F0F0F0Fu;
+    return (int)((v * 0x01010101u) >> 24);
+}
+
 [[maybe_unused]] static inline int arc_cpu_popcount(uint32_t v) {
-#if defined(_MSC_VER)
+#if defined(ARC_CPU_POPCOUNT_PORTABLE)
+    return arc_cpu_popcount_portable(v);
+#elif defined(_MSC_VER) && (defined(_M_IX86) || defined(_M_X64))
     return (int)__popcnt(v);
-#else
+#elif defined(__GNUC__) && (defined(__POPCNT__) || defined(__aarch64__) ||                             (defined(__riscv) && defined(__riscv_zbb)))
     return __builtin_popcount(v);
+#else
+    return arc_cpu_popcount_portable(v);
 #endif
 }
 

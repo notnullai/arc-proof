@@ -37,10 +37,20 @@ int main() {
     }
     std::vector<uint8_t> arena(need + 64, 0);
 
+    /* The same suite runs through both loader entry points: arc_load and
+       arc_load_inference (no plasticity state; how RAM-tight firmware loads). */
+    typedef arc_status (*load_fn)(const uint8_t*, size_t, void*, size_t, arc_engine**);
+    const load_fn loaders[2] = { arc_load, arc_load_inference };
+    const char* const names[2] = { "arc_load", "arc_load_inference" };
+    for (int li = 0; li < 2; ++li) {
+    const load_fn load = loaders[li];
+    rng_state = 0x12345678u;
+    printf("-- %s\n", names[li]);
+
     /* 1. Empty input. */
     {
         arc_engine* e = nullptr;
-        arc_status st = arc_load(corpus.data(), 0, arena.data(), arena.size(), &e);
+        arc_status st = load(corpus.data(), 0, arena.data(), arena.size(), &e);
         if (st == ARC_OK) { printf("FAIL: empty input accepted\n"); failed++; }
         else printf("PASS: empty input rejected (%s)\n", arc_strerror(st));
     }
@@ -50,7 +60,7 @@ int main() {
         std::vector<uint8_t> bad = corpus;
         bad[0] ^= 0xFF;
         arc_engine* e = nullptr;
-        arc_status st = arc_load(bad.data(), bad.size(), arena.data(),
+        arc_status st = load(bad.data(), bad.size(), arena.data(),
                                  arena.size(), &e);
         if (st == ARC_OK) { printf("FAIL: bad magic accepted\n"); failed++; }
         else printf("PASS: bad magic rejected (%s)\n", arc_strerror(st));
@@ -61,7 +71,7 @@ int main() {
         int accepted = 0, ran = 0;
         for (size_t n = 0; n < corpus.size(); n += 16) {
             arc_engine* e = nullptr;
-            (void)arc_load(corpus.data(), n, arena.data(), arena.size(), &e);
+            (void)load(corpus.data(), n, arena.data(), arena.size(), &e);
             if (e) accepted++;
             ran++;
         }
@@ -86,7 +96,7 @@ int main() {
             bad[off + 0] = 0xFF; bad[off + 1] = 0xFF;
             bad[off + 2] = 0xFF; bad[off + 3] = 0x7F;
             arc_engine* e = nullptr;
-            (void)arc_load(bad.data(), bad.size(), arena.data(), arena.size(), &e);
+            (void)load(bad.data(), bad.size(), arena.data(), arena.size(), &e);
             ran++;
             if (e) {
                 accepted++;
@@ -108,7 +118,7 @@ int main() {
             const uint32_t bit = rng_next() % 8u;
             bad[pos] ^= (uint8_t)(1u << bit);
             arc_engine* e = nullptr;
-            if (arc_load(bad.data(), bad.size(), arena.data(),
+            if (load(bad.data(), bad.size(), arena.data(),
                          arena.size(), &e) == ARC_OK) {
                 ok_count++;      /* tolerated only if engine is usable */
                 if (e) {
@@ -126,11 +136,12 @@ int main() {
     {
         std::vector<uint8_t> bad(512, 0xA5);
         arc_engine* e = nullptr;
-        arc_status st = arc_load(bad.data(), bad.size(), arena.data(),
+        arc_status st = load(bad.data(), bad.size(), arena.data(),
                                  arena.size(), &e);
         if (st == ARC_OK) { printf("FAIL: garbage accepted\n"); failed++; }
         else printf("PASS: garbage rejected (%s)\n", arc_strerror(st));
     }
+    }   /* loaders */
 
     if (failed) printf("FAIL\n");
     else printf("PASS\n");

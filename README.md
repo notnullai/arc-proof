@@ -23,20 +23,22 @@ repo proves behavior; it does not publish the engine source).
 | Fault ramp behavior (watchdog + ramp to hover) | `test_loop_fault` | `PASS` |
 | Plasticity module honors the fault gate flag (set directly; the loop->flag path is exercised by `test_tilt_fault_response`) | `test_fault_gates_plasticity` | `PASS` |
 | Fault injection through the real loop: watchdog overrun, estop latch until clear, sensor dropout, single late tick tolerated | `test_fault_injection` | `PASS` |
-| Loader robustness — `arc_load` is the only untrusted-input parser: truncations, magic, header bombs, 2000 seeded bitflips never crash | `test_arc_load_fuzz` | `PASS` |
+| Loader robustness — `arc_load` and `arc_load_inference` (inference-only, no plasticity state) are the only untrusted-input parsers: truncations, magic, header bombs, 2000 seeded bitflips through both entry points never crash | `test_arc_load_fuzz` | `PASS` |
 | Committed trained priors load and replay deterministically across reset | `test_brain_prior_load` | `PASS` |
 | ESC pulse mapping: 1000/1500/2000 us -> exactly 18750/28125/37500 counts | `test_esc_pulse` | `PASS` |
 | **PRELIMINARY — toy plant:** PID-cascade vs reflex baseline, same plant/seed/schedule — both survive, deterministic | `test_drone_baseline` | `PASS` (metrics table printed) |
 | **PX4 SITL (Gazebo Harmonic x500 + PX4 EKF), measured 2026-10-17:** Arc 1 kHz tick locked to sim time; sensor dropout → fault path → hover hold → auto-clear (raw hold within 0.20 m / 3°, stabilised 5 cm / 0.6°); motor loss → fault path < 1.2 s in every run; Arc-in-the-loop cascade hovers like PX4 (1.0 m ± 2–7 cm, station 4–7 cm) and recovers from 3.35 N gusts in 2.2 s; reflex residual safe at 10 % authority, not at 25 % | method + numbers: `docs/px4_sitl_method.md`, table: `docs/px4_sitl_summary_table.md` | scenario statistics, not bit-exact (bridge code stays private) |
 | **Trained prior flies the x500 as sole controller** (2026-10-17): 1.1 m ± 1–2 cm, 0.5 m station, 60 s × 4, plasticity on or off, 0 faults; wind survived | `docs/px4_sitl_method.md` | prior bytes and training in the private repo |
 | **Flight default: compiled station cascade** (2026-10-18): a gain-matched frame (832 bits) compiles the station cascade exactly into ternary weights; plasticity off, no learning claim. Gazebo x500: hover station 0.24–0.30 m (trained prior 0.52–0.55 m); wind 3/3 at 2.96–3.05 m excursion and 17.6–18.4° peak tilt, no rotor saturation, against the trained prior in the same matrix at 3.19–4.44 m, 34.7–39.2°, 0.46–0.64 %; all 43 plant-mismatch cells incl. 60 ms delay. The trained prior stays as the learning demonstration | `docs/px4_sitl_method.md`, `docs/gap_register.md` G4/G7/G8/G15–G18 |
-| **Arc process loss mid-flight** (2026-10-18): Arc killed or hung while flying the Gazebo x500, an unmodified PX4 takes over (route outputs, arm in the air, Takeoff then Hold): 13 / 13 survived, 0 / 1 without the fallback; takeover costs 0.16–0.70 m from a 1.1 m hover, stated as a 1 m minimum altitude | `docs/bridge_loss_method.md` | scenario statistics, fresh container per run |
-| **Fly the flight default in Gazebo yourself** (2026-10-18): the PX4 bridge ships as stripped release binaries with the engine statically linked (`bin/linux-x86_64/px4_bridge`, `bin/windows-x64/px4_bridge.exe`), with the flight default `models/prior_x500_candidate_v5.arc002` and the Python harness (`tools/px4/`): hover, wind and the Arc-loss handover from a clean Linux machine with Docker and the public PX4 image; offline check, recorded PX4 stream in, same rotor-command hash out on both binaries | `docs/run_it_yourself.md` | offline: `hash=00cffd5d35dc57d9`; flights: the published ranges, up to run-to-run noise (scenario statistics). Bridge source stays private; a stripped binary can still be disassembled |
+| **Arc process loss mid-flight** (2026-10-18; flight default re-measured 2026-10-19): Arc killed or hung while flying the Gazebo x500, an unmodified PX4 takes over (route outputs, arm in the air, Takeoff then Hold): 13 / 13 survived, 0 / 1 without the fallback; takeover costs 0.16–0.70 m from a 1.1 m hover, stated as a 1 m minimum altitude. **Flight default v5**, Arc side next to PX4 in the container, watchdog on the plant clock: kills 6 / 6, hangs 3 / 3, no-fault 4 / 4, 0 false takeovers, route + arm + takeoff 21–37 ms; Docker Desktop VM stalls (up to 193 ms) measured and attributed | `docs/bridge_loss_method.md` | scenario statistics, fresh container per run |
+| **Fly the flight default in Gazebo yourself** (2026-10-18; binaries rebuilt from private `3ce6f7d` on 2026-10-19 and a hover re-flown from them): the PX4 bridge ships as stripped release binaries with the engine statically linked (`bin/linux-x86_64/px4_bridge`, `bin/windows-x64/px4_bridge.exe`), with the flight default `models/prior_x500_candidate_v5.arc002` and the Python harness (`tools/px4/`): hover, wind and the Arc-loss handover from a clean Linux machine with Docker and the public PX4 image; offline check, recorded PX4 stream in, same rotor-command hash out on both binaries | `docs/run_it_yourself.md` | offline: `hash=00cffd5d35dc57d9`; flights: the published ranges, up to run-to-run noise (scenario statistics). Bridge source stays private; a stripped binary can still be disassembled |
 | **Gap register** (2026-10-18): every remaining weakness a hardware signatory would raise, each measured and closed, in progress, or stated as physics/hardware; plant-mismatch sweep (43 cells, mass/thrust ±30 %, delay 20–60 ms) and 30/60-minute plasticity-on soak with no drift | `docs/gap_register.md` | hermetic, private test `test_x500_robustness` |
-| **Frozen estimator with a live IMU** (2026-10-18, carry revised 2026-10-19): the one fatal Track E class, attitude stale > 0.3 s, is carried by the raw gyro (attitude) and a baro + accelerometer filter (altitude, vertical velocity) for up to 2 s in the PX4 integration layer: hermetic crashes under SITL-like sensor noise 46 → 4 of 137 (trained prior) and 46 → 1 (flight default); gyro alone leaves the altitude channel frozen and most crashes stand; Gazebo (trained prior, first carry) 0.3–3 s freezes 8/8 and random schedules 12/12; a baro-differenced carry regressed the flight default on Gazebo and was replaced, its re-run pending; total dropouts (no records) stay fatal; opt-in, default bit-exact | `docs/px4_sitl_method.md` | hermetic + Gazebo scenario statistics |
+| **Frozen estimator with a live IMU** (2026-10-18, carry revised 2026-10-19): the one fatal Track E class, attitude stale > 0.3 s, is carried by the raw gyro (attitude) and a baro + accelerometer filter (altitude, vertical velocity) for up to 2 s in the PX4 integration layer: hermetic crashes under SITL-like sensor noise 46 → 4 of 137 (trained prior) and 46 → 1 (flight default); gyro alone leaves the altitude channel frozen and most crashes stand; Gazebo (trained prior, first carry) 0.3–3 s freezes 8/8 and random schedules 12/12; a baro-differenced carry regressed the flight default on Gazebo (1.40 m altitude error on a 1 s freeze, a 3 s freeze lost) and was replaced; after the fix the flight default survived 10 / 10 Gazebo freeze runs (0.3–3 s freezes, at most 0.16 m altitude error; random schedules 3 / 3; Track H); total dropouts (no records) stay fatal; opt-in, default bit-exact | `docs/px4_sitl_method.md` | hermetic + Gazebo scenario statistics |
 | **Random faults** (2026-10-17): ≈2,900 randomly timed, overlapping faults through the loop, contract never missed; disturbances and GPS-loss dropouts survivable on the real x500, total dropouts > ~0.3 s fatal for any controller; opt-in live-axis fault policy in the runtime (default bit-exact) | `docs/px4_sitl_method.md` | hermetic campaign + Gazebo schedules |
-| **Cortex-M per-tick instruction count at the shipped geometries** (restated 2026-10-18): flight default (832 bits, inference) worst tick 125,200 instr on M7, 125,280 on M3 → 1 kHz from 125 MHz at 1 cycle/instr, 250 MHz at 2; flight default under a dense-input stress twin (hidden layer firing) 125,240 on M7 and M3. Learning demonstration with learning on, after the bit-exact plasticity-pass rewrite of 2026-10-18 and measured under dense-input stress: 408,760, amortised 138,640 (139,120 on M3). The earlier 496,760 / 132,360 were measured on a twin whose hidden layer never fires, so its traces stayed zero; that pass cost 927,600 / 191,600 under the same stress. The earlier 23,040 / 197,440 figures were a 64 × 64 synthetic twin | `docs/performance.md` |
-| **Amortised plasticity pass, rewritten bit-exact (2026-10-18)**: at the learning demonstration's geometry (480/96), under dense-input stress (traces nonzero, synapses flipping), worst tick 408,760 → 138,640 instr amortised over 10 ticks, no heavy ticks. 1 kHz with learning on needs ≥ 139 MHz at 1 cycle/instr, ≥ 278 MHz at 2. Every golden hash unchanged. **Not claimed:** an analytic worst case; the stress twin is a measurement (G8 open) | `docs/performance.md`, `docs/gap_register.md` G8 |
+| **Cortex-M per-tick instruction count at the shipped geometries** (restated 2026-10-18, popcount inlined the same day; measured on the images in `targets/`): flight default (832 bits, inference) worst tick **103,800** instr on M7, 104,160 on M3 → 1 kHz from 104 MHz at 1 cycle/instr, 208 MHz at 2; 103,840 / 104,040 under a dense-input stress twin (hidden layer firing). Learning demonstration with learning on, dense-input stress: 393,760, amortised over 10 ticks **123,600** (124,200 on M3). Before the inline popcount (a libgcc call on Cortex-M) these were 125,200 / 125,240 and 408,760 / 138,640; the earlier 496,760 / 132,360 were a twin whose hidden layer never fires, and 23,040 / 197,440 a 64 × 64 synthetic twin | `docs/performance.md` |
+| **Amortised plasticity pass, rewritten bit-exact (2026-10-18)**: at the learning demonstration's geometry (480/96), under dense-input stress (traces nonzero, synapses flipping), worst tick 393,760 → 123,600 instr amortised over 10 ticks, no heavy ticks (with the inline popcount). 1 kHz with learning on needs ≥ 124 MHz at 1 cycle/instr, ≥ 248 MHz at 2. Every golden hash unchanged. **Not claimed:** an analytic worst case for the pass; the stress twin is a measurement (G8 open) | `docs/performance.md`, `docs/gap_register.md` G8 |
+| **Static worst-case cycle bound** (2026-10-18, G9): `tools/mcu_cycle_bound.py` takes the exact executed instruction mix of every tick from a QEMU trace (checked against the firmware's SysTick) and charges each instruction its worst case: flight default **140,858 cycles on Cortex-M3, 140,241 on Cortex-M4** (Arm TRM tables), **169,671 on a stated Cortex-M7 envelope** (Arm publishes no M7 table) → 1 kHz needs ≥ 141 MHz on M3/M4 (a 168/180 MHz M4 fits) and ≥ 170 MHz on M7 (600 MHz: 3.5×); learning demonstration 205,829 / 195,292 / 248,233. Holds only with code and tick data in zero-wait memory. **Not claimed:** a silicon measurement; one DWT cycle count on a board confirms it | `docs/performance.md`, `docs/gap_register.md` G9 | reproducible from `targets/` with `qemu-system-arm` |
+| **30-minute flights on Gazebo** (2026-10-19, Track H): the flight default in gusts (3 N for 1 s every 6 s) for the whole flight, 0 faults, excursion ≤ 3.57 m, tilt ≤ 20.0°; the learning demonstration hovering with **plasticity on**, 0 faults, station 0.595 m, tilt ≤ 5.8° | `docs/px4_sitl_method.md`, `docs/px4_sitl_summary_table.md` | one 1,800 s run each |
 
 **Cross-architecture:** the hash `ac29f2cfa8126d1b` is verified on
 **Windows x64**, **Linux x86_64**, **Linux ARM64** (all 12 suites
@@ -46,6 +48,30 @@ Cortex-M3 and Cortex-M7** (`ci/run_mcu_qemu.sh` reads the hash out of
 guest memory for each machine). One sequence, one hash, every platform
 shown here. ARM64 is emulated, not silicon.
 Local verification log: `docs/verification/local-2026-10-17.md`.
+
+## In progress: ESP-Drone (ESP32-S2), hardware arriving
+
+A second, smaller airframe is being ported: the Espressif ESP-Drone
+(ESP32-S2, 35 g, brushed motors), as the first real hardware. No board has
+been flown yet, and no ESP firmware source is published here. Results so
+far, without hardware, measured in the private repository:
+
+- **Bit-exact on Xtensa LX7:** the golden image built for the ESP32-S3 (same
+  LX7 core; QEMU does not emulate the S2) prints the same loop hash
+  `ac29f2cfa8126d1b` as every target above under Espressif's QEMU.
+- **Hermetic simulation** of the airframe (35 g, 72 ms motor lag, 1S
+  battery sag) with a compiled 32-neuron prior: 20 s hover 0.020 m altitude
+  error, 0.11 m station; 85 of 104 plant-mismatch cells survived with no
+  failing cell inside the stated envelope; 111 of 200 random-fault episodes
+  survived with 0 safety-contract violations (a float cascade of the same
+  law: 105 of 200).
+- **Deterministic RAM:** Arc fits the S2 next to the stock firmware fully
+  static, 18,960 bytes of internal RAM and no heap, loading the prior with
+  `arc_load_inference` (8 KB arena instead of 25 KB); 8 KB of the stock
+  firmware's buffers move to PSRAM to make room, none on the control path.
+- **Timing is an estimate, not a measurement:** about 45,000 instructions
+  per tick from the S2 build's disassembly, 200–250 µs at 240 MHz (20–25 %
+  of a 1 kHz tick). The board's cycle counter replaces it.
 
 ## Run it — one command (Docker, Linux x86_64)
 
@@ -129,11 +155,12 @@ binaries are checksummed in `SHA256SUMS`.
   (`prior_x500_candidate_v5.arc002`, compiled, 832 bits)
 - `bin/` — the PX4 bridge, prebuilt and stripped (Linux x86_64, Windows x64)
 - `tools/px4/` — the PX4 SITL harness (Python), see `docs/run_it_yourself.md`
+- `tools/mcu_cycle_bound.py` — the static worst-case cycle bound over a timing ELF (Python, needs `qemu-system-arm`)
 - `lib/` — the engine as a prebuilt static library:
-  - `lib/x64-windows/arc_runtime.lib` (MSVC 19.44, x64)
-  - `lib/x64-linux/libarc_runtime.a` (GCC 13, x86_64)
-  - `lib/x64-linux-aarch64/libarc_runtime.a` (cross GCC, ARM64)
-  - `lib/armv7e-m-soft/libarc_runtime.a`, `lib/armv7e-m-hard/libarc_runtime.a`
+  - `lib/x64-windows/arc_runtime.lib` (MSVC 19.38, x64)
+  - `lib/x64-linux/libarc_runtime.a` (GCC 13.3, x86_64)
+  - `lib/x64-linux-aarch64/libarc_runtime.a` (cross GCC 13.3, ARM64)
+  - `lib/armv7e-m-soft/libarc_runtime.a`, `lib/armv7e-m-hard/libarc_runtime.a` (Arm GNU Toolchain 14.2, Cortex-M7, `-Os`)
 - `targets/` — Cortex-M3/M7 QEMU twins + the Teensy 4 `.hex`
 - `docs/` — `safety_contract.md`, `brain_format.md`, `performance.md`,
   verification log
@@ -144,8 +171,8 @@ binaries are checksummed in `SHA256SUMS`.
 ## What is not in this repository
 
 Engine implementation source, the trainer, and the target-hardware
-support code. The libraries and target artifacts here were built from
-the private repository at commit `fba7469`. Evaluators can review the
+support code. The libraries, target artifacts and bridge binaries here
+were built from the private repository at commit `3ce6f7d`. Evaluators can review the
 source under NDA: a pinned-commit escrow snapshot plus a verification
 walkthrough session is available on request (see License).
 

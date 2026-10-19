@@ -12,6 +12,13 @@ arc_status arc_get_required_memory(const uint8_t* header, size_t header_size,
 arc_status arc_load(const uint8_t* brain_data, size_t brain_size,
                      void* arena, size_t arena_size,
                      arc_engine** out);
+/* Inference only (no plasticity state; see arc_brain.cpp): sizes and loads the
+   engine alone. Same outputs as arc_load when arc_run has no reward hook. */
+arc_status arc_get_required_memory_inference(const uint8_t* header, size_t header_size,
+                                              arc_geometry* geom_out, size_t* bytes_out);
+arc_status arc_load_inference(const uint8_t* brain_data, size_t brain_size,
+                               void* arena, size_t arena_size,
+                               arc_engine** out);
 
 arc_status arc_set_input(arc_engine* e, const uint32_t* words);
 arc_status arc_step(arc_engine* e);

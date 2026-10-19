@@ -107,6 +107,17 @@ needs ≥ 139 / 278 MHz at 1 / 2 cycles per instruction. The earlier
 132,360 was measured on a twin whose hidden layer never fires. Table in
 `docs/performance.md`.
 
+*Popcount inlined and cycle bound, 2026-10-18:* the popcount is now an
+inline branch-free sequence (it was a libgcc call on Cortex-M), every
+hash unchanged. On the shipped images the flight default is 103,800
+instructions per worst tick on M7 (104,160 on M3) and the learning
+demonstration amortised under dense stress 123,600 (124,200). A static
+worst-case cycle bound from the exact executed instruction mix
+(`tools/mcu_cycle_bound.py`) gives the flight default 140,858 cycles on
+Cortex-M3, 140,241 on Cortex-M4 (Arm TRM tables) and 169,671 on a stated
+Cortex-M7 envelope, so 1 kHz needs ≥ 141 MHz on M3/M4 and ≥ 170 MHz on
+M7. The bound is analytic; a board's DWT cycle count confirms it.
+
 ## Random faults, not fixed ones (added 2026-10-17)
 
 Every earlier fault was injected at a fixed time. A seeded campaign
@@ -176,9 +187,10 @@ lost, in the post-window hold. Gazebo (fresh container per run, PX4 x500, freeze
 the last second), and the six Track E random schedules with their
 dropouts delivered as estimator freezes survived 12 of 12 (seeds 1, 3, 5,
 6 froze for 0.21–0.33 s; the fallback engaged and no fault tick was
-taken). Those Gazebo runs used the first carry and the trained prior;
-the flight default's Gazebo re-run with the complementary filter is
-pending. What this does not change: a total dropout, where no record
+taken). Those Gazebo runs used the first carry and the trained prior.
+The flight default's Gazebo runs (Track H, below) found the first carry's
+regression on v5 and, after the complementary filter, survived 10 of 10.
+What this does not change: a total dropout, where no record
 arrives at all, has nothing to fall back on and keeps the limits measured
 before; beyond the 2 s window the hover hold applies.
 
@@ -247,7 +259,50 @@ Hover: 0.24–0.30 m station (trained 0.52–0.55 m). Hermetic: all 43
 plant-mismatch cells including every 60 ms cell; random faults, more
 episodes survive than the trained prior in all 8 sweeps. Plasticity does
 nothing on the compiled flight default; learning claims belong to the
-trained prior. Cortex-M7 worst tick 125,200 instructions.
+trained prior. Cortex-M7 worst tick 103,800 instructions (125,200 before
+the inline popcount).
+
+## Failure tests on the flight default v5 (Track H, added 2026-10-19)
+
+The failure tests of Tracks E and F had been flown on the trained prior.
+Track H repeats them on the flight default (candidate v5, plasticity off),
+same Gazebo x500 setup, fresh container per run, freeze injected at 30 s
+of a 60 s run. Per-run rows: `docs/px4_sitl_summary_table.md`, Track H.
+
+**A regression found and fixed.** The first freeze runs used the bridge
+of that day, whose altitude carry differenced the baro. On v5 a 1.0 s
+estimator freeze cost 1.40 m of altitude and a 3.0 s freeze was lost at
+33.6 s (the trained prior: 0.18 m / 0.77 m on the same test). The cause is
+in "Frozen estimator with a live IMU" above: SITL baro noise saturated the
+gain-matched vertical-velocity channel. The carry was replaced by the
+baro + accelerometer complementary filter (v3 record, private `1a5e83c`;
+the binaries in `bin/` contain it). After the fix, every v5 freeze run
+survived (10 of 10):
+
+| estimator freeze, imu fallback (gyro where stated) | runs | survived | altitude error max | tilt max | fault ticks |
+|---|---|---|---|---|---|
+| 0.3 s | 2 | 2 | 0.05 m | 3.4° | 0 |
+| 1.0 s | 2 | 2 | 0.05–0.08 m | 3.3° | 0 |
+| 1.0 s, gyro fallback | 1 | 1 | 0.05 m | 4.1° | 0 |
+| 3.0 s (2 s carried, then the hover hold) | 2 | 2 | 0.14–0.16 m | 12.7–23.7° | 1,319–1,343 (the hold) |
+| random schedules, estimator-freeze dropouts (seeds 1–3) | 3 | 3 | 0.05–0.08 m | 3.7–18.3° | 0 |
+
+On the earlier bridge, random schedules seeds 1–6 survived 6 of 6. Without
+any fallback, one 1.0 s freeze on v5 survived with 0.18 m altitude error
+and 11.7° tilt (one run; the fallback cuts both). A **total** dropout (no
+records at all) still has nothing to fall back on.
+
+**Long flights.** Two 30-minute runs (1,800 s, about 1,726 s airborne):
+
+| run | prior | faults | station / excursion max | tilt max | altitude |
+|---|---|---|---|---|---|
+| gusts 3 N for 1 s every 6 s, the whole flight | flight default v5, plasticity off | 0 | 2.65 m settled, 3.57 m in gusts | 20.0° | error ≤ 0.13 m |
+| hover with plasticity **on** | learning demonstration (trained, 480 bits) | 0 | 0.595 m | 5.8° | 1.11 m ± 1.4 cm |
+
+The second run is the 30-minute Gazebo evidence for online learning
+without drift (gap register G5); the flight default has no learning to
+test. Arc-process loss on v5 (also Track H) is in
+`docs/bridge_loss_method.md`.
 
 ## What this does and does not show
 
@@ -256,6 +311,8 @@ PX4-grade physics and sensors, an Arc-in-the-loop controller that
 matches PX4's own on the same plant, a trained prior flying the plant
 on its own authority (looser than PX4 on station, weaker under gusts),
 the measured limits of the hover-hold safe state, and a deterministic
-per-tick instruction bound on Cortex-M, and a frozen estimator survived
-for up to 2 s on the raw IMU. Silicon cycle counts remain the
+per-tick instruction count on Cortex-M with a static cycle bound from it,
+a frozen estimator survived for up to 2 s on the raw IMU (trained prior
+and flight default), and 30-minute flights in gusts (flight default) and
+with plasticity on (learning demonstration) without a fault. Silicon cycle counts remain the
 hardware-day item, now with a predicted range to confirm.

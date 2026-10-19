@@ -26,9 +26,23 @@
 
 namespace arc_mcu_drone {
 
+/* Geometry override for the timing twins of the shipped x500 priors (input
+   480 / 512 / 704 bits, 96 hidden): the tick cost is word-level popcounts over
+   hidden x input words, so a fixed brain of the same geometry times the same
+   work. Default 64/64 is the bit-exact golden twin. */
+#ifndef ARC_MCU_INPUT_BITS
+#define ARC_MCU_INPUT_BITS 64
+#endif
+#ifndef ARC_MCU_HIDDEN
+#define ARC_MCU_HIDDEN 64
+#endif
+#ifndef ARC_MCU_PLASTICITY_INTERVAL
+#define ARC_MCU_PLASTICITY_INTERVAL 10   /* ticks per plasticity pass (the shipped priors use 10) */
+#endif
+
 enum {
-    kInputBits = 64,
-    kHidden = 64,      /* neurons 0..3 are the four ESCs */
+    kInputBits = ARC_MCU_INPUT_BITS,
+    kHidden = ARC_MCU_HIDDEN,      /* neurons 0..3 are the four ESCs */
     kMotor = 4,
     kInputWords = kInputBits / 32,
     kHiddenWords = kHidden / 32,
@@ -42,7 +56,7 @@ enum {
                 + kRec * 2 * 4
                 + kHidden * 4
                 + kMotor,
-    kEngineArena = 65536,
+    kEngineArena = (ARC_MCU_INPUT_BITS == 64 && ARC_MCU_HIDDEN == 64) ? 65536 : 262144,
     kSafetyArena = 1024,
     kSetpointsArena = 256,
     kLoopTicks = 2000,
@@ -86,7 +100,7 @@ static void build_brain(uint8_t* brain) {
     put_u32(brain, 64, 3);
     put_u32(brain, 68, 100);
     put_u32(brain, 72, 32768);
-    put_u32(brain, 76, 10);
+    put_u32(brain, 76, ARC_MCU_PLASTICITY_INTERVAL);
     put_u32(brain, 80, 6553);
     put_u32(brain, 84, 50);
     put_u32(brain, 88, 5);
@@ -97,8 +111,8 @@ static void build_brain(uint8_t* brain) {
     put_i32(brain, wp_off + 0, 65536);  put_i32(brain, wp_off + 4, 16384);  put_i32(brain, wp_off + 8, 0);
     put_i32(brain, wp_off + 12, 0);     put_i32(brain, wp_off + 16, 16384); put_i32(brain, wp_off + 20, 65536);
 
-    uint32_t aff_exc[kAff];
-    uint32_t rec_exc[kRec];
+    static uint32_t aff_exc[kAff];
+    static uint32_t rec_exc[kRec];
     memset(aff_exc, 0, sizeof(aff_exc));
     memset(rec_exc, 0, sizeof(rec_exc));
     for (int n = 0; n < kHidden; ++n)
@@ -148,9 +162,21 @@ static inline void dloop_write_motors(void* ctx, const int32_t* sp, int n) {
 static inline void dloop_reward(void* ctx, int32_t* r, int n) {
     DLoopCtx* c = (DLoopCtx*)ctx;
     (void)n;
+#ifdef ARC_MCU_DENSE_INPUT
+    /* timing-only stress (changes the hash): pseudo-random input words, so
+       hidden neurons fire, traces are nonzero and synapses flip. The default
+       one-bit-per-tick input never fires a hidden neuron, so its plasticity
+       pass only decays zero traces. */
+    static uint32_t lcg = 0x2545F491u;
+    for (int w = 0; w < kInputWords; ++w) {
+        lcg = lcg * 1664525u + 1013904223u;
+        c->e->input[w] = lcg;
+    }
+#else
     const int bit = (int)(c->tick % kInputBits);
     for (int w = 0; w < kInputWords; ++w) c->e->input[w] = 0;
     c->e->input[bit >> 5] = 1u << (bit & 31);
+#endif
     r[0] = 65536; r[1] = 0; r[2] = 0;
 }
 
@@ -162,6 +188,14 @@ static inline bool dloop_estop(void* ctx) { return ((DLoopCtx*)ctx)->tick >= kEs
 static inline void dloop_wait(void* ctx, uint64_t /*deadline*/) {
     DLoopCtx* c = (DLoopCtx*)ctx;
     ARC_MCU_TICK_HOOK();
+#if defined(ARC_MCU_DENSE_INPUT) && defined(ARC_MCU_NO_PLASTICITY)
+    /* inference stress: no reward callback, so the dense input is fed here */
+    static uint32_t lcg_inf = 0x2545F491u;
+    for (int w = 0; w < kInputWords; ++w) {
+        lcg_inf = lcg_inf * 1664525u + 1013904223u;
+        c->e->input[w] = lcg_inf;
+    }
+#endif
     ++c->tick;
     c->now_us += 1000;
 }
@@ -178,6 +212,11 @@ static inline uint64_t run_loop_hash(uint8_t* brain, uint8_t* eng_arena,
         DLOOP_DBG("dloop: arc_load failed\n");
         return 0;
     }
+#ifdef ARC_MCU_PLASTICITY_SLICES
+    /* timing twin variant: amortised plasticity pass (changes the hash; the
+       bit-exact twin is the build without this define) */
+    arc_plasticity_set_slices(e->plasticity, ARC_MCU_PLASTICITY_SLICES);
+#endif
 
     /* Drone safety: fault ramps to HOVER (32768), never zero (safety
        contract drone example). Arrays terminated with a {0} entry. */
@@ -216,7 +255,12 @@ static inline uint64_t run_loop_hash(uint8_t* brain, uint8_t* eng_arena,
     memset(&hal, 0, sizeof(hal));
     hal.ctx = &ctx;
     hal.write_motors = dloop_write_motors;
+#ifdef ARC_MCU_NO_PLASTICITY
+    hal.read_reward = NULL;               /* inference only: how the flight default flies (plasticity off) */
+    (void)&dloop_reward;
+#else
     hal.read_reward = dloop_reward;
+#endif
     hal.read_phase = dloop_phase;
     hal.estop_asserted = dloop_estop;
     hal.wait_until = dloop_wait;
