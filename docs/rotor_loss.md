@@ -6,7 +6,7 @@ what is needed to check the results: the bridge binaries under `bin/` (the mode
 is in them, off by default, `--rotor-loss`), the model
 `models/prior_x500_rotor_loss.arc002`, the Gazebo harness (`tools/px4/`:
 `run_scenario.py --rotor-loss … --motor-scale … --rig mavlink|direct --witness`, `run_g10.sh`,
-`run_g10_hold.sh`, `run_g10_spread.sh`, `run_g11.sh`, `gz_imu_stream.py`, `gz_witness.py`,
+`run_g10_hold.sh`, `run_g10_spread.sh`, `run_g10_delay.sh`, `run_g11.sh`, `gz_imu_stream.py`, `gz_witness.py`,
 `rig_latency.py`, `summarize_rotor_loss.py`) and every run's evidence under `docs/rotor_loss_results/`.
 
 Owner (2026-10-19): "start the rotor-loss work (G10), hermetic first, then
@@ -104,18 +104,18 @@ pre-emptive cut `hermetic_matrix_no_preempt.txt`, and per delay
 
 | airframe | stream | held | landed < 3 m/s | landed ≥ 3 m/s | wrong / missed | detection ms | max touchdown m/s | spin rad/s |
 |---|---|---|---|---|---|---|---|---|
-| nominal (T/W 1.69) | SITL 50 Hz | 0 | 0 | 72 | 0 / 0 | 17–76 | 22.7 | ≤ 15 |
-| nominal (T/W 1.69) | on-board 1 kHz | 0 | 5 | 67 | 0 / 0 | 12–22 | 7.1 | ≤ 15 |
-| mass ×1.2 (T/W 1.41) | SITL | 0 | 0 | 72 | 0 / 0 | 16–75 | 14.1 | ≤ 13 |
-| mass ×1.2 (T/W 1.41) | on-board | 0 | 0 | 72 | 0 / 0 | 13–22 | 12.6 | ≤ 14 |
-| thrust ×0.8 (T/W 1.35) | SITL | 0 | 0 | 72 | 0 / 1 | 18–80 | 15.5 | ≤ 12 |
+| nominal (T/W 1.69) | SITL 50 Hz | 0 | 0 | 72 | 0 / 0 | 17–76 | 22.6 | ≤ 15 |
+| nominal (T/W 1.69) | on-board 1 kHz | 0 | 5 | 67 | 0 / 0 | 12–22 | 7.0 | ≤ 15 |
+| mass ×1.2 (T/W 1.41) | SITL | 0 | 0 | 72 | 0 / 0 | 16–75 | 14.3 | ≤ 13 |
+| mass ×1.2 (T/W 1.41) | on-board | 0 | 0 | 72 | 0 / 0 | 13–21 | 12.6 | ≤ 13 |
+| thrust ×0.8 (T/W 1.35) | SITL | 0 | 0 | 72 | 0 / 1 | 18–76 | 15.5 | ≤ 12 |
 | thrust ×0.8 (T/W 1.35) | on-board | 0 | 0 | 72 | 0 / 0 | 12–22 | 13.8 | ≤ 12 |
-| thrust ×1.1 (T/W 1.86) | SITL | 18 | 11 | 43 | 0 / 3 | 19–78 | 22.7 | ≤ 16 |
-| thrust ×1.1 (T/W 1.86) | on-board | 42 | 17 | 13 | 0 / 0 | 12–23 | 4.0 | ≤ 16 |
-| thrust ×1.2 (T/W 2.03) | SITL | 36 | 4 | 32 | 0 / 24 | 18–76 | 22.9 | ≤ 17 |
-| thrust ×1.2 (T/W 2.03) | on-board | **68** | 4 | 0 | 0 / 0 | 12–22 | 2.5 | ≤ 16 |
-| mass ×0.8 (T/W 2.11) | SITL | 23 | 2 | 47 | 0 / 45 | 14–53 | 23.1 | ≤ 15 |
-| mass ×0.8 (T/W 2.11) | on-board | **65** | 7 | 0 | 0 / 0 | 12–23 | 2.8 | ≤ 15 |
+| thrust ×1.1 (T/W 1.86) | SITL | 21 | 9 | 42 | 0 / 0 | 17–78 | 20.8 | ≤ 16 |
+| thrust ×1.1 (T/W 1.86) | on-board | 42 | 17 | 13 | 0 / 0 | 12–22 | 3.9 | ≤ 15 |
+| thrust ×1.2 (T/W 2.03) | SITL | 41 | 4 | 27 | 0 / 1 | 18–82 | 22.7 | ≤ 16 |
+| thrust ×1.2 (T/W 2.03) | on-board | **68** | 4 | 0 | 0 / 0 | 12–22 | 2.4 | ≤ 16 |
+| mass ×0.8 (T/W 2.11) | SITL | 42 | 4 | 26 | 0 / 5 | 14–79 | 22.2 | ≤ 15 |
+| mass ×0.8 (T/W 2.11) | on-board | **65** | 7 | 0 | 0 / 0 | 12–22 | 2.7 | ≤ 15 |
 
 The catch, ×1.2 thrust (catch tilt = the largest tilt in the first 1.5 s;
 24 cases per row; pre-emptive cut off → on):
@@ -125,7 +125,7 @@ The catch, ×1.2 thrust (catch tilt = the largest tilt in the first 1.5 s;
 | on-board, 0 ms | 23/1/0 → 23/1/0 | 9–20–61° → 9–19–61° | 5.9 → 5.8 m | 2.5 → 2.4 m/s |
 | SITL, 0 ms | 15/6/3 → **21/3/0** | 20–59–95° → **9–35–78°** | 17.3 → **11.6 m** | 4.2 → **2.9 m/s** |
 | SITL, 20 ms | 9/1/14 → 14/1/9 | 37–85–120° → 15–60–97° | 21.4 → 14.7 m | 6.8 → 5.6 m/s |
-| SITL, 40 ms | 1/0/23 → 1/0/23 (22 not armed) | – | – | – |
+| SITL, 40 ms | 1/0/23 → 1/0/23 (22 not armed); with the delay-robust detector below: 3/1/20, 23 of 24 detected | 37–102–178° | 21.0 m | 22.7 m/s |
 
 Reading it:
 
@@ -154,13 +154,104 @@ Reading it:
   lost and turns 3–5 hard landings in 24 into holds; on board, where the
   next tick is 1 ms away, it changes 1–3°. The cut is one tick; a
   provisional hand-over found wrong hands back as before.
-- **Where the detector cannot arm.** With 20–40 ms of stream delay on the
-  light (mass ×0.8) and the strong (thrust ×1.2) airframe, v5 itself
-  oscillates under the SITL hold (11–22° of tilt before any failure, model
-  residual RMS up to 26 rad/s²); the detector's health check keeps it
-  disarmed, and 69 of those 96 failures are not detected (3 more on thrust ×1.1 at 40 ms). That is v5's
-  delay limit (G4) showing through, not a detector miss on a healthy model;
-  it is listed in section 5.
+- **Under sensor delay** (next subsection): the detector stays armed and
+  right where the flight default oscillates; what is left of the misses is 7
+  of 432 SITL cases, all failures in the middle of a gust while v5 already
+  wobbles 20–30°.
+
+### Under sensor delay (2026-10-21)
+
+The limit stated before: with 20–40 ms of extra sensor delay on the SITL
+path, v5 oscillates on stiff airframes (11–31° before any failure) and the
+detector stayed disarmed, so a rotor lost there was not caught. Measured
+first: on the 1 kHz path (on board, the direct rig) v5 does not oscillate
+even at 40 ms and the detector worked at every delay; the blind spot was the
+50 Hz path with the record-paced command path of the MAVLink rig. Four
+causes, each fixed in the detector or the bridge, none by a wider threshold:
+
+1. **The command path was not modelled.** On the MAVLink rig only the
+   command written on a tick that took a record reaches the motors (the
+   burst's last line, held to the next record). The detector predicted from
+   every tick's command; once v5 oscillates those differ, and the model's
+   residual reached 25 rad/s². The bridge now tells the detector which ticks
+   took a record (`--actuation-per-record`, the MAVLink rig only; on board
+   and on the direct rig every tick acts). With it, the residual under the
+   oscillation is 2.7 rad/s² RMS against 50 rad/s² of motion. The hermetic
+   SITL hold now follows record delivery too, as the rig does, instead of a
+   fixed 20 ms grid.
+2. **The calibration needed level flight.** The command-to-thrust scale was
+   learned only while level (under 8.6°); an oscillating v5 never was. It now
+   comes from the accelerometer (modelled total thrust over measured specific
+   force, any attitude, v3 records), after 1 s of modelled commands; the
+   level rule stays for records without an accelerometer. It reads the true
+   scale within 1–2 % (0.80 for mass ×0.8, 0.83 for thrust ×1.2).
+3. **The health filter was seeded by one window.** Its 10 s filter started
+   from its first residual; armed earlier, that window fell in a gust and set
+   the level for ten seconds. It is now a running mean until 10 s of
+   residuals are in.
+4. **The expectation was taken now, not in the window.** A dead rotor
+   removes the thrust it had in the judged window; under 40 ms of delay that
+   window is 40 ms old, and in an oscillation the thrust then differs from
+   the thrust now (one confirmation failed at 0.59 of the expectation against
+   0.6). The expected torque is now the suspect's modelled thrust over the
+   window.
+
+Two clock faults the delayed replays exposed were fixed on the way: across
+an estimator freeze the detector's clock switched from the attitude stamp to
+the record stamp, a 20 ms jump under 20 ms of delay that read as a residual
+(it now subtracts the offset the two had while fresh); and the frozen-
+estimator fix of section 3 stays.
+
+**The delay sweep** (`test_rotor_loss --delay-sweep`, evidence
+`hermetic_delay_sweep.txt`, the same before these fixes
+`hermetic_delay_sweep_before.txt`; ctest `test_rotor_loss_delay` runs a
+quick version: stock and ×1.2, 2 rotors, 40 failures, 0–40 ms, both paths):
+stock, ×1.2 thrust and mass ×0.8, extra delay 0 / 10 / 20 / 30 / 40 ms on
+the SITL path (50 Hz, record-paced) and on a 1 kHz gyro, 4 rotors × hover
+and mid-gust at 10 m; in every cell also 3 failure-free flights (6 N gusts;
+with kicks; with actuation stalls) with the mode on and real hand-overs.
+
+| | failures | right rotor | wrong | missed | false confirmations in 1.3 h failure-free |
+|---|---|---|---|---|---|
+| before | 240 | 216 | 0 | 24 (×1.2 and mass ×0.8, SITL, 20–40 ms) | 0 |
+| **now** | 240 | **240** | 0 | **0** | **0** (0 provisional hand-overs) |
+
+Detection after the failure: 1 kHz path 12–17 ms plus the delay; SITL path
+17–35 ms at 0 ms, 58–93 ms at 40 ms. False takeovers stay at zero
+everywhere they were measured: 0 in the stall, gust and kick campaign
+(55 min, now with the record-paced hold), 0 in the random-fault replay at
+20 ms (600 flights, crashes 144 with the mode and 144 without, the same
+flights) and at 40 ms on the SITL path (300 flights, 91 and 91), 0 in the
+sweep's failure-free flights. In the 864-case matrix the SITL misses fell
+from 69 to 7 (mass ×0.8 45 → 5, thrust ×1.2 24 → 1, thrust ×0.8 1); the
+7 are failures 0.5 s into a gust with v5 already oscillating 20–30°, where
+the gust's unmodelled torque on top of the oscillation keeps the residual
+above the health limit. Coverage is not the same as survival: at 40 ms on
+the SITL path the catch takes 37–178° (median 102°) and 3 of 24 ×1.2 cases
+hold; the delay that makes v5 oscillate also makes the catch late.
+
+**Gazebo, the direct rig with injected delay** (`gazebo_delay/`, table
+`summary.md`; `tools/px4/run_g10_delay.sh`, `run_scenario.py --rig direct
+--record-clock own --physics-hz 1000 --sensor-delay-ms N`: the record stream
+holds each record until sim time is N ms past its sample and stamps it with
+that arrival, the attitude and gyro keeping their sample stamps, as in the
+hermetic harness; sequential, host CPU under 25 % before each run, 16 runs,
+every run kept):
+
+| extra delay | rotor failures (mode on) | detected / confirmed after onset | outcome | normal flight (mode on: hover, wind; v5 alone: hover) |
+|---|---|---|---|---|
+| 20 ms | 5: ×1.2 at 10 m (2) and 30 m (2), stock at 10 m | 5/5 right rotor, 26 / 41 ms | ×1.2: 4/4 held (10 m: lowest 5.4–5.6 m; 30 m: 24.3–25.7 m); stock: touchdown 5.9 m/s | 0 detections, largest residual 2.7 rad/s²; hover station 0.25 m (v5 0.21 m), wind excursion 2.94 m |
+| 40 ms | 5, the same | 5/5 right rotor, 46 / 61 ms | ×1.2 30 m: 2/2 held (lowest 18.0–18.1 m); ×1.2 10 m: touchdown 1.4–1.8 m/s; stock: 6.8 m/s | 0 detections, largest residual 2.6 rad/s²; hover station 0.24 m (v5 0.19 m), wind excursion 2.90 m |
+
+On the direct rig v5 does not oscillate at 20 or 40 ms (hover tilt 2.6–2.8°,
+as without delay), the same as the hermetic 1 kHz path: the oscillation that
+blinded the detector belongs to the MAVLink rig's 50 Hz record-paced path,
+and that regime is covered hermetically (above), not in Gazebo, because the
+MAVLink rig has no delay injection. The true catch (`rig_latency.py`,
+`latency.md`, Gazebo's pose): onset to actuation 28–30 ms at 20 ms and
+48 ms at 40 ms (G12 without delay: 8–9 ms), true catch tilt 48–54° and
+70–73° (G12: 24–29°), peak roll rate 2.1–2.2 and 3.1–3.2 rad/s. The delay
+adds straight onto the catch; the detector's own part stays the G12 6 ms.
 
 The detector's thresholds (section 2) were set after Gazebo runs of
 section 4 (a gust's torque, a stalled command path): the hermetic gusts now
@@ -555,11 +646,13 @@ as evidence:
   not limit-cycling; a stall longer than 600 ms, or one that ends while a
   rotor is failing, is outside what the veto looks back over.
 - **Where the flight default itself wobbles.** With 20–40 ms of extra
-  sensor delay under the SITL command hold, on airframes with T/W ≥ 2.0,
-  v5 oscillates (11–22° before any failure); the detector's health check
-  keeps it disarmed, so a rotor lost there is not caught (69 of 96 such
-  hermetic cases). It is v5's delay limit (G4), and it removes the rotor-
-  loss protection with it.
+  sensor delay on the SITL path, v5 oscillates on stiff airframes (11–31°
+  before any failure). The detector now stays armed and right there (delay
+  sweep: 240 of 240, 0 wrong, 0 false); left: 7 of 432 matrix SITL cases,
+  failures inside a 3 N gust on top of the oscillation, where the residual
+  stays above the health limit and the detector is off. The catch at 40 ms
+  is late anyway (median 102°, 3 of 24 hold on ×1.2): the delay is the limit
+  there, v5's (G4) and the mode's alike.
 - **Arming.** Not armed for the first ~5 s of level flight; kicks and strong
   disturbances disarm it for a few seconds, and a rotor lost in that window
   is not detected until it re-arms.

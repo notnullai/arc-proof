@@ -110,6 +110,9 @@ def main():
     ap.add_argument('--gap-log-ms', type=float, default=20.0)
     ap.add_argument('--lat-log', default=None)
     ap.add_argument('--record', default='v3', choices=['v3'], help='accepted for symmetry with ekf_stream.py')
+    ap.add_argument('--delay-ms', type=float, default=0.0,
+                    help='sensor delay (G10 delay sweep): each record leaves once sim time is this much past its sample, '
+                         'stamped with that arrival time; attitude and gyro keep their sample stamps; the tee keeps the true stream')
     args = ap.parse_args()
 
     px4 = Px4State(args.port)
@@ -141,7 +144,7 @@ def main():
                     return
         threading.Thread(target=sink_writer, daemon=True).start()
 
-    st = {'out': out, 'n': 0, 'last': None, 'gyro': deque(maxlen=64), 'prop': None, 'att_key': None,
+    st = {'delayed': deque(), 'out': out, 'n': 0, 'last': None, 'gyro': deque(maxlen=64), 'prop': None, 'att_key': None,
           'closed': False, 'age_max': 0.0, 'age_sum': 0.0, 'off_min': None, 'off_max': None}
     lock = threading.Lock()
     nan = float('nan')
@@ -189,10 +192,23 @@ def main():
             st['age_sum'] += off
             if lat_f is not None:
                 lat_f.write('%.4f %.4f %.1f\n' % (now, t_us * 1e-6, off))
-            rec = REC3.pack(t_us, r, p, y, g[0], g[1], g[2], lpos[0], lpos[1], lpos[2], lpos[3], lpos[4], lpos[5],
-                            t_us, t_us, g[0], g[1], g[2], baro if baro == baro else nan, a[0], a[1], a[2])
+            fields = [t_us, r, p, y, g[0], g[1], g[2], lpos[0], lpos[1], lpos[2], lpos[3], lpos[4], lpos[5],
+                      t_us, t_us, g[0], g[1], g[2], baro if baro == baro else nan, a[0], a[1], a[2]]
+            rec = REC3.pack(*fields)
             if tee:
                 tee.write(rec)
+            if args.delay_ms > 0:
+                # held until sim time is delay_ms past the sample; leaves stamped with its arrival
+                d_us = int(args.delay_ms * 1000)
+                st['delayed'].append(fields)
+                ready = []
+                while st['delayed'] and st['delayed'][0][0] + d_us <= t_us:
+                    f = list(st['delayed'].popleft())
+                    f[0] = f[0] + d_us
+                    ready.append(REC3.pack(*f))
+                if not ready:
+                    return
+                rec = b''.join(ready)
             st['n'] += 1
             if sink_q is not None:
                 if not sink_dead.is_set():

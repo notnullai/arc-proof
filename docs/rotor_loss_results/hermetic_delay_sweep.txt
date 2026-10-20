@@ -1,0 +1,33 @@
+| airframe | path | extra delay ms | failures | detected | right rotor | wrong | missed | detection ms | failure-free s | provisional / handed back | false confirmations |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| stock (T/W 1.69) | SITL 50 Hz, record-paced | 0 | 8 | 8 | 8 | 0 | 0 | 19-35 | 180 | 0 / 0 | 0 |
+| stock (T/W 1.69) | SITL 50 Hz, record-paced | 10 | 8 | 8 | 8 | 0 | 0 | 26-43 | 180 | 0 / 0 | 0 |
+| stock (T/W 1.69) | SITL 50 Hz, record-paced | 20 | 8 | 8 | 8 | 0 | 0 | 37-55 | 143 | 0 / 0 | 0 |
+| stock (T/W 1.69) | SITL 50 Hz, record-paced | 30 | 8 | 8 | 8 | 0 | 0 | 49-66 | 155 | 0 / 0 | 0 |
+| stock (T/W 1.69) | SITL 50 Hz, record-paced | 40 | 8 | 8 | 8 | 0 | 0 | 59-76 | 165 | 0 / 0 | 0 |
+| stock (T/W 1.69) | 1 kHz gyro | 0 | 8 | 8 | 8 | 0 | 0 | 12-15 | 180 | 0 / 0 | 0 |
+| stock (T/W 1.69) | 1 kHz gyro | 10 | 8 | 8 | 8 | 0 | 0 | 24-27 | 180 | 0 / 0 | 0 |
+| stock (T/W 1.69) | 1 kHz gyro | 20 | 8 | 8 | 8 | 0 | 0 | 34-37 | 180 | 0 / 0 | 0 |
+| stock (T/W 1.69) | 1 kHz gyro | 30 | 8 | 8 | 8 | 0 | 0 | 42-45 | 180 | 0 / 0 | 0 |
+| stock (T/W 1.69) | 1 kHz gyro | 40 | 8 | 8 | 8 | 0 | 0 | 53-55 | 152 | 0 / 0 | 0 |
+| thrust x1.2 (T/W 2.03) | SITL 50 Hz, record-paced | 0 | 8 | 8 | 8 | 0 | 0 | 17-34 | 180 | 0 / 0 | 0 |
+| thrust x1.2 (T/W 2.03) | SITL 50 Hz, record-paced | 10 | 8 | 8 | 8 | 0 | 0 | 28-48 | 146 | 0 / 0 | 0 |
+| thrust x1.2 (T/W 2.03) | SITL 50 Hz, record-paced | 20 | 8 | 8 | 8 | 0 | 0 | 38-56 | 148 | 0 / 0 | 0 |
+| thrust x1.2 (T/W 2.03) | SITL 50 Hz, record-paced | 30 | 8 | 8 | 8 | 0 | 0 | 50-67 | 135 | 0 / 0 | 0 |
+| thrust x1.2 (T/W 2.03) | SITL 50 Hz, record-paced | 40 | 8 | 8 | 8 | 0 | 0 | 58-93 | 142 | 0 / 0 | 0 |
+| thrust x1.2 (T/W 2.03) | 1 kHz gyro | 0 | 8 | 8 | 8 | 0 | 0 | 14-17 | 180 | 0 / 0 | 0 |
+| thrust x1.2 (T/W 2.03) | 1 kHz gyro | 10 | 8 | 8 | 8 | 0 | 0 | 24-27 | 180 | 0 / 0 | 0 |
+| thrust x1.2 (T/W 2.03) | 1 kHz gyro | 20 | 8 | 8 | 8 | 0 | 0 | 32-35 | 180 | 0 / 0 | 0 |
+| thrust x1.2 (T/W 2.03) | 1 kHz gyro | 30 | 8 | 8 | 8 | 0 | 0 | 42-45 | 180 | 0 / 0 | 0 |
+| thrust x1.2 (T/W 2.03) | 1 kHz gyro | 40 | 8 | 8 | 8 | 0 | 0 | 53-57 | 141 | 0 / 0 | 0 |
+| mass x0.8 (T/W 2.11) | SITL 50 Hz, record-paced | 0 | 8 | 8 | 8 | 0 | 0 | 19-35 | 180 | 0 / 0 | 0 |
+| mass x0.8 (T/W 2.11) | SITL 50 Hz, record-paced | 10 | 8 | 8 | 8 | 0 | 0 | 29-46 | 153 | 0 / 0 | 0 |
+| mass x0.8 (T/W 2.11) | SITL 50 Hz, record-paced | 20 | 8 | 8 | 8 | 0 | 0 | 43-60 | 147 | 0 / 0 | 0 |
+| mass x0.8 (T/W 2.11) | SITL 50 Hz, record-paced | 30 | 8 | 8 | 8 | 0 | 0 | 45-66 | 139 | 0 / 0 | 0 |
+| mass x0.8 (T/W 2.11) | SITL 50 Hz, record-paced | 40 | 8 | 8 | 8 | 0 | 0 | 56-79 | 70 | 0 / 0 | 0 |
+| mass x0.8 (T/W 2.11) | 1 kHz gyro | 0 | 8 | 8 | 8 | 0 | 0 | 15-17 | 180 | 0 / 0 | 0 |
+| mass x0.8 (T/W 2.11) | 1 kHz gyro | 10 | 8 | 8 | 8 | 0 | 0 | 24-28 | 180 | 0 / 0 | 0 |
+| mass x0.8 (T/W 2.11) | 1 kHz gyro | 20 | 8 | 8 | 8 | 0 | 0 | 32-35 | 180 | 0 / 0 | 0 |
+| mass x0.8 (T/W 2.11) | 1 kHz gyro | 30 | 8 | 8 | 8 | 0 | 0 | 42-45 | 153 | 0 / 0 | 0 |
+| mass x0.8 (T/W 2.11) | 1 kHz gyro | 40 | 8 | 8 | 8 | 0 | 0 | 54-57 | 146 | 0 / 0 | 0 |
+total: 240 failures, 240 detected on the right rotor, 0 wrong; failure-free: 0 provisional, 0 handed back, 0 false confirmations

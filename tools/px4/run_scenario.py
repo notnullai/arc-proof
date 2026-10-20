@@ -464,11 +464,15 @@ def main():
                          "own = the tick at a record's own stamp runs on its arrival (stamps strictly rise; G12)")
     ap.add_argument('--physics-hz', type=int, default=250,
                     help='gz physics step and x500 IMU rate (stock 250; e.g. 1000 = 1 ms step, IMU at 1 kHz; G12)')
+    ap.add_argument('--sensor-delay-ms', type=float, default=0.0,
+                    help='direct rig only: extra sensor delay, records held this long in sim time (G10 delay sweep)')
     ap.add_argument('--witness', action='store_true',
                     help='log Gazebo IMU, motor command and motor-failure topics on the sim clock (<tag>.witness.txt)')
     ap.add_argument('--watchdog-clock', default='sim', choices=['sim', 'wall'],
                     help='--standby px4: time base of the --handover-ms watchdog (sim = Gazebo sim time, the plant clock)')
     args = ap.parse_args()
+    if args.sensor_delay_ms > 0 and args.rig != 'direct':
+        raise SystemExit('--sensor-delay-ms needs --rig direct')
     direct = args.rig == 'direct'
     if direct and (args.arc_side != 'container' or args.arm == 'px4'):
         ap.error('--rig direct needs an Arc arm with --arc-side container')
@@ -642,6 +646,8 @@ def main():
             streamer_py = 'gz_imu_stream.py' if direct else 'ekf_stream.py'
             if direct:
                 sargs += ['--lat-log', 'rec_lat.txt']
+                if args.sensor_delay_ms > 0:
+                    sargs += ['--delay-ms', str(args.sensor_delay_ms)]
             pipe = ('cd %s && (python3 stall_probe.py --seconds %.0f --out stalls.txt --over-ms %s &) && %s'
                     '%s python3 -u %s --port %d %s --gap-log stream_gaps.txt --gap-log-ms %s 2>stream.err | '
                     './px4_bridge %s 2>bridge.err | %s %s'
@@ -845,7 +851,7 @@ def main():
               # a takeover before the loss (or, without a loss, inside the flight window) is a false takeover
               'false_takeover': (handover_t is not None and handover_t < (args.loss_at if args.scenario == 'bridge_loss'
                                                                           else args.seconds)) if args.standby == 'px4' else None,
-              'command_gaps': gaps, 'rig': args.rig, 'record_clock': args.record_clock, 'physics_hz': args.physics_hz,
+              'command_gaps': gaps, 'rig': args.rig, 'record_clock': args.record_clock, 'physics_hz': args.physics_hz, 'sensor_delay_ms': args.sensor_delay_ms,
               'bridge': stats, 'metrics': m}
     with open(base + '.json', 'w') as f:
         json.dump(result, f, indent=1)
