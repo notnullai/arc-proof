@@ -1,93 +1,93 @@
-mass x1.0 thrust x1.0 records   50 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 12.0 rad/s^2
-mass x1.0 thrust x1.0 records   50 Hz delay  0 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 94.8 rad/s^2
-mass x1.0 thrust x1.0 records   50 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 31.2 rad/s^2
-mass x1.0 thrust x1.0 records   50 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 12.3 rad/s^2
-mass x1.0 thrust x1.0 records   50 Hz delay 20 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 87.1 rad/s^2
-mass x1.0 thrust x1.0 records   50 Hz delay 20 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 12.1 rad/s^2
-mass x1.0 thrust x1.0 records   50 Hz delay 40 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 12.0 rad/s^2
-mass x1.0 thrust x1.0 records   50 Hz delay 40 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 115.7 rad/s^2
-mass x1.0 thrust x1.0 records   50 Hz delay 40 ms gusts+stalls     14 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 55.1 rad/s^2
+mass x1.0 thrust x1.0 records   50 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 15.9 rad/s^2
+mass x1.0 thrust x1.0 records   50 Hz delay  0 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 95.0 rad/s^2
+mass x1.0 thrust x1.0 records   50 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 37.3 rad/s^2
+mass x1.0 thrust x1.0 records   50 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 20.4 rad/s^2
+mass x1.0 thrust x1.0 records   50 Hz delay 20 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 81.7 rad/s^2
+mass x1.0 thrust x1.0 records   50 Hz delay 20 ms gusts+stalls     21 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 53.4 rad/s^2
+mass x1.0 thrust x1.0 records   50 Hz delay 40 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 21.5 rad/s^2
+mass x1.0 thrust x1.0 records   50 Hz delay 40 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 111.8 rad/s^2
+mass x1.0 thrust x1.0 records   50 Hz delay 40 ms gusts+stalls     14 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 56.2 rad/s^2
 mass x1.0 thrust x1.0 records 1000 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 12.4 rad/s^2
-mass x1.0 thrust x1.0 records 1000 Hz delay  0 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 116.1 rad/s^2
+mass x1.0 thrust x1.0 records 1000 Hz delay  0 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 115.6 rad/s^2
 mass x1.0 thrust x1.0 records 1000 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 61.6 rad/s^2
 mass x1.0 thrust x1.0 records 1000 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 12.7 rad/s^2
-mass x1.0 thrust x1.0 records 1000 Hz delay 20 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 137.2 rad/s^2
+mass x1.0 thrust x1.0 records 1000 Hz delay 20 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 137.1 rad/s^2
 mass x1.0 thrust x1.0 records 1000 Hz delay 20 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 58.6 rad/s^2
 mass x1.0 thrust x1.0 records 1000 Hz delay 40 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 13.3 rad/s^2
-mass x1.0 thrust x1.0 records 1000 Hz delay 40 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 113.3 rad/s^2
+mass x1.0 thrust x1.0 records 1000 Hz delay 40 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 113.3 rad/s^2
 mass x1.0 thrust x1.0 records 1000 Hz delay 40 ms gusts+stalls     35 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 64.5 rad/s^2
-mass x1.2 thrust x1.0 records   50 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 10.1 rad/s^2
-mass x1.2 thrust x1.0 records   50 Hz delay  0 ms gusts+kicks      40 s: provisional 2, handed back 2, confirmed no, flying (mode off: flying), max residual (no hand-over) 120.6 rad/s^2
-mass x1.2 thrust x1.0 records   50 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 51.2 rad/s^2
-mass x1.2 thrust x1.0 records   50 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 10.4 rad/s^2
-mass x1.2 thrust x1.0 records   50 Hz delay 20 ms gusts+kicks      40 s: provisional 2, handed back 2, confirmed no, flying (mode off: flying), max residual (no hand-over) 114.6 rad/s^2
-mass x1.2 thrust x1.0 records   50 Hz delay 20 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 29.5 rad/s^2
-mass x1.2 thrust x1.0 records   50 Hz delay 40 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 10.4 rad/s^2
-mass x1.2 thrust x1.0 records   50 Hz delay 40 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 105.2 rad/s^2
-mass x1.2 thrust x1.0 records   50 Hz delay 40 ms gusts+stalls     16 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 44.0 rad/s^2
+mass x1.2 thrust x1.0 records   50 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 16.7 rad/s^2
+mass x1.2 thrust x1.0 records   50 Hz delay  0 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 120.7 rad/s^2
+mass x1.2 thrust x1.0 records   50 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 27.0 rad/s^2
+mass x1.2 thrust x1.0 records   50 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 14.7 rad/s^2
+mass x1.2 thrust x1.0 records   50 Hz delay 20 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 113.4 rad/s^2
+mass x1.2 thrust x1.0 records   50 Hz delay 20 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 30.0 rad/s^2
+mass x1.2 thrust x1.0 records   50 Hz delay 40 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 19.4 rad/s^2
+mass x1.2 thrust x1.0 records   50 Hz delay 40 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 99.8 rad/s^2
+mass x1.2 thrust x1.0 records   50 Hz delay 40 ms gusts+stalls     16 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 47.2 rad/s^2
 mass x1.2 thrust x1.0 records 1000 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 10.5 rad/s^2
-mass x1.2 thrust x1.0 records 1000 Hz delay  0 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 161.2 rad/s^2
+mass x1.2 thrust x1.0 records 1000 Hz delay  0 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 161.2 rad/s^2
 mass x1.2 thrust x1.0 records 1000 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 10.8 rad/s^2
 mass x1.2 thrust x1.0 records 1000 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 10.9 rad/s^2
-mass x1.2 thrust x1.0 records 1000 Hz delay 20 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 135.3 rad/s^2
+mass x1.2 thrust x1.0 records 1000 Hz delay 20 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 135.3 rad/s^2
 mass x1.2 thrust x1.0 records 1000 Hz delay 20 ms gusts+stalls     35 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 62.8 rad/s^2
 mass x1.2 thrust x1.0 records 1000 Hz delay 40 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 12.0 rad/s^2
-mass x1.2 thrust x1.0 records 1000 Hz delay 40 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 149.8 rad/s^2
+mass x1.2 thrust x1.0 records 1000 Hz delay 40 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 149.8 rad/s^2
 mass x1.2 thrust x1.0 records 1000 Hz delay 40 ms gusts+stalls     23 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 32.1 rad/s^2
-mass x0.8 thrust x1.0 records   50 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 15.0 rad/s^2
-mass x0.8 thrust x1.0 records   50 Hz delay  0 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 118.0 rad/s^2
-mass x0.8 thrust x1.0 records   50 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 79.9 rad/s^2
-mass x0.8 thrust x1.0 records   50 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 15.6 rad/s^2
-mass x0.8 thrust x1.0 records   50 Hz delay 20 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 85.0 rad/s^2
-mass x0.8 thrust x1.0 records   50 Hz delay 20 ms gusts+stalls     21 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 60.8 rad/s^2
-mass x0.8 thrust x1.0 records   50 Hz delay 40 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 15.5 rad/s^2
-mass x0.8 thrust x1.0 records   50 Hz delay 40 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 101.7 rad/s^2
-mass x0.8 thrust x1.0 records   50 Hz delay 40 ms gusts+stalls     19 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 72.7 rad/s^2
+mass x0.8 thrust x1.0 records   50 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 20.0 rad/s^2
+mass x0.8 thrust x1.0 records   50 Hz delay  0 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 117.0 rad/s^2
+mass x0.8 thrust x1.0 records   50 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 80.8 rad/s^2
+mass x0.8 thrust x1.0 records   50 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 39.1 rad/s^2
+mass x0.8 thrust x1.0 records   50 Hz delay 20 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 88.2 rad/s^2
+mass x0.8 thrust x1.0 records   50 Hz delay 20 ms gusts+stalls     21 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 94.6 rad/s^2
+mass x0.8 thrust x1.0 records   50 Hz delay 40 ms gusts             6 s: provisional 0, handed back 0, confirmed no, CRASHED, max residual (no hand-over) 0.0 rad/s^2
+mass x0.8 thrust x1.0 records   50 Hz delay 40 ms gusts+kicks      36 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 99.2 rad/s^2
+mass x0.8 thrust x1.0 records   50 Hz delay 40 ms gusts+stalls     19 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 122.8 rad/s^2
 mass x0.8 thrust x1.0 records 1000 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 15.5 rad/s^2
 mass x0.8 thrust x1.0 records 1000 Hz delay  0 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 142.6 rad/s^2
 mass x0.8 thrust x1.0 records 1000 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 42.1 rad/s^2
 mass x0.8 thrust x1.0 records 1000 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 15.7 rad/s^2
-mass x0.8 thrust x1.0 records 1000 Hz delay 20 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 172.0 rad/s^2
+mass x0.8 thrust x1.0 records 1000 Hz delay 20 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 171.9 rad/s^2
 mass x0.8 thrust x1.0 records 1000 Hz delay 20 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 47.9 rad/s^2
 mass x0.8 thrust x1.0 records 1000 Hz delay 40 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 16.5 rad/s^2
-mass x0.8 thrust x1.0 records 1000 Hz delay 40 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 172.6 rad/s^2
+mass x0.8 thrust x1.0 records 1000 Hz delay 40 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 173.5 rad/s^2
 mass x0.8 thrust x1.0 records 1000 Hz delay 40 ms gusts+stalls     26 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 71.2 rad/s^2
-mass x1.0 thrust x0.8 records   50 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 11.9 rad/s^2
-mass x1.0 thrust x0.8 records   50 Hz delay  0 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 102.1 rad/s^2
-mass x1.0 thrust x0.8 records   50 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 12.0 rad/s^2
-mass x1.0 thrust x0.8 records   50 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 12.7 rad/s^2
-mass x1.0 thrust x0.8 records   50 Hz delay 20 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 100.7 rad/s^2
-mass x1.0 thrust x0.8 records   50 Hz delay 20 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 12.6 rad/s^2
-mass x1.0 thrust x0.8 records   50 Hz delay 40 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 13.3 rad/s^2
-mass x1.0 thrust x0.8 records   50 Hz delay 40 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 130.1 rad/s^2
-mass x1.0 thrust x0.8 records   50 Hz delay 40 ms gusts+stalls     23 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 82.1 rad/s^2
+mass x1.0 thrust x0.8 records   50 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 21.7 rad/s^2
+mass x1.0 thrust x0.8 records   50 Hz delay  0 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 100.9 rad/s^2
+mass x1.0 thrust x0.8 records   50 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 22.4 rad/s^2
+mass x1.0 thrust x0.8 records   50 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 20.4 rad/s^2
+mass x1.0 thrust x0.8 records   50 Hz delay 20 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 104.1 rad/s^2
+mass x1.0 thrust x0.8 records   50 Hz delay 20 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 18.6 rad/s^2
+mass x1.0 thrust x0.8 records   50 Hz delay 40 ms gusts            11 s: provisional 0, handed back 0, confirmed no, CRASHED, max residual (no hand-over) 17.2 rad/s^2
+mass x1.0 thrust x0.8 records   50 Hz delay 40 ms gusts+kicks      35 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 130.0 rad/s^2
+mass x1.0 thrust x0.8 records   50 Hz delay 40 ms gusts+stalls     22 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 45.9 rad/s^2
 mass x1.0 thrust x0.8 records 1000 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 12.6 rad/s^2
-mass x1.0 thrust x0.8 records 1000 Hz delay  0 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 141.4 rad/s^2
+mass x1.0 thrust x0.8 records 1000 Hz delay  0 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 141.7 rad/s^2
 mass x1.0 thrust x0.8 records 1000 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 31.1 rad/s^2
 mass x1.0 thrust x0.8 records 1000 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 13.4 rad/s^2
-mass x1.0 thrust x0.8 records 1000 Hz delay 20 ms gusts+kicks      40 s: provisional 2, handed back 2, confirmed no, flying (mode off: flying), max residual (no hand-over) 128.2 rad/s^2
+mass x1.0 thrust x0.8 records 1000 Hz delay 20 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 128.3 rad/s^2
 mass x1.0 thrust x0.8 records 1000 Hz delay 20 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 29.0 rad/s^2
 mass x1.0 thrust x0.8 records 1000 Hz delay 40 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 13.2 rad/s^2
-mass x1.0 thrust x0.8 records 1000 Hz delay 40 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 141.2 rad/s^2
+mass x1.0 thrust x0.8 records 1000 Hz delay 40 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 141.2 rad/s^2
 mass x1.0 thrust x0.8 records 1000 Hz delay 40 ms gusts+stalls     17 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 42.0 rad/s^2
-mass x1.0 thrust x1.2 records   50 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 11.9 rad/s^2
-mass x1.0 thrust x1.2 records   50 Hz delay  0 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 112.6 rad/s^2
-mass x1.0 thrust x1.2 records   50 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 15.4 rad/s^2
-mass x1.0 thrust x1.2 records   50 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 12.3 rad/s^2
-mass x1.0 thrust x1.2 records   50 Hz delay 20 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 121.1 rad/s^2
-mass x1.0 thrust x1.2 records   50 Hz delay 20 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 33.7 rad/s^2
-mass x1.0 thrust x1.2 records   50 Hz delay 40 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 12.9 rad/s^2
-mass x1.0 thrust x1.2 records   50 Hz delay 40 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 122.7 rad/s^2
-mass x1.0 thrust x1.2 records   50 Hz delay 40 ms gusts+stalls     17 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 64.0 rad/s^2
+mass x1.0 thrust x1.2 records   50 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 17.5 rad/s^2
+mass x1.0 thrust x1.2 records   50 Hz delay  0 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 113.6 rad/s^2
+mass x1.0 thrust x1.2 records   50 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 38.6 rad/s^2
+mass x1.0 thrust x1.2 records   50 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 24.6 rad/s^2
+mass x1.0 thrust x1.2 records   50 Hz delay 20 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 124.4 rad/s^2
+mass x1.0 thrust x1.2 records   50 Hz delay 20 ms gusts+stalls     32 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 66.8 rad/s^2
+mass x1.0 thrust x1.2 records   50 Hz delay 40 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 27.7 rad/s^2
+mass x1.0 thrust x1.2 records   50 Hz delay 40 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 134.5 rad/s^2
+mass x1.0 thrust x1.2 records   50 Hz delay 40 ms gusts+stalls     17 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 70.1 rad/s^2
 mass x1.0 thrust x1.2 records 1000 Hz delay  0 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 12.3 rad/s^2
 mass x1.0 thrust x1.2 records 1000 Hz delay  0 ms gusts+kicks      40 s: provisional 2, handed back 2, confirmed no, flying (mode off: flying), max residual (no hand-over) 94.5 rad/s^2
 mass x1.0 thrust x1.2 records 1000 Hz delay  0 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 43.7 rad/s^2
 mass x1.0 thrust x1.2 records 1000 Hz delay 20 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 12.6 rad/s^2
-mass x1.0 thrust x1.2 records 1000 Hz delay 20 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 150.8 rad/s^2
+mass x1.0 thrust x1.2 records 1000 Hz delay 20 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 150.8 rad/s^2
 mass x1.0 thrust x1.2 records 1000 Hz delay 20 ms gusts+stalls     40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 79.3 rad/s^2
 mass x1.0 thrust x1.2 records 1000 Hz delay 40 ms gusts            40 s: provisional 0, handed back 0, confirmed no, flying, max residual (no hand-over) 13.4 rad/s^2
-mass x1.0 thrust x1.2 records 1000 Hz delay 40 ms gusts+kicks      40 s: provisional 1, handed back 1, confirmed no, flying (mode off: flying), max residual (no hand-over) 139.1 rad/s^2
+mass x1.0 thrust x1.2 records 1000 Hz delay 40 ms gusts+kicks      40 s: provisional 0, handed back 0, confirmed no, flying (mode off: flying), max residual (no hand-over) 138.5 rad/s^2
 mass x1.0 thrust x1.2 records 1000 Hz delay 40 ms gusts+stalls     17 s: provisional 0, handed back 0, confirmed no, CRASHED (mode off: CRASHED), max residual (no hand-over) 89.5 rad/s^2
 actuation stalls (100-400 ms) 120
-total: 56.4 min of gusty flight, 180 kicks; provisional hand-overs 28, handed back 28, confirmed (false triggers) 0; crashes with the mode 12, kick flights without the mode 12
-largest residual RMS (model health) 13.3 rad/s^2
+total: 54.7 min of gusty flight, 180 kicks; provisional hand-overs 3, handed back 3, confirmed (false triggers) 0; crashes with the mode 18, kick flights without the mode 16
+largest residual RMS (model health) 19.7 rad/s^2

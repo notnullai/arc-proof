@@ -9,7 +9,7 @@ episodes=300 events=803 faults_entered=565 clears=489 survived=106 crashed=194
   ekf_dropout    events=137  crash_attributed=47 (ground impact 44, tilt 3)
   pos_dropout(xy) events=122  crash_attributed=7 (ground impact 4, tilt 3)
   motor-loss episodes=53 fault seen=53 max latency=6804 ticks
-  rotor-loss detector (observer): false detections 5 (in a motor-loss episode before the loss: 0) gust:1 attitude_kick:2 ekf_dropout:1 pos_dropout(xy):1; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/97/83/58/39 % of armed records, max 160.5; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+  rotor-loss detector (observer): false detections 2 (in a motor-loss episode before the loss: 0) attitude_kick:1 ekf_dropout:1; would be confirmed (no motor loss in the episode) 1; residual RMS over 3/5/8/12/20: 100/97/83/58/39 % of armed records, max 160.5; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
 contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
 episodes without motor loss crashed = 141 / 247
 PASS: C1 estop -> fault within one tick, every event
@@ -30,7 +30,7 @@ episodes=300 events=803 faults_entered=807 clears=756 survived=138 crashed=162
   ekf_dropout    events=137  crash_attributed=47 (ground impact 45, tilt 2)
   pos_dropout(xy) events=122  crash_attributed=7 (ground impact 5, tilt 2)
   motor-loss episodes=53 fault seen=53 max latency=6861 ticks
-  rotor-loss detector (observer): false detections 5 (in a motor-loss episode before the loss: 0) gust:1 attitude_kick:2 ekf_dropout:1 pos_dropout(xy):1; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/97/83/58/39 % of armed records, max 174.8; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+  rotor-loss detector (observer): false detections 2 (in a motor-loss episode before the loss: 0) attitude_kick:1 ekf_dropout:1; would be confirmed (no motor loss in the episode) 1; residual RMS over 3/5/8/12/20: 100/97/83/58/39 % of armed records, max 174.8; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
 contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
 episodes without motor loss crashed = 109 / 247
 PASS: C1 estop -> fault within one tick, every event
@@ -51,7 +51,7 @@ episodes=300 events=803 faults_entered=979 clears=938 survived=149 crashed=151
   ekf_dropout    events=137  crash_attributed=45 (ground impact 44, tilt 1)
   pos_dropout(xy) events=122  crash_attributed=6 (ground impact 4, tilt 2)
   motor-loss episodes=53 fault seen=53 max latency=6870 ticks
-  rotor-loss detector (observer): false detections 5 (in a motor-loss episode before the loss: 0) gust:1 attitude_kick:2 ekf_dropout:1 pos_dropout(xy):1; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/98/83/59/39 % of armed records, max 194.4; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+  rotor-loss detector (observer): false detections 2 (in a motor-loss episode before the loss: 0) attitude_kick:1 ekf_dropout:1; would be confirmed (no motor loss in the episode) 1; residual RMS over 3/5/8/12/20: 100/98/83/59/39 % of armed records, max 194.4; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
 contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
 episodes without motor loss crashed = 98 / 247
 PASS: C1 estop -> fault within one tick, every event
@@ -72,7 +72,7 @@ episodes=300 events=803 faults_entered=975 clears=949 survived=157 crashed=143
   ekf_dropout    events=137  crash_attributed=45 (ground impact 44, tilt 1)
   pos_dropout(xy) events=122  crash_attributed=5 (ground impact 4, tilt 1)
   motor-loss episodes=53 fault seen=53 max latency=6889 ticks
-  rotor-loss detector (observer): false detections 5 (in a motor-loss episode before the loss: 0) gust:1 attitude_kick:2 ekf_dropout:1 pos_dropout(xy):1; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/97/84/59/40 % of armed records, max 186.2; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+  rotor-loss detector (observer): false detections 2 (in a motor-loss episode before the loss: 0) attitude_kick:1 ekf_dropout:1; would be confirmed (no motor loss in the episode) 1; residual RMS over 3/5/8/12/20: 100/97/84/59/40 % of armed records, max 186.2; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
 contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
 episodes without motor loss crashed = 90 / 247
 PASS: C1 estop -> fault within one tick, every event
@@ -93,7 +93,7 @@ episodes=300 events=803 faults_entered=1192 clears=1170 survived=155 crashed=145
   ekf_dropout    events=137  crash_attributed=46 (ground impact 45, tilt 1)
   pos_dropout(xy) events=122  crash_attributed=6 (ground impact 5, tilt 1)
   motor-loss episodes=53 fault seen=53 max latency=6860 ticks
-  rotor-loss detector (observer): false detections 5 (in a motor-loss episode before the loss: 0) gust:1 attitude_kick:2 ekf_dropout:1 pos_dropout(xy):1; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/97/82/58/40 % of armed records, max 187.7; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+  rotor-loss detector (observer): false detections 2 (in a motor-loss episode before the loss: 0) attitude_kick:1 ekf_dropout:1; would be confirmed (no motor loss in the episode) 1; residual RMS over 3/5/8/12/20: 100/97/82/58/40 % of armed records, max 187.7; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
 contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
 episodes without motor loss crashed = 92 / 247
 PASS: C1 estop -> fault within one tick, every event
@@ -114,7 +114,7 @@ episodes=300 events=803 faults_entered=974 clears=933 survived=148 crashed=152
   ekf_dropout    events=137  crash_attributed=46 (ground impact 45, tilt 1)
   pos_dropout(xy) events=122  crash_attributed=5 (ground impact 3, tilt 2)
   motor-loss episodes=53 fault seen=53 max latency=6870 ticks
-  rotor-loss detector (observer): false detections 5 (in a motor-loss episode before the loss: 0) gust:1 attitude_kick:2 ekf_dropout:1 pos_dropout(xy):1; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/97/83/58/39 % of armed records, max 194.4; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+  rotor-loss detector (observer): false detections 4 (in a motor-loss episode before the loss: 0) gust:1 attitude_kick:2 ekf_dropout:1; would be confirmed (no motor loss in the episode) 2; residual RMS over 3/5/8/12/20: 100/97/83/58/39 % of armed records, max 194.4; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
   fallback: 3441 frozen records carried, 0 records past the window (estop)
 contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
 episodes without motor loss crashed = 99 / 247
@@ -136,7 +136,7 @@ episodes=300 events=803 faults_entered=994 clears=951 survived=208 crashed=92
   ekf_dropout    events=137  crash_attributed=1 (ground impact 0, tilt 1)
   pos_dropout(xy) events=122  crash_attributed=2 (ground impact 0, tilt 2)
   motor-loss episodes=53 fault seen=53 max latency=6888 ticks
-  rotor-loss detector (observer): false detections 6 (in a motor-loss episode before the loss: 0) dropout:1 attitude_kick:3 estop_pulse:2; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/97/86/58/41 % of armed records, max 192.4; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+  rotor-loss detector (observer): false detections 4 (in a motor-loss episode before the loss: 0) attitude_kick:2 estop_pulse:2; would be confirmed (no motor loss in the episode) 3; residual RMS over 3/5/8/12/20: 100/97/86/58/41 % of armed records, max 192.4; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
   fallback: 3441 frozen records carried, 0 records past the window (estop)
 contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
 episodes without motor loss crashed = 39 / 247
@@ -158,7 +158,7 @@ episodes=300 events=803 faults_entered=992 clears=936 survived=191 crashed=109
   ekf_dropout    events=137  crash_attributed=9 (ground impact 0, tilt 9)
   pos_dropout(xy) events=122  crash_attributed=4 (ground impact 0, tilt 4)
   motor-loss episodes=53 fault seen=53 max latency=6888 ticks
-  rotor-loss detector (observer): false detections 7 (in a motor-loss episode before the loss: 0) dropout:1 attitude_kick:3 estop_pulse:3; would be confirmed (no motor loss in the episode) 5; residual RMS over 3/5/8/12/20: 100/97/85/57/42 % of armed records, max 192.4; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+  rotor-loss detector (observer): false detections 5 (in a motor-loss episode before the loss: 0) attitude_kick:2 estop_pulse:3; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/97/85/57/42 % of armed records, max 192.4; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
   fallback: 8585 frozen records carried, 1222 records past the window (estop)
 contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
 episodes without motor loss crashed = 56 / 247

@@ -67,6 +67,8 @@ def summarize(path):
         'alt_min': round(min(alt(i) for i in seg), 2),
         'td_speed': None if td_speed is None else round(td_speed, 2),
         'tilt_max': round(max(tilt(i) for i in seg), 1),
+        # the catch: the first 1.5 s after the onset, while PX4's attitude still follows its rates (spin < 13 rad/s)
+        'tilt_catch': round(max(tilt(i) for i in seg if T[i] <= t_fail + 1.5), 1),
         'spin_mean': round(sum(spin) / len(spin), 1) if spin else None,
         'drift_max': round(max(math.hypot(rows[i][7] - x0, rows[i][8] - y0) for i in seg), 2),
         'flown_after_s': round(T[end] - T[i0], 1),
@@ -83,8 +85,8 @@ def hold20(rows, T, end, x0, y0):
 
 def main(argv):
     print('| run | arm | motor x | failed motor (gz index + 1) | alt at failure m | onset s | detected after ms | confirmed after ms | rotor | outcome | '
-          'lowest alt m | touchdown m/s | max tilt deg | mean spin rad/s | max drift m | flown after s | last 20 s |')
-    print('|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|')
+          'lowest alt m | touchdown m/s | max tilt deg | catch tilt deg (1.5 s) | mean spin rad/s | max drift m | flown after s | last 20 s |')
+    print('|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|')
     for p in argv:
         s = summarize(p)
         if not s:
@@ -94,11 +96,11 @@ def main(argv):
             print('| %s | no rotor failure in the records (control flight) |' % s['tag'])
             continue
         ms = lambda x: '-' if x is None or s['fail_s'] is None else '%.0f' % ((x - s['fail_s']) * 1000)
-        print('| %s | %s | %.2f | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |' % (
+        print('| %s | %s | %.2f | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |' % (
             s['tag'], s['arm'], s['motor_scale'], s['motor'], s['alt_fail'],
             '-' if s['fail_s'] is None else '%.2f' % s['fail_s'], ms(s['detect_s']), ms(s['confirm_s']),
             '-' if s['rl_rotor'] in (None, -1) else s['rl_rotor'], s['outcome'], s['alt_min'],
-            '-' if s['td_speed'] is None else s['td_speed'], s['tilt_max'], s['spin_mean'], s['drift_max'], s['flown_after_s'],
+            '-' if s['td_speed'] is None else s['td_speed'], s['tilt_max'], s['tilt_catch'], s['spin_mean'], s['drift_max'], s['flown_after_s'],
             s['hold20'] or '-'))
     return 0
 
