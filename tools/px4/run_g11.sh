@@ -5,7 +5,9 @@
 # is running and host CPU has been under 25 %; every run kept. Every run carries the Gazebo witness (--witness)
 # for tools/px4/rig_latency.py.
 # Usage: tools/px4/run_g11.sh <out dir> <static linux bridge> [phase ...]   (repo root, Git Bash on Windows)
-#   phases: before (the MAVLink rig with the witness, the latency baseline), normal, rotor, g6 (default: all)
+#   phases: before (the MAVLink rig with the witness, the latency baseline), normal, rotor, rotor10 (x1.2 from 10 m only), g6 (default: all but rotor10)
+# G12: P=<tag prefix> (default g11) and EXTRA="<run_scenario args>" for the direct-rig phases, e.g.
+#   P=g12 EXTRA="--record-clock own --physics-hz 1000" tools/px4/run_g11.sh runs/g12 bin/linux-x86_64/px4_bridge rotor
 set -u
 OUT=${1:-runs/g11}
 BL=${2:-bin/linux-x86_64/px4_bridge}
@@ -13,6 +15,8 @@ shift 2 2>/dev/null
 PHASES=${*:-before normal rotor g6}
 RL=models/prior_x500_rotor_loss.arc002
 CT=(--arc-side container --bridge-linux "$BL" --witness)
+P=${P:-g11}
+read -r -a EX <<< "${EXTRA:-}"
 mkdir -p "$OUT"
 
 wait_clear() {
@@ -42,25 +46,28 @@ before)   # latency baseline: the MAVLink rig as in G10 (x1.2 airframe, the mode
   for m in 1 2; do run g11b_s12_a10_m$m --arm reflex "${CT[@]}" --rig mavlink "${ML10[@]}" --fail-motor $m --motor-scale 1.2 --rotor-loss $RL; done
   for m in 1 2 3 4; do run g11b_s12_a30_m$m --arm reflex "${CT[@]}" --rig mavlink "${ML30[@]}" --fail-motor $m --motor-scale 1.2 --rotor-loss $RL; done ;;
 normal)   # v5 regressions (G9 matrix: hover, wind 3 N every 6 s, 60 s, 1 m) and normal flight with the mode on
-  for i in 1 2 3; do run g11_hover_v5_$i --arm reflex "${CT[@]}" --rig direct --scenario hover; done
-  for i in 1 2 3; do run g11_wind_v5_$i  --arm reflex "${CT[@]}" --rig direct --scenario wind; done
-  run g11_hover_rl --arm reflex "${CT[@]}" --rig direct --scenario hover --rotor-loss $RL
-  run g11_wind_rl  --arm reflex "${CT[@]}" --rig direct --scenario wind  --rotor-loss $RL
-  run g11_ctl_a10_rl     --arm reflex "${CT[@]}" --rig direct "${ML10[@]}" --fail-motor 0 --rotor-loss $RL
-  run g11_ctl_s12_a10_rl --arm reflex "${CT[@]}" --rig direct "${ML10[@]}" --fail-motor 0 --motor-scale 1.2 --rotor-loss $RL ;;
+  for i in 1 2 3; do run ${P}_hover_v5_$i --arm reflex "${CT[@]}" --rig direct "${EX[@]}" --scenario hover; done
+  for i in 1 2 3; do run ${P}_wind_v5_$i  --arm reflex "${CT[@]}" --rig direct "${EX[@]}" --scenario wind; done
+  run ${P}_hover_rl --arm reflex "${CT[@]}" --rig direct "${EX[@]}" --scenario hover --rotor-loss $RL
+  run ${P}_wind_rl  --arm reflex "${CT[@]}" --rig direct "${EX[@]}" --scenario wind  --rotor-loss $RL
+  run ${P}_ctl_a10_rl     --arm reflex "${CT[@]}" --rig direct "${EX[@]}" "${ML10[@]}" --fail-motor 0 --rotor-loss $RL
+  run ${P}_ctl_s12_a10_rl --arm reflex "${CT[@]}" --rig direct "${EX[@]}" "${ML10[@]}" --fail-motor 0 --motor-scale 1.2 --rotor-loss $RL ;;
 rotor)    # rotor failure: v5 alone, the stock x500 with the mode, the x1.2 airframe from 10 m and 30 m
-  run g11_ml_v5_m1     --arm reflex "${CT[@]}" --rig direct "${ML10[@]}" --fail-motor 1
-  run g11_ml_v5_s12_m1 --arm reflex "${CT[@]}" --rig direct "${ML10[@]}" --fail-motor 1 --motor-scale 1.2
-  for m in 1 2 3 4; do run g11_ml_rl_a10_m$m --arm reflex "${CT[@]}" --rig direct "${ML10[@]}" --fail-motor $m --rotor-loss $RL; done
+  run ${P}_ml_v5_m1     --arm reflex "${CT[@]}" --rig direct "${EX[@]}" "${ML10[@]}" --fail-motor 1
+  run ${P}_ml_v5_s12_m1 --arm reflex "${CT[@]}" --rig direct "${EX[@]}" "${ML10[@]}" --fail-motor 1 --motor-scale 1.2
+  for m in 1 2 3 4; do run ${P}_ml_rl_a10_m$m --arm reflex "${CT[@]}" --rig direct "${EX[@]}" "${ML10[@]}" --fail-motor $m --rotor-loss $RL; done
   i=0
-  for m in 1 2 3 4 1 3; do i=$((i+1)); run g11_s12_a10_m${m}_$i --arm reflex "${CT[@]}" --rig direct "${ML10[@]}" --fail-motor $m --motor-scale 1.2 --rotor-loss $RL; done
-  for m in 1 2 3 4 2 4; do i=$((i+1)); run g11_s12_a30_m${m}_$i --arm reflex "${CT[@]}" --rig direct "${ML30[@]}" --fail-motor $m --motor-scale 1.2 --rotor-loss $RL; done ;;
+  for m in 1 2 3 4 1 3; do i=$((i+1)); run ${P}_s12_a10_m${m}_$i --arm reflex "${CT[@]}" --rig direct "${EX[@]}" "${ML10[@]}" --fail-motor $m --motor-scale 1.2 --rotor-loss $RL; done
+  for m in 1 2 3 4 2 4; do i=$((i+1)); run ${P}_s12_a30_m${m}_$i --arm reflex "${CT[@]}" --rig direct "${EX[@]}" "${ML30[@]}" --fail-motor $m --motor-scale 1.2 --rotor-loss $RL; done ;;
+rotor10)  # G12 attribution: the x1.2 airframe from 10 m only (the six runs of the rotor phase)
+  i=0
+  for m in 1 2 3 4 1 3; do i=$((i+1)); run ${P}_s12_a10_m${m}_$i --arm reflex "${CT[@]}" --rig direct "${EX[@]}" "${ML10[@]}" --fail-motor $m --motor-scale 1.2 --rotor-loss $RL; done ;;
 g6)       # G6 handover matrix (docs/bridge_loss_method.md): v5, PX4 standby, plant-clock watchdog, 50 s, loss at 30 s
-  G6=(--arm reflex "${CT[@]}" --rig direct --standby px4 --watchdog-clock sim --seconds 50)
-  for i in 1 2 3 4 5 6; do run g11_g6_kill_$i "${G6[@]}" --scenario bridge_loss --loss-at 30 --loss-kind kill; done
-  for i in 1 2 3; do run g11_g6_hang_$i "${G6[@]}" --scenario bridge_loss --loss-at 30 --loss-kind hang; done
-  for i in 1 2 3 4; do run g11_g6_nofault_$i "${G6[@]}" --scenario hover; done ;;
+  G6=(--arm reflex "${CT[@]}" --rig direct "${EX[@]}" --standby px4 --watchdog-clock sim --seconds 50)
+  for i in 1 2 3 4 5 6; do run ${P}_g6_kill_$i "${G6[@]}" --scenario bridge_loss --loss-at 30 --loss-kind kill; done
+  for i in 1 2 3; do run ${P}_g6_hang_$i "${G6[@]}" --scenario bridge_loss --loss-at 30 --loss-kind hang; done
+  for i in 1 2 3 4; do run ${P}_g6_nofault_$i "${G6[@]}" --scenario hover; done ;;
 esac; done
 # the last run leaves its Gazebo container running: remove it (Docker is shared)
 docker rm -f px4gz >/dev/null 2>&1
-echo "G11 DONE $(date)"
+echo "$P DONE $(date)"

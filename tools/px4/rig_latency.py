@@ -5,10 +5,14 @@
 
 Per rotor-failure run, on Gazebo's sim clock and from Gazebo's own topics only:
   onset      the first IMU sample after the failure command whose body angular acceleration exceeds
-             20 rad/s^2 (the summarizer's threshold, here on the true 250 Hz gyro)
+             20 rad/s^2 (the summarizer's threshold, here on the true gyro: 250 Hz stock, --physics-hz)
   cut        the first motor command after the onset with the rotor opposite the failed one at or below
              half its last-second mean (the opposite rotor's thrust going: the pre-emptive cut or the mode)
-  latency    cut - onset; the command acts from the next physics step (+4 ms)
+  latency    cut - onset; the command acts from the next physics step
+  step       the physics step (median IMU sample interval; 4 ms stock, 1 ms at --physics-hz 1000)
+  acts       cut + step: the opposite rotor's thrust starts going (onset to actuation)
+  from fail  the same instant from the failure command (its witness stamp, the last completed step: the
+             failure acts from the next step), independent of how finely the gyro resolves the onset
   first move the first motor command after the onset that differs from the pre-onset command pattern by
              more than 5 % on any rotor (the first reaction of any kind)
   true tilt  largest tilt in the first 1.5 s after the onset, from Gazebo's model pose (50 Hz) carried
@@ -93,11 +97,16 @@ def analyse(json_path):
     if onset is None:
         return res
     res['onset_s'] = round(onset, 3)
+    dts = sorted(I[k][0] - I[k - 1][0] for k in range(1, len(I)) if I[k][0] > I[k - 1][0])
+    step = dts[len(dts) // 2] if dts else 0.0
+    res['step_ms'] = round(step * 1000.0, 1)
     pre = [m for m in M if onset - 1.0 <= m[0] < onset - 0.02]
     if pre:
         mean_opp = sum(m[1 + opp] for m in pre) / len(pre)
         cut = next((m[0] for m in M if m[0] >= onset and m[1 + opp] <= 0.5 * mean_opp), None)
         res['cut_ms'] = None if cut is None else round((cut - onset) * 1000.0, 1)
+        res['acts_ms'] = None if cut is None else round((cut - onset + step) * 1000.0, 1)
+        res['fail_acts_ms'] = None if cut is None else round((cut - t_cmd) * 1000.0, 1)
         mean = [sum(m[1 + i] for m in pre) / len(pre) for i in range(4)]
         lo = [min(m[1 + i] for m in pre) for i in range(4)]
         hi = [max(m[1 + i] for m in pre) for i in range(4)]
@@ -138,15 +147,15 @@ def analyse(json_path):
 
 
 def main(argv):
-    print('| run | rig | alt m | onset s (sim) | first command change ms | opposite rotor cut ms | true catch tilt deg (1.5 s) | peak roll/pitch rate rad/s (0.3 s) |')
-    print('|---|---|---|---|---|---|---|---|')
+    print('| run | rig | alt m | step ms | onset s (sim) | first command change ms | opposite rotor cut ms | acts ms | failure to acts ms | true catch tilt deg (1.5 s) | peak roll/pitch rate rad/s (0.3 s) |')
+    print('|---|---|---|---|---|---|---|---|---|---|---|')
     for p in argv:
         a = analyse(p)
         if a is None:
             continue
-        print('| %s | %s | %s | %s | %s | %s | %s | %s |' % (
-            a['tag'], a['rig'], a.get('alt'), a.get('onset_s', '-'), a.get('move_ms', '-'), a.get('cut_ms', '-'),
-            a.get('true_tilt', '-'), a.get('peak_rate', '-')))
+        print('| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |' % (
+            a['tag'], a['rig'], a.get('alt'), a.get('step_ms', '-'), a.get('onset_s', '-'), a.get('move_ms', '-'),
+            a.get('cut_ms', '-'), a.get('acts_ms', '-'), a.get('fail_acts_ms', '-'), a.get('true_tilt', '-'), a.get('peak_rate', '-')))
     return 0
 
 

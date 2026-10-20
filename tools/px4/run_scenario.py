@@ -26,6 +26,10 @@ every bridge tick forwarded and published the moment it arrives
 (gz_motor_pub.py --immediate). PX4 stays the estimator and the fallback in
 both. --witness logs Gazebo's IMU, motor command and motor-failure topics on
 the sim clock (gz_witness.py, <tag>.witness.txt) for tools/px4/rig_latency.py.
+--record-clock own (direct rig): the bridge runs a record's own tick on its
+arrival instead of when the next record comes (the stamps rise strictly).
+--physics-hz N: the gz world's physics step and the x500's IMU at N Hz (stock
+250; both files read from the image and bind-mounted, physics_sdf below).
 
 Arms: px4 = PX4's own controller (px4-owns; takeoff via MAVLink, hold);
 reflex / pid / residual = Arc bridge arms (arc-owns, PX4 estimator only).
@@ -61,16 +65,16 @@ IMAGE = 'px4io/px4-sitl-gazebo:latest'
 TILT_FAULT = 0.7854
 
 
-def sh(cmd, **kw):
-    return subprocess.run(cmd, capture_output=True, text=True, **kw)
-
-
 def default_bridge():
     """The prebuilt, stripped bridge shipped under bin/ for this host."""
     root = os.path.abspath(os.path.join(HERE, '..', '..'))
     if os.name == 'nt':
         return os.path.join(root, 'bin', 'windows-x64', 'px4_bridge.exe')
     return os.path.join(root, 'bin', 'linux-x86_64', 'px4_bridge')
+
+
+def sh(cmd, **kw):
+    return subprocess.run(cmd, capture_output=True, text=True, **kw)
 
 
 X500_SDF = '/opt/px4-gazebo/share/gz/models/x500/model.sdf'
@@ -91,12 +95,50 @@ def motor_scaled_sdf(scale, out_dir):
     return path
 
 
-def restart_container(name, model_sdf=None):
+X500_BASE_SDF = '/opt/px4-gazebo/share/gz/models/x500_base/model.sdf'
+WORLD_SDF = '/opt/px4-gazebo/share/gz/worlds/default.sdf'
+
+
+def physics_sdf(hz, out_dir):
+    """G12: the stock world with a 1/hz physics step (real-time update rate hz, so still real time) and the
+    x500's IMU sensor at hz. What changes for PX4 (measured at 1000, uorb top): sensor_gyro,
+    vehicle_angular_velocity and actuator_motors run at hz instead of 250 (IMU_GYRO_RATEMAX is 800 in this
+    image), so PX4's rate loop, as the G6 fallback too, runs hz/250 times as often; IMU_INTEG_RATE (250),
+    EKF2's prediction (EKF2_PREDICT_US 10 ms), baro (50 Hz), magnetometer (100 Hz), GPS and the motor model
+    are unchanged; Gazebo does hz/250 times the steps. Returns [(host path, image path)] to bind-mount; hz 250 = the stock files, nothing mounted."""
+    if hz == 250:
+        return []
+    out = []
+    for src, sub, name in [
+            (WORLD_SDF, lambda t: re.sub(r'<real_time_update_rate>[0-9.]+</real_time_update_rate>',
+                                         '<real_time_update_rate>%d</real_time_update_rate>' % hz,
+                                         re.sub(r'<max_step_size>[0-9.eE+-]+</max_step_size>',
+                                                '<max_step_size>%g</max_step_size>' % (1.0 / hz), t)),
+             'world_default_%dhz.sdf' % hz),
+            (X500_BASE_SDF, lambda t: re.sub(r'(<sensor name="imu_sensor" type="imu">.*?<update_rate>)[0-9.]+(</update_rate>)',
+                                             lambda m: '%s%d%s' % (m.group(1), hz, m.group(2)), t, count=1, flags=re.S),
+             'x500_base_imu_%dhz.sdf' % hz)]:
+        r = sh(['docker', 'run', '--rm', '--entrypoint', 'cat', IMAGE, src])
+        if r.returncode != 0:
+            raise SystemExit('cannot read %s from %s' % (src, IMAGE))
+        txt = sub(r.stdout)
+        if txt == r.stdout:
+            raise SystemExit('physics_sdf: nothing to change in %s' % src)
+        path = os.path.abspath(os.path.join(out_dir, name))
+        with open(path, 'w', newline='\n') as f:
+            f.write(txt)
+        out.append((path, src))
+    return out
+
+
+def restart_container(name, model_sdf=None, extra_mounts=()):
     sh(['docker', 'rm', '-f', name])
     # Docker Desktop (Windows, macOS) needs the published port; on Linux docker-proxy would take
     # host UDP 14550 from this harness, and PX4 reaches the host through host-gateway without it.
     ports = [] if sys.platform.startswith('linux') else ['-p', '14550:14550/udp']
     mounts = ['-v', '%s:%s:ro' % (model_sdf, X500_SDF)] if model_sdf else []
+    for host, image_path in extra_mounts:
+        mounts += ['-v', '%s:%s:ro' % (host, image_path)]
     r = sh(['docker', 'run', '-d', '--name', name, '--add-host=host.docker.internal:host-gateway',
             '-e', 'HEADLESS=1', '-e', 'PX4_SIM_MODEL=gz_x500'] + ports + mounts + [IMAGE])
     if r.returncode != 0:
@@ -417,6 +459,11 @@ def main():
     ap.add_argument('--rig', default='mavlink', choices=['mavlink', 'direct'],
                     help='sensor and command path: mavlink = PX4 MAVLink records + 250 Hz publisher grid (default); '
                          'direct = Gazebo IMU records + immediate publish (needs --arc-side container)')
+    ap.add_argument('--record-clock', default='next', choices=['next', 'own'],
+                    help="the bridge's record clock: next = a record's tick runs once a later record arrives (default); "
+                         "own = the tick at a record's own stamp runs on its arrival (stamps strictly rise; G12)")
+    ap.add_argument('--physics-hz', type=int, default=250,
+                    help='gz physics step and x500 IMU rate (stock 250; e.g. 1000 = 1 ms step, IMU at 1 kHz; G12)')
     ap.add_argument('--witness', action='store_true',
                     help='log Gazebo IMU, motor command and motor-failure topics on the sim clock (<tag>.witness.txt)')
     ap.add_argument('--watchdog-clock', default='sim', choices=['sim', 'wall'],
@@ -458,7 +505,8 @@ def main():
     os.makedirs(args.out, exist_ok=True)
     base = os.path.join(args.out, tag)
     if not args.no_restart:
-        restart_container(args.container, motor_scaled_sdf(args.motor_scale, args.out) if args.motor_scale != 1.0 else None)
+        restart_container(args.container, motor_scaled_sdf(args.motor_scale, args.out) if args.motor_scale != 1.0 else None,
+                          physics_sdf(args.physics_hz, args.out))
         print('SCENARIO: container restarted', flush=True)
     mav = Mav()
     if not mav.wait_global():
@@ -576,6 +624,8 @@ def main():
             bargs += ['--fault', args.fault]
         if v2:
             bargs += ['--record', 'v3', '--att-fallback', args.att_fallback]
+        if args.record_clock != 'next':
+            bargs += ['--record-clock', args.record_clock]
         pargs = ['python3', '-u', CT_DIR + '/gz_motor_pub.py', '--stdin',
                  '--gap-log', CT_DIR + '/gaps.txt', '--gap-log-ms', str(args.gap_log_ms)]
         if direct:
@@ -795,7 +845,7 @@ def main():
               # a takeover before the loss (or, without a loss, inside the flight window) is a false takeover
               'false_takeover': (handover_t is not None and handover_t < (args.loss_at if args.scenario == 'bridge_loss'
                                                                           else args.seconds)) if args.standby == 'px4' else None,
-              'command_gaps': gaps, 'rig': args.rig,
+              'command_gaps': gaps, 'rig': args.rig, 'record_clock': args.record_clock, 'physics_hz': args.physics_hz,
               'bridge': stats, 'metrics': m}
     with open(base + '.json', 'w') as f:
         json.dump(result, f, indent=1)

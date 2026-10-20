@@ -1,0 +1,119 @@
+waiting: run_scenario running 0, cpu 36 %
+waiting: run_scenario running 0, cpu 30 %
+clear: cpu 16 %
+=== g12_ml_v5_m1 22:33:04: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 1
+| motor_loss | reflex | 5.19 | 6.6 | 4.931 | 45.164 | 348.3 | 13.036 | 180.966 | 1827.3 | 24.95 | 30.14 | 30092 |
+clear: cpu 16 %
+=== g12_ml_v5_s12_m1 22:35:14: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 1 --motor-scale 1.2
+| motor_loss | reflex | 2.1 | 9.342 | 2.355 | 3.175 | 1326.7 | 17.054 | 146.763 | 827.9 | 35.18 | 37.27 | 29659 |
+clear: cpu 12 %
+=== g12_ml_rl_a10_m1 22:37:22: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 1 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 5.3 | 9.662 | 1.281 | 2.189 | 29.9 | 10.572 | 2.209 | 79.9 | 35.0 | 40.52 | 0 |
+clear: cpu 12 %
+=== g12_ml_rl_a10_m2 22:39:29: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 5.24 | 9.675 | 1.244 | 2.049 | 28.5 | 10.447 | 1.853 | 80.6 | 35.1 | 40.56 | 0 |
+clear: cpu 12 %
+=== g12_ml_rl_a10_m3 22:41:36: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 3 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 5.08 | 9.686 | 1.208 | 2.207 | 25.9 | 10.49 | 1.984 | 79.7 | 35.3 | 40.59 | 0 |
+clear: cpu 12 %
+=== g12_ml_rl_a10_m4 22:43:43: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 4 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 5.16 | 9.685 | 1.211 | 1.745 | 24.0 | 10.639 | 3.923 | 166.1 | 35.24 | 40.66 | 0 |
+clear: cpu 12 %
+=== g12_s12_a10_m1_1 22:45:49: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 1 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.06 | 9.939 | 0.179 | 1.986 | 23.7 | 1.882 | 1.878 | 216.4 | 38.91 | 40.97 | 0 |
+clear: cpu 12 %
+=== g12_s12_a10_m2_2 22:47:56: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 2 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.1 | 9.937 | 0.184 | 1.721 | 23.9 | 1.69 | 1.861 | 303.2 | 38.87 | 40.96 | 0 |
+clear: cpu 12 %
+=== g12_s12_a10_m3_3 22:50:04: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 3 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.04 | 9.957 | 0.105 | 1.603 | 20.3 | 2.06 | 2.018 | 211.6 | 39.1 | 41.14 | 0 |
+clear: cpu 13 %
+=== g12_s12_a10_m4_4 22:52:11: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 4 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.1 | 9.952 | 0.131 | 1.562 | 20.6 | 1.547 | 2.011 | 233.0 | 39.03 | 41.13 | 0 |
+clear: cpu 13 %
+=== g12_s12_a10_m1_5 22:54:18: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 1 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.1 | 9.957 | 0.111 | 1.74 | 20.6 | 1.865 | 1.865 | 224.4 | 38.84 | 40.94 | 0 |
+clear: cpu 17 %
+=== g12_s12_a10_m3_6 22:56:26: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 3 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.09 | 9.946 | 0.147 | 1.708 | 22.6 | 1.882 | 1.796 | 221.0 | 38.91 | 41.0 | 0 |
+clear: cpu 16 %
+=== g12_s12_a30_m1_7 22:58:33: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 1 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 3.65 | 29.946 | 0.185 | 1.81 | 195.1 | 1.817 | 1.787 | 227.9 | 70.22 | 73.87 | 0 |
+clear: cpu 13 %
+=== g12_s12_a30_m2_8 23:01:21: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 2 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 3.68 | 29.96 | 0.139 | 1.735 | 261.3 | 1.503 | 1.944 | 226.5 | 70.09 | 73.77 | 0 |
+clear: cpu 16 %
+=== g12_s12_a30_m3_9 23:04:09: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 3 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 3.68 | 29.964 | 0.118 | 1.689 | 189.6 | 1.727 | 1.964 | 224.1 | 70.62 | 74.29 | 0 |
+waiting: run_scenario running 0, cpu 47 %
+clear: cpu 17 %
+=== g12_s12_a30_m4_10 23:07:39: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 4 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 3.67 | 29.964 | 0.113 | 1.669 | 213.6 | 2.045 | 1.923 | 228.2 | 70.61 | 74.28 | 0 |
+waiting: run_scenario running 0, cpu 58 %
+waiting: run_scenario running 0, cpu 58 %
+clear: cpu 12 %
+=== g12_s12_a30_m2_11 23:11:57: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 2 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 3.72 | 29.945 | 0.203 | 1.575 | 200.5 | 1.751 | 1.996 | 234.9 | 69.78 | 73.5 | 0 |
+clear: cpu 24 %
+=== g12_s12_a30_m4_12 23:15:26: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 4 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 3.63 | 29.929 | 0.259 | 1.798 | 224.9 | 2.136 | 1.806 | 219.4 | 69.74 | 73.38 | 0 |
+g12 DONE Tue Oct 20 23:18:15 MPST 2026
+waiting: run_scenario running 0, cpu 25 %
+waiting: run_scenario running 0, cpu 27 %
+clear: cpu 19 %
+=== g12own_s12_a10_m1_1 23:19:55: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 1 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.0 | 9.952 | 0.16 | 1.887 | 24.6 | 1.424 | 1.792 | 232.9 | 38.98 | 40.97 | 0 |
+clear: cpu 15 %
+=== g12own_s12_a10_m2_2 23:22:02: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 2 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.28 | 9.942 | 0.173 | 1.759 | 26.5 | 1.689 | 1.917 | 253.8 | 38.75 | 41.03 | 0 |
+clear: cpu 19 %
+=== g12own_s12_a10_m3_3 23:24:09: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 3 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+SCENARIO: injector READY
+clear: cpu 23 %
+=== g12own_s12_a10_m4_4 23:25:37: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 4 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 1.99 | 9.956 | 0.146 | 1.928 | 24.2 | 1.951 | 1.717 | 212.7 | 39.02 | 41.01 | 0 |
+clear: cpu 21 %
+=== g12own_s12_a10_m1_5 23:27:44: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 1 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.0 | 9.952 | 0.159 | 1.875 | 25.0 | 2.042 | 1.861 | 209.9 | 39.01 | 41.0 | 0 |
+clear: cpu 17 %
+=== g12own_s12_a10_m3_6 23:29:48: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 3 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 1.99 | 9.945 | 0.182 | 1.865 | 25.9 | 1.674 | 1.911 | 239.0 | 39.03 | 41.02 | 0 |
+g12own DONE Tue Oct 20 23:31:40 MPST 2026
+clear: cpu 16 %
+=== g12_hover_v5_1 23:31:53: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario hover
+| hover | reflex | 1.04 | 1.0 | 0.018 | 0.182 | 2.5 | None | None | None | 57.08 | - | 0 |
+clear: cpu 19 %
+=== g12_hover_v5_2 23:33:49: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario hover
+| hover | reflex | 0.91 | 1.0 | 0.018 | 0.217 | 2.6 | None | None | None | 57.14 | - | 0 |
+clear: cpu 22 %
+=== g12_hover_v5_3 23:35:44: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario hover
+| hover | reflex | 1.12 | 1.001 | 0.018 | 0.214 | 2.6 | None | None | None | 57.06 | - | 0 |
+clear: cpu 16 %
+=== g12_wind_v5_1 23:37:39: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario wind
+| wind | reflex | 1.08 | 0.997 | 0.025 | 2.958 | 17.6 | 0.103 | 3.041 | 17.6 | 57.05 | - | 0 |
+clear: cpu 15 %
+=== g12_wind_v5_2 23:39:36: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario wind
+| wind | reflex | 1.08 | 0.997 | 0.026 | 2.736 | 17.3 | 0.109 | 2.939 | 17.5 | 57.09 | - | 0 |
+clear: cpu 14 %
+=== g12_wind_v5_3 23:41:32: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario wind
+| wind | reflex | 0.93 | 0.999 | 0.019 | 2.667 | 17.2 | 0.108 | 2.997 | 17.6 | 57.29 | - | 0 |
+clear: cpu 14 %
+=== g12_hover_rl 23:43:28: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario hover --rotor-loss models/prior_x500_rotor_loss.arc002
+| hover | reflex | 1.02 | 1.0 | 0.018 | 0.24 | 2.7 | None | None | None | 57.08 | - | 0 |
+waiting: run_scenario running 0, cpu 66 %
+waiting: run_scenario running 0, cpu 68 %
+clear: cpu 20 %
+=== g12_wind_rl 23:46:51: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario wind --rotor-loss models/prior_x500_rotor_loss.arc002
+| wind | reflex | 0.97 | 0.991 | 0.036 | 2.776 | 17.3 | 0.129 | 21.085 | 19.6 | 54.7 | - | 0 |
+clear: cpu 21 %
+=== g12_ctl_a10_rl 23:48:48: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 0 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 5.28 | 10.0 | 0.018 | 0.197 | 2.7 | 0.033 | 0.226 | 2.9 | 62.26 | - | 0 |
+waiting: run_scenario running 0, cpu 25 %
+waiting: run_scenario running 0, cpu 27 %
+clear: cpu 18 %
+=== g12_ctl_s12_a10_rl 23:52:39: --arm reflex --arc-side container --bridge-linux build-g12-linux/px4_bridge --witness --rig direct --record-clock own --physics-hz 1000 --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 0 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.1 | 9.99 | 0.016 | 0.22 | 2.4 | 0.032 | 0.2 | 2.5 | 65.99 | - | 0 |
+g12 DONE Tue Oct 20 23:55:17 MPST 2026
+CAMPAIGN DONE
+=== g12own_s12_a10_m3_3b 23:55:45 (re-run of m3_3, which stopped after injector READY)
+=== g12_wind_rl_2 23:58:40 (re-run: g12_wind_rl had a 5.15 s pulse, clear injected late)

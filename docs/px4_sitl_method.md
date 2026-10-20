@@ -360,6 +360,17 @@ Rotor-loss results on this rig: `docs/rotor_loss.md` 4 (catch median 33°
 against 81° on the MAVLink rig, 12/12 held). G6 handover on this rig:
 `docs/bridge_loss_method.md` (13/13).
 
+G12 (2026-10-21): `--record-clock own` and `--physics-hz 1000` on this rig
+(`docs/rotor_loss.md` 4, "Shortening the path"). v5 with both, mode off:
+hover 3/3, station 0.18–0.22 m, tilt 2.5–2.6°; wind 3/3, excursion
+2.94–3.04 m, tilt 17.5–17.6°, altitude error 0.10–0.11 m (evidence
+`docs/rotor_loss_results/gazebo_direct_g12/g12_hover_v5_*`, `g12_wind_v5_*`).
+At 1 kHz PX4's gyro, rate loop and motor outputs run at 1 kHz (250 before).
+G6 handover matrix at 1 kHz: 13/13 survived (6 kills, 3 hangs), 0 false
+takeovers in 4 no-fault flights, route + arm + takeoff 14–30 ms, altitude
+lost 0.46–0.54 m, the same as at 250 Hz (`docs/bridge_loss_method.md`,
+summary `docs/px4_sitl_results/g6/direct_g12/summary.md`).
+
 ## What this does and does not show
 
 It shows the runtime's timing, fault contract and determinism on

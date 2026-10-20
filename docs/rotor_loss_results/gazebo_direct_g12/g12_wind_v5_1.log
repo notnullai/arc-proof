@@ -1,0 +1,33 @@
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: injector READY
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 15.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 21.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 27.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 33.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 39.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 45.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 51.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 57.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: streamer: GZ_IMU_STREAM: 58123 records in 62.0s gyro=gz-imu attitude=px4+propagated(2907) att_age_ms mean 12.9 range -95.0..27.0
+SCENARIO: GZ_MOTOR_PUB: command gaps: 59000 lines, 5 over 20 ms, worst 1095.4 ms (sim time in the logged gaps: worst 101.0 ms)
+SCENARIO: gap attribution {"lines": 59000, "over_ms": 20.0, "n_over": 5, "worst_ms": 1095.4, "worst_sim_ms_in_gaps": 101.0, "worst_ms_in_window": 1095.4, "machine_stalls_in_window": 4, "worst_ms_outside_machine_stalls_in_window": 100.9, "worst_ms_added_by_arc_side_in_window": 0.0, "worst_sim_ms": 101.0, "machine_stalls": 4, "worst_ms_outside_machine_stalls": 100.9, "worst_stall_probe_ms": 1094.2, "worst_ms_in_flight": 1095.4, "machine_stalls_in_flight": 4, "worst_ms_outside_machine_stalls_in_flight": 0.0, "worst_ms_added_by_arc_side_in_flight": 0.0, "worst_stream_arrival_ms": 1095.3}
+SCENARIO RESULT {"records": 58123, "sim_s": 58.122, "takeoff_s": 1.08, "airborne": true, "settled": {"alt_rms": 0.025, "alt_max_err": 0.086, "alt_mean": 0.997, "alt_jitter_rms": 0.025, "xy_max": 2.958, "tilt_max_deg": 17.6}, "disturbed": {"alt_rms": 0.045, "alt_max_err": 0.103, "alt_mean": 1.001, "alt_jitter_rms": 0.044, "xy_max": 3.041, "tilt_max_deg": 17.6}, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 57.05, "survived_run": true, "wind_recovery_s": [0.33, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, null], "wind_recovery_max_s": 0.33, "wind_unrecovered": 1}
+| wind | reflex | 1.08 | 0.997 | 0.025 | 2.958 | 17.6 | 0.103 | 3.041 | 17.6 | 57.05 | - | 0 |

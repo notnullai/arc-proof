@@ -342,10 +342,9 @@ after the detecting sample. The machine-wide stalls of the Docker VM (now
 0.8–1.05 s, about twice per run, each seen by the stall probe) stop Gazebo
 with everything else: sim time advanced 4 ms through each, so they cost no
 plant time. Lockstep (stepping Gazebo only after each command) was
-therefore not built: it would remove nothing that was measured. What would
-shorten the path further is the bridge's record clock (an end-of-record
-mark, so a record's own tick runs on arrival) and a 1 kHz IMU and physics
-step; both change more than the transport and are left as follow-ups.
+therefore not built: it would remove nothing that was measured. Both
+remaining causes, the bridge's record clock and the 4 ms step, are now
+options, measured below (G12).
 
 **Rotor failure on the direct rig** (`gazebo_direct/`, table `summary.md`;
 detection 4 ms and confirmation 20 ms after the onset in every run, the
@@ -373,13 +372,79 @@ largest residual 2.7 rad/s². The v5 regressions (G9 matrix, mode off) are
 in `docs/px4_sitl_method.md` (direct rig): hover unchanged, wind excursion 0.05–0.16 m
 larger.
 
+### Shortening the path (G12, 2026-10-21)
+
+Two opt-in options; without them every byte of the G11 path is unchanged.
+
+- **The record clock** (`--record-clock own`, bridge `record_closes_tick`):
+  the direct rig's stamps rise strictly, so a record closes sim time up to
+  its own stamp, and the tick at that stamp runs when the record arrives
+  instead of when the next one does. Each tick computes the same command
+  (`test_px4_bridge` 4b: identical commands, the tick at a record's stamp
+  runs before the next record is pulled); only when it leaves changes. The
+  default clock is untouched: every golden hash unchanged, ctest 91/91 on
+  Windows; on Linux (GCC 13) 86 of 89, the 3 ESP tests not built because two
+  test files this change does not touch fail `-Werror=misleading-indentation`.
+- **A 1 kHz world** (`--physics-hz 1000`): the image's world and x500 with a
+  1 ms physics step (real-time update rate 1000) and the IMU at 1 kHz,
+  bind-mounted like the ×1.2 motors. What it changes for PX4, measured
+  (`uorb top`): `sensor_gyro`, `vehicle_angular_velocity` and
+  `actuator_motors` at 1000 Hz instead of 250, so PX4's rate loop, also as
+  the G6 fallback, runs 4 times as often; `IMU_INTEG_RATE` (250), EKF2's
+  10 ms prediction, baro (50 Hz), magnetometer (100 Hz), GPS and the motor
+  model unchanged. The Arc side gets one record per tick. Gazebo does 4
+  times the steps; it kept real time on this host.
+
+Rotor failure, the G11 matrix re-run (`gazebo_direct_g12/`, table
+`summary.md`; sequential, host CPU under 25 % before each run, every run
+kept). Two reference points: the IMU onset, as in G11's 8 and 12 ms, and the
+failure command, which does not depend on how finely the gyro resolves the
+onset (1 ms at 1 kHz, 4 ms at 250 Hz):
+
+| rig | runs with the mode | onset to cut | onset to actuation | failure command to actuation | detected / confirmed after onset | true catch tilt, ×1.2 |
+|---|---|---|---|---|---|---|
+| G11 direct (250 Hz, default clock) | 16 | 8 ms | 12 ms | 16 ms (14 runs), 20 (2) | 4 / 20 ms | 28–38°, median 33° |
+| record clock only (250 Hz) | 6 (×1.2, 10 m) | **4 ms** | 8 ms | 12 ms (4), 16 (2) | 4 / 20 ms | 27.6–29.9°, median 28.4° (G11, same runs: 30–37°) |
+| **record clock + 1 kHz** | 16 | 7–8 ms | **8–9 ms** | **9–11 ms** | 6 / 21 ms | **23.9–28.7°, median 25.4°** |
+
+With both: ×1.2 **12/12 held** (10 m: lowest 7.9–8.5 m; 30 m: lowest
+27.9–28.5 m, **1.5–2.1 m lost**, last 20 s 28.9–30.2 m, position within
+1.6 m); stock x500 with the mode upright at 4.8–5.0 m/s (G11 5.0–5.2),
+catch 27–32° (G11 33–40°); v5 alone still flips (×1.2: 171°, 13.3 m/s;
+stock: true tilt 169°). Record clock only: 6/6 held from 10 m, lowest
+8.0–8.6 m.
+
+Normal flight with both (0 detections in all 10 runs): hover 1 m with the
+mode, station 0.24 m, tilt 2.7°, largest residual 1.0 rad/s²; wind
+excursion 2.93 m, tilt 17.5°, altitude error 0.11 m, largest residual
+2.7 rad/s² (G11: 3.14 m, 3.5 rad/s²); control flights at 10 m, stock and
+×1.2, station ≤ 0.23 m, altitude error 0.03 m. v5, mode off: hover station
+0.18–0.22 m, tilt 2.5–2.6°; wind excursion 2.94–3.04 m, tilt 17.5–17.6°,
+altitude error 0.10–0.11 m (G11: 3.09–3.21 m; G9 on the MAVLink rig:
+2.96–3.05 m). Kept and repeated: one wind run had a 5.15 s pulse (the clear
+was injected 4 s late across two VM stalls; 21 m excursion, still 0
+detections), and one record-clock run stopped after take-off set-up with
+no result or error; both are in the folder with their repeats.
+
+Where the 9–11 ms from the failure command go, at 1 kHz: the failure acts
+from the next step (1 ms) and the first sample above 20 rad/s² follows
+(about 1 ms); the detector fires 6 ms after that onset, because it
+differences rates over at least 15 ms (`window_s`, the same window as on
+board) and needs enough of the window past the step (at 250 Hz the same
+event read 4 ms, at 4 ms resolution); the cut leaves on the detecting tick
+and reaches Gazebo 1–2 ms of sim time later (the pipes at real time: the
+next step has often run before the command lands), then acts one step
+later. The rig's own share is now those 1–2 ms of transport; lockstep
+would remove them. The detector's share is the detector, not the rig.
+
 **So the Gazebo catch now approaches the hermetic figures but does not
 reach them.** Median 33° on the ×1.2 airframe (hermetic on board: 20°,
 range 9–61°); no failure lost in 12 against about one in eight before; less
 height lost than hermetically (1.5–2.4 m at 30 m; hermetic ≤ 5.9 m when
 held, which includes failures inside gusts; no gusts here). What still
 separates the two: 12 ms from onset to actuation against 0–4 ms on board
-(the 4 ms physics step and the bridge's record clock), and an attitude that
+(the 4 ms physics step and the bridge's record clock; with both G12 options
+8–9 ms, catch median 25°, above), and an attitude that
 is PX4's, 4–24 ms old and carried forward by the gyro, where the hermetic
 records carry the plant's.
 

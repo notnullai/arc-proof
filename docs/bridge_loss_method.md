@@ -218,6 +218,30 @@ wall clock at the loss, and the scheduled (wall) time had moved the
 before/after windows across it (the earlier runs' stalls were too short to
 matter; without the bridge log it falls back to the wall time as before).
 
+### The direct rig at 1 kHz (G12, 2026-10-21)
+
+The same matrix on the direct rig with the G12 options `--record-clock own
+--physics-hz 1000` (`docs/px4_sitl_method.md`, direct rig, G12): a 1 ms physics step and the IMU
+at 1 kHz, so PX4's gyro, rate loop and motor outputs, which fly the takeover,
+run at 1 kHz instead of 250. Watchdog and takeover path unchanged. Per-run table
+`docs/px4_sitl_results/g6/direct_g12/summary.md` (raw run records kept in the private repository;
+script `P=g12 EXTRA="--record-clock own --physics-hz 1000" tools/px4/run_g11.sh
+<out> bin/linux-x86_64/px4_bridge g6`).
+
+| case | runs | survived | false takeovers | detection | route + arm + takeoff | altitude lost (from ~1.0 m) | tilt max |
+|---|---|---|---|---|---|---|---|
+| Arc killed | 6 | **6 / 6** | 0 | 0–2 ms (stream closed) | 14–25 ms | 0.47–0.54 m | 1.2–3.0° |
+| Arc hung | 3 | **3 / 3** | 0 | 200–201 ms (plant time) | 15–30 ms | 0.46–0.53 m | 3.6–4.9° |
+| no fault, fallback armed | 4 | **4 / 4** | **0** | only at end of stream, after the window | (16–23 ms there) | — | — |
+
+13 / 13 and 0 false takeovers, as at 250 Hz (G11). Altitude lost and tilt
+did not change with PX4's rate loop at 1 kHz (G11: 0.44–0.56 m, 2.2–4.7°),
+which again puts the loss in PX4's takeover from fresh controllers, not in
+the loop rate or the transport. Command gaps: the worst in flight in 11 of
+13 runs is a machine-wide VM stall of 0.67–1.14 s (stall probe); kill 2 and
+5 had no gap over 20 ms in flight; outside machine stalls 0 in all 13, and
+the Arc side added 0 ms in all 13.
+
 ## What this does and does not claim
 
 - Arc crashing or hanging mid-flight is survivable: 13 of 13 losses survived
