@@ -620,6 +620,11 @@ def main():
             bargs += ['--rotor-loss', CT_DIR + '/rotor_loss.arc002' if in_ct else args.rotor_loss]
             if args.rotor_loss_detect_only:
                 bargs += ['--rotor-loss-detect-only', '1']
+            if not direct:
+                # the MAVLink rig paces actuation by the records (a record's ticks run in one burst and the
+                # publisher sends the newest command): the detector models it (docs/rotor_loss.md, under
+                # sensor delay); on the direct rig every tick's command is published and acts
+                bargs += ['--actuation-per-record', '1']
         if args.bits:
             bargs += ['--bits', str(args.bits)]
         if args.gains:
@@ -851,7 +856,7 @@ def main():
               # a takeover before the loss (or, without a loss, inside the flight window) is a false takeover
               'false_takeover': (handover_t is not None and handover_t < (args.loss_at if args.scenario == 'bridge_loss'
                                                                           else args.seconds)) if args.standby == 'px4' else None,
-              'command_gaps': gaps, 'rig': args.rig, 'record_clock': args.record_clock, 'physics_hz': args.physics_hz, 'sensor_delay_ms': args.sensor_delay_ms,
+              'command_gaps': gaps, 'rig': args.rig, 'record_clock': args.record_clock, 'physics_hz': args.physics_hz, 'sensor_delay_ms': args.sensor_delay_ms, 'actuation_per_record': bool(args.rotor_loss) and not direct,
               'bridge': stats, 'metrics': m}
     with open(base + '.json', 'w') as f:
         json.dump(result, f, indent=1)

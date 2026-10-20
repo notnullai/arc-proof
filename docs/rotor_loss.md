@@ -175,7 +175,17 @@ causes, each fixed in the detector or the bridge, none by a wider threshold:
    every tick's command; once v5 oscillates those differ, and the model's
    residual reached 25 rad/s². The bridge now tells the detector which ticks
    took a record (`--actuation-per-record`, the MAVLink rig only; on board
-   and on the direct rig every tick acts). With it, the residual under the
+   and on the direct rig every tick acts). `run_scenario.py` turns it on
+   with `--rotor-loss` on the MAVLink rig (`--rig mavlink`, either Arc side)
+   and leaves it off on the direct rig; the JSON records
+   `actuation_per_record`. Checked on the MAVLink rig in Gazebo
+   (`gazebo_perrecord/`): ×1.2 rotor failure from 10 m detected at the
+   onset, confirmed 16 ms later, the right rotor, calibration 0.833 (true
+   0.83), touchdown 5.7 m/s as in the runs before it; hover with the mode on,
+   0 detections, largest residual 4.8 rad/s², station 0.27 m, tilt 3.3°. With it, the residual under the
+   oscillation is 2.7 rad/s² RMS against 50 rad/s² of motion. The hermetic
+   SITL hold now follows record delivery too, as the rig does, instead of a
+   fixed 20 ms grid. With it, the residual under the
    oscillation is 2.7 rad/s² RMS against 50 rad/s² of motion. The hermetic
    SITL hold now follows record delivery too, as the rig does, instead of a
    fixed 20 ms grid.
