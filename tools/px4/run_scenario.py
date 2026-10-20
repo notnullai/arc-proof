@@ -16,6 +16,17 @@ G6 handover: [--standby px4 --handover-ms 200 --watchdog-clock sim|wall]
 MAVLink link, the static Linux bridge and the motor publisher on local pipes
 inside the container; docs/bridge_loss_method.md).
 
+Rig: [--rig mavlink|direct] [--witness]. mavlink (default) = the records come
+from PX4's MAVLink stream (ekf_stream.py, 50 Hz, rates 12-16 ms older than the
+record) and the publisher re-sends the newest command on a 250 Hz grid.
+direct (needs --arc-side container) = one record per Gazebo IMU sample
+(gz_imu_stream.py: rates, gyro and accelerometer from Gazebo's IMU topic,
+PX4's attitude propagated to the sample, PX4's position, velocity and baro),
+every bridge tick forwarded and published the moment it arrives
+(gz_motor_pub.py --immediate). PX4 stays the estimator and the fallback in
+both. --witness logs Gazebo's IMU, motor command and motor-failure topics on
+the sim clock (gz_witness.py, <tag>.witness.txt) for tools/px4/rig_latency.py.
+
 Arms: px4 = PX4's own controller (px4-owns; takeoff via MAVLink, hold);
 reflex / pid / residual = Arc bridge arms (arc-owns, PX4 estimator only).
 Scenarios: hover (nothing); wind = lateral force pulses on the model via
@@ -403,9 +414,19 @@ def main():
     ap.add_argument('--bridge-linux', default=os.path.join(HERE, '..', '..', 'bin', 'linux-x86_64', 'px4_bridge'),
                     help='--arc-side container: the static Linux x86-64 bridge copied into the container')
     ap.add_argument('--gap-log-ms', type=float, default=20.0, help='log every command gap over this (ms)')
+    ap.add_argument('--rig', default='mavlink', choices=['mavlink', 'direct'],
+                    help='sensor and command path: mavlink = PX4 MAVLink records + 250 Hz publisher grid (default); '
+                         'direct = Gazebo IMU records + immediate publish (needs --arc-side container)')
+    ap.add_argument('--witness', action='store_true',
+                    help='log Gazebo IMU, motor command and motor-failure topics on the sim clock (<tag>.witness.txt)')
     ap.add_argument('--watchdog-clock', default='sim', choices=['sim', 'wall'],
                     help='--standby px4: time base of the --handover-ms watchdog (sim = Gazebo sim time, the plant clock)')
     args = ap.parse_args()
+    direct = args.rig == 'direct'
+    if direct and (args.arc_side != 'container' or args.arm == 'px4'):
+        ap.error('--rig direct needs an Arc arm with --arc-side container')
+    if direct and args.scenario in ('dropout', 'random'):
+        ap.error('--rig direct: record dropouts are not modelled (use the mavlink rig for dropout and random)')
 
     if args.arm == 'reflex' and args.brain is None:
         # Flight default (owner, 2026-10-18): candidate v5, compiled, plasticity off (tools/px4/flight_default.py).
@@ -479,7 +500,7 @@ def main():
     in_ct = args.arc_side == 'container' and args.arm != 'px4'
     if args.arm != 'px4':
         sh(['docker', 'exec', args.container, 'mkdir', '-p', CT_DIR])
-        for f in ['gz_motor_pub.py', 'stall_probe.py'] + (['ekf_stream.py'] if in_ct else []):
+        for f in ['gz_motor_pub.py', 'stall_probe.py'] + (['ekf_stream.py'] if in_ct else []) +                 (['gz_imu_stream.py'] if direct else []) + (['gz_witness.py'] if args.witness else []):
             subprocess.run(['docker', 'cp', os.path.join(HERE, f), '%s:%s/%s' % (args.container, CT_DIR, f)], check=True)
         if in_ct or args.standby == 'px4':
             stage_pymavlink(args.container)
@@ -513,7 +534,7 @@ def main():
     sargs = ['--seconds', str(stream_secs), '--tee', rec_path]
     # v3 records also when the rotor-loss mode is on: it propagates the attitude from its own timestamp
     # (a v1 record's attitude is the newest ATTITUDE message, up to a record period older than the record)
-    v2 = args.att_fallback != 'none' or bool(args.rotor_loss)
+    v2 = args.att_fallback != 'none' or bool(args.rotor_loss) or direct
     if v2:
         sargs += ['--record', 'v3']
     if args.scenario == 'bridge_loss':
@@ -535,7 +556,8 @@ def main():
         for raw in pub.stdout:
             pub_lines.append((time.time(), raw.decode(errors='replace').rstrip()))
     if args.arm != 'px4':
-        bargs = ['--hover', str(args.hover), '--alt', str(args.alt), '--every', '4',
+        # direct rig: every tick to the publisher (a record's ticks run in one burst; the last is the newest)
+        bargs = ['--hover', str(args.hover), '--alt', str(args.alt), '--every', '1' if direct else '4',
                  '--control', args.arm, '--log', CT_DIR + '/bridge.csv' if in_ct else base + '.csv',
                  '--residual-gain', str(args.residual_gain)]
         if args.plasticity != 'on':
@@ -556,6 +578,8 @@ def main():
             bargs += ['--record', 'v3', '--att-fallback', args.att_fallback]
         pargs = ['python3', '-u', CT_DIR + '/gz_motor_pub.py', '--stdin',
                  '--gap-log', CT_DIR + '/gaps.txt', '--gap-log-ms', str(args.gap_log_ms)]
+        if direct:
+            pargs += ['--immediate']
         if args.standby == 'px4':
             pargs += ['--handover-ms', str(args.handover_ms), '--mav', 'udp:127.0.0.1:%d' % WD_LINK[1],
                       '--watchdog-clock', args.watchdog_clock]
@@ -564,17 +588,24 @@ def main():
             # One pipeline inside the container: PX4 link -> streamer -> bridge -> motor publisher.
             q = lambda xs: ' '.join(shlex.quote(x) for x in xs)
             # stall_probe.py runs beside it as a witness for machine-wide stalls; the streamer logs record arrival gaps.
-            pipe = ('cd %s && (python3 stall_probe.py --seconds %.0f --out stalls.txt --over-ms %s &) && '
-                    '%s python3 -u ekf_stream.py --port %d %s --gap-log stream_gaps.txt --gap-log-ms %s 2>stream.err | '
+            witness = ('(python3 gz_witness.py --seconds %.0f --out witness.txt &) && ' % stream_secs) if args.witness else ''
+            streamer_py = 'gz_imu_stream.py' if direct else 'ekf_stream.py'
+            if direct:
+                sargs += ['--lat-log', 'rec_lat.txt']
+            pipe = ('cd %s && (python3 stall_probe.py --seconds %.0f --out stalls.txt --over-ms %s &) && %s'
+                    '%s python3 -u %s --port %d %s --gap-log stream_gaps.txt --gap-log-ms %s 2>stream.err | '
                     './px4_bridge %s 2>bridge.err | %s %s'
-                    % (CT_DIR, stream_secs, args.gap_log_ms, pyenv, ARC_LINK[1], q(sargs), args.gap_log_ms,
-                       q(bargs), pyenv, q(pargs)))
+                    % (CT_DIR, stream_secs, args.gap_log_ms, witness, pyenv, streamer_py, ARC_LINK[1], q(sargs),
+                       args.gap_log_ms, q(bargs), pyenv, q(pargs)))
             pub = subprocess.Popen(['docker', 'exec', args.container, 'sh', '-c', pipe],
                                    stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         else:
             # the same witnesses as the container layout: stall probe in the container, arrival gaps here
             sh(['docker', 'exec', '-d', args.container, 'python3', CT_DIR + '/stall_probe.py', '--seconds',
                 '%.0f' % stream_secs, '--out', CT_DIR + '/stalls.txt', '--over-ms', str(args.gap_log_ms)])
+            if args.witness:
+                sh(['docker', 'exec', '-d', '-w', CT_DIR, args.container, 'python3', 'gz_witness.py', '--seconds',
+                    '%.0f' % stream_secs, '--out', 'witness.txt'])
             streamer = subprocess.Popen([sys.executable, os.path.join(HERE, 'ekf_stream.py')] + sargs +
                                         ['--gap-log', base + '.stream_gaps.txt', '--gap-log-ms', str(args.gap_log_ms)],
                                         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -685,7 +716,7 @@ def main():
         serr = sh(['docker', 'exec', args.container, 'cat', CT_DIR + '/stream.err']).stdout.strip()
         bridge_err = sh(['docker', 'exec', args.container, 'cat', CT_DIR + '/bridge.err']).stdout
         for src, dst in (('rec.bin', base + '.bin'), ('bridge.csv', base + '.csv'),
-                         ('stream_gaps.txt', base + '.stream_gaps.txt'), ('stalls.txt', base + '.stalls.txt')):
+                         ('stream_gaps.txt', base + '.stream_gaps.txt'), ('stalls.txt', base + '.stalls.txt')) +                         ((('rec_lat.txt', base + '.lat.txt'),) if direct else ()):
             sh(['docker', 'cp', '%s:%s/%s' % (args.container, CT_DIR, src), dst])
     if serr:
         print('SCENARIO: streamer: %s' % serr.splitlines()[-1], flush=True)
@@ -707,6 +738,8 @@ def main():
             pub.kill()
         time.sleep(0.2)   # let the reader thread take the last lines
         sh(['docker', 'cp', '%s:%s/gaps.txt' % (args.container, CT_DIR), base + '.gaps.txt'])
+        if args.witness:
+            sh(['docker', 'cp', '%s:%s/witness.txt' % (args.container, CT_DIR), base + '.witness.txt'])
         if not in_ct:
             sh(['docker', 'cp', '%s:%s/stalls.txt' % (args.container, CT_DIR), base + '.stalls.txt'])
         for t_line, line in pub_lines:
@@ -762,7 +795,7 @@ def main():
               # a takeover before the loss (or, without a loss, inside the flight window) is a false takeover
               'false_takeover': (handover_t is not None and handover_t < (args.loss_at if args.scenario == 'bridge_loss'
                                                                           else args.seconds)) if args.standby == 'px4' else None,
-              'command_gaps': gaps,
+              'command_gaps': gaps, 'rig': args.rig,
               'bridge': stats, 'metrics': m}
     with open(base + '.json', 'w') as f:
         json.dump(result, f, indent=1)

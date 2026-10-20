@@ -1,0 +1,634 @@
+waiting: run_scenario running 0, cpu 28 %
+waiting: run_scenario running 0, cpu 33 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 74 %
+waiting: run_scenario running 0, cpu 65 %
+waiting: run_scenario running 0, cpu 71 %
+waiting: run_scenario running 0, cpu 59 %
+waiting: run_scenario running 0, cpu 66 %
+waiting: run_scenario running 0, cpu 72 %
+waiting: run_scenario running 0, cpu 63 %
+waiting: run_scenario running 0, cpu 64 %
+waiting: run_scenario running 0, cpu 64 %
+waiting: run_scenario running 0, cpu 62 %
+waiting: run_scenario running 0, cpu 67 %
+waiting: run_scenario running 0, cpu 64 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 70 %
+waiting: run_scenario running 0, cpu 96 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 58 %
+waiting: run_scenario running 0, cpu 61 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 65 %
+waiting: run_scenario running 0, cpu 69 %
+waiting: run_scenario running 0, cpu 57 %
+waiting: run_scenario running 0, cpu 57 %
+waiting: run_scenario running 0, cpu 66 %
+waiting: run_scenario running 0, cpu 64 %
+waiting: run_scenario running 0, cpu 57 %
+waiting: run_scenario running 0, cpu 71 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 98 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 99 %
+waiting: run_scenario running 0, cpu 99 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 98 %
+waiting: run_scenario running 0, cpu 99 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 99 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 98 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 92 %
+waiting: run_scenario running 0, cpu 91 %
+waiting: run_scenario running 0, cpu 79 %
+waiting: run_scenario running 0, cpu 84 %
+waiting: run_scenario running 0, cpu 81 %
+waiting: run_scenario running 0, cpu 86 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 65 %
+waiting: run_scenario running 0, cpu 54 %
+waiting: run_scenario running 0, cpu 50 %
+waiting: run_scenario running 0, cpu 60 %
+waiting: run_scenario running 0, cpu 46 %
+waiting: run_scenario running 0, cpu 43 %
+waiting: run_scenario running 0, cpu 36 %
+waiting: run_scenario running 0, cpu 38 %
+waiting: run_scenario running 0, cpu 34 %
+waiting: run_scenario running 0, cpu 45 %
+waiting: run_scenario running 0, cpu 27 %
+waiting: run_scenario running 0, cpu 48 %
+clear: cpu 19 %
+=== g11b_s12_a10_m1 15:53:03: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig mavlink --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 1 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.08 | 9.715 | 1.189 | 2.186 | 72.8 | 12.22 | 9.844 | 180.0 | 35.68 | 37.76 | 0 |
+clear: cpu 17 %
+=== g11b_s12_a10_m2 15:55:10: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig mavlink --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 2 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 1.96 | 9.733 | 1.074 | 2.658 | 65.4 | 11.238 | 2.641 | 180.0 | 35.7 | 37.66 | 0 |
+waiting: run_scenario running 0, cpu 77 %
+waiting: run_scenario running 0, cpu 61 %
+waiting: run_scenario running 0, cpu 45 %
+waiting: run_scenario running 0, cpu 91 %
+waiting: run_scenario running 0, cpu 94 %
+waiting: run_scenario running 0, cpu 95 %
+waiting: run_scenario running 0, cpu 77 %
+waiting: run_scenario running 0, cpu 89 %
+waiting: run_scenario running 0, cpu 73 %
+waiting: run_scenario running 0, cpu 92 %
+waiting: run_scenario running 0, cpu 87 %
+waiting: run_scenario running 0, cpu 88 %
+waiting: run_scenario running 0, cpu 94 %
+waiting: run_scenario running 0, cpu 89 %
+waiting: run_scenario running 0, cpu 60 %
+waiting: run_scenario running 0, cpu 46 %
+waiting: run_scenario running 0, cpu 51 %
+waiting: run_scenario running 0, cpu 39 %
+waiting: run_scenario running 0, cpu 43 %
+waiting: run_scenario running 0, cpu 40 %
+waiting: run_scenario running 0, cpu 40 %
+waiting: run_scenario running 0, cpu 67 %
+waiting: run_scenario running 0, cpu 46 %
+waiting: run_scenario running 0, cpu 60 %
+waiting: run_scenario running 0, cpu 44 %
+waiting: run_scenario running 0, cpu 50 %
+waiting: run_scenario running 0, cpu 50 %
+waiting: run_scenario running 0, cpu 51 %
+waiting: run_scenario running 0, cpu 41 %
+waiting: run_scenario running 0, cpu 69 %
+waiting: run_scenario running 0, cpu 50 %
+waiting: run_scenario running 0, cpu 65 %
+waiting: run_scenario running 0, cpu 73 %
+waiting: run_scenario running 0, cpu 94 %
+waiting: run_scenario running 0, cpu 88 %
+waiting: run_scenario running 0, cpu 99 %
+waiting: run_scenario running 0, cpu 96 %
+waiting: run_scenario running 0, cpu 88 %
+waiting: run_scenario running 0, cpu 76 %
+waiting: run_scenario running 0, cpu 49 %
+waiting: run_scenario running 0, cpu 58 %
+waiting: run_scenario running 0, cpu 55 %
+waiting: run_scenario running 0, cpu 48 %
+waiting: run_scenario running 0, cpu 79 %
+waiting: run_scenario running 0, cpu 84 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 90 %
+waiting: run_scenario running 0, cpu 87 %
+waiting: run_scenario running 0, cpu 81 %
+waiting: run_scenario running 0, cpu 82 %
+waiting: run_scenario running 0, cpu 82 %
+waiting: run_scenario running 0, cpu 91 %
+waiting: run_scenario running 0, cpu 77 %
+waiting: run_scenario running 0, cpu 87 %
+waiting: run_scenario running 0, cpu 79 %
+waiting: run_scenario running 0, cpu 85 %
+waiting: run_scenario running 0, cpu 85 %
+waiting: run_scenario running 0, cpu 94 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 93 %
+waiting: run_scenario running 0, cpu 93 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 98 %
+waiting: run_scenario running 0, cpu 95 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 96 %
+waiting: run_scenario running 0, cpu 93 %
+waiting: run_scenario running 0, cpu 93 %
+waiting: run_scenario running 0, cpu 97 %
+waiting: run_scenario running 0, cpu 94 %
+waiting: run_scenario running 0, cpu 93 %
+waiting: run_scenario running 0, cpu 93 %
+waiting: run_scenario running 0, cpu 95 %
+waiting: run_scenario running 0, cpu 90 %
+waiting: run_scenario running 0, cpu 91 %
+waiting: run_scenario running 0, cpu 90 %
+waiting: run_scenario running 0, cpu 95 %
+waiting: run_scenario running 0, cpu 94 %
+waiting: run_scenario running 0, cpu 91 %
+waiting: run_scenario running 0, cpu 93 %
+waiting: run_scenario running 0, cpu 92 %
+waiting: run_scenario running 0, cpu 91 %
+waiting: run_scenario running 0, cpu 91 %
+waiting: run_scenario running 0, cpu 89 %
+waiting: run_scenario running 0, cpu 91 %
+waiting: run_scenario running 0, cpu 92 %
+waiting: run_scenario running 0, cpu 90 %
+waiting: run_scenario running 0, cpu 91 %
+waiting: run_scenario running 0, cpu 94 %
+waiting: run_scenario running 0, cpu 86 %
+waiting: run_scenario running 0, cpu 82 %
+waiting: run_scenario running 0, cpu 81 %
+waiting: run_scenario running 0, cpu 70 %
+waiting: run_scenario running 0, cpu 71 %
+waiting: run_scenario running 0, cpu 70 %
+waiting: run_scenario running 0, cpu 69 %
+waiting: run_scenario running 0, cpu 69 %
+waiting: run_scenario running 0, cpu 70 %
+waiting: run_scenario running 0, cpu 66 %
+waiting: run_scenario running 0, cpu 66 %
+waiting: run_scenario running 0, cpu 71 %
+waiting: run_scenario running 0, cpu 69 %
+waiting: run_scenario running 0, cpu 96 %
+waiting: run_scenario running 0, cpu 82 %
+waiting: run_scenario running 0, cpu 88 %
+waiting: run_scenario running 0, cpu 73 %
+waiting: run_scenario running 0, cpu 97 %
+waiting: run_scenario running 0, cpu 92 %
+waiting: run_scenario running 0, cpu 78 %
+waiting: run_scenario running 0, cpu 93 %
+waiting: run_scenario running 0, cpu 77 %
+waiting: run_scenario running 0, cpu 71 %
+waiting: run_scenario running 0, cpu 74 %
+waiting: run_scenario running 0, cpu 70 %
+waiting: run_scenario running 0, cpu 70 %
+waiting: run_scenario running 0, cpu 73 %
+waiting: run_scenario running 0, cpu 68 %
+waiting: run_scenario running 0, cpu 69 %
+waiting: run_scenario running 0, cpu 82 %
+waiting: run_scenario running 0, cpu 79 %
+waiting: run_scenario running 0, cpu 78 %
+waiting: run_scenario running 0, cpu 78 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 99 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 99 %
+waiting: run_scenario running 0, cpu 99 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 99 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 99 %
+waiting: run_scenario running 0, cpu 99 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 99 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 99 %
+waiting: run_scenario running 0, cpu 98 %
+waiting: run_scenario running 0, cpu 98 %
+waiting: run_scenario running 0, cpu 97 %
+waiting: run_scenario running 0, cpu 83 %
+waiting: run_scenario running 0, cpu 81 %
+waiting: run_scenario running 0, cpu 78 %
+waiting: run_scenario running 0, cpu 82 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 95 %
+waiting: run_scenario running 0, cpu 76 %
+waiting: run_scenario running 0, cpu 92 %
+waiting: run_scenario running 0, cpu 72 %
+waiting: run_scenario running 0, cpu 99 %
+waiting: run_scenario running 0, cpu 81 %
+waiting: run_scenario running 0, cpu 78 %
+waiting: run_scenario running 0, cpu 91 %
+waiting: run_scenario running 0, cpu 83 %
+waiting: run_scenario running 0, cpu 66 %
+waiting: run_scenario running 0, cpu 67 %
+waiting: run_scenario running 0, cpu 70 %
+waiting: run_scenario running 0, cpu 77 %
+waiting: run_scenario running 0, cpu 77 %
+waiting: run_scenario running 0, cpu 78 %
+waiting: run_scenario running 0, cpu 77 %
+waiting: run_scenario running 0, cpu 69 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 100 %
+waiting: run_scenario running 0, cpu 64 %
+waiting: run_scenario running 0, cpu 54 %
+waiting: run_scenario running 0, cpu 47 %
+waiting: run_scenario running 0, cpu 65 %
+waiting: run_scenario running 0, cpu 67 %
+waiting: run_scenario running 0, cpu 78 %
+waiting: run_scenario running 0, cpu 63 %
+waiting: run_scenario running 0, cpu 53 %
+waiting: run_scenario running 0, cpu 40 %
+waiting: run_scenario running 0, cpu 40 %
+waiting: run_scenario running 0, cpu 39 %
+waiting: run_scenario running 0, cpu 71 %
+waiting: run_scenario running 0, cpu 76 %
+waiting: run_scenario running 0, cpu 76 %
+waiting: run_scenario running 0, cpu 59 %
+waiting: run_scenario running 0, cpu 70 %
+waiting: run_scenario running 0, cpu 66 %
+waiting: run_scenario running 0, cpu 64 %
+waiting: run_scenario running 0, cpu 61 %
+waiting: run_scenario running 0, cpu 55 %
+clear: cpu 22 %
+=== g11b_s12_a30_m1 18:31:56: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig mavlink --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 1 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 3.44 | 28.873 | 4.374 | 4.756 | 177.3 | 25.461 | 3.057 | 180.0 | 66.24 | 69.68 | 0 |
+clear: cpu 16 %
+=== g11b_s12_a30_m2 18:34:44: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig mavlink --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 2 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 4.04 | 29.436 | 2.349 | 2.844 | 77.9 | 15.928 | 3.252 | 180.0 | 66.5 | 70.54 | 0 |
+waiting: run_scenario running 0, cpu 33 %
+waiting: run_scenario running 0, cpu 44 %
+waiting: run_scenario running 0, cpu 28 %
+clear: cpu 18 %
+=== g11b_s12_a30_m3 18:39:41: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig mavlink --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 3 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 3.5 | 29.363 | 2.649 | 3.606 | 84.8 | 18.358 | 3.27 | 180.0 | 67.0 | 70.5 | 0 |
+clear: cpu 15 %
+=== g11b_s12_a30_m4 18:42:28: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig mavlink --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 4 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 3.52 | 29.402 | 2.499 | 2.246 | 83.8 | 17.341 | 3.328 | 180.0 | 67.02 | 70.54 | 0 |
+waiting: run_scenario running 0, cpu 32 %
+waiting: run_scenario running 0, cpu 42 %
+waiting: run_scenario running 0, cpu 61 %
+waiting: run_scenario running 0, cpu 59 %
+waiting: run_scenario running 0, cpu 44 %
+clear: cpu 21 %
+=== g11_hover_v5_1 18:48:56: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario hover
+| hover | reflex | 0.98 | 1.0 | 0.015 | 0.251 | 3.1 | None | None | None | 57.49 | - | 0 |
+clear: cpu 15 %
+=== g11_hover_v5_2 18:50:51: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario hover
+| hover | reflex | 1.02 | 0.999 | 0.017 | 0.214 | 2.8 | None | None | None | 57.41 | - | 571 |
+waiting: run_scenario running 0, cpu 39 %
+waiting: run_scenario running 0, cpu 25 %
+waiting: run_scenario running 0, cpu 31 %
+waiting: run_scenario running 0, cpu 38 %
+waiting: run_scenario running 0, cpu 48 %
+waiting: run_scenario running 0, cpu 32 %
+waiting: run_scenario running 0, cpu 31 %
+waiting: run_scenario running 0, cpu 33 %
+waiting: run_scenario running 0, cpu 28 %
+clear: cpu 22 %
+=== g11_hover_v5_3 18:59:18: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario hover
+| hover | reflex | 0.99 | 1.0 | 0.017 | 0.233 | 3.1 | None | None | None | 57.43 | - | 0 |
+waiting: run_scenario running 0, cpu 27 %
+clear: cpu 18 %
+=== g11_wind_v5_1 19:01:56: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario wind
+| wind | reflex | 1.02 | 1.004 | 0.023 | 2.875 | 17.6 | 0.086 | 3.209 | 17.6 | 57.36 | - | 0 |
+waiting: run_scenario running 0, cpu 32 %
+waiting: run_scenario running 0, cpu 29 %
+waiting: run_scenario running 0, cpu 34 %
+waiting: run_scenario running 0, cpu 32 %
+waiting: run_scenario running 0, cpu 31 %
+waiting: run_scenario running 0, cpu 30 %
+waiting: run_scenario running 0, cpu 30 %
+waiting: run_scenario running 0, cpu 50 %
+waiting: run_scenario running 0, cpu 53 %
+waiting: run_scenario running 0, cpu 56 %
+waiting: run_scenario running 0, cpu 35 %
+waiting: run_scenario running 0, cpu 55 %
+clear: cpu 17 %
+=== g11_wind_v5_2 19:12:34: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario wind
+| wind | reflex | 1.01 | 1.003 | 0.029 | 2.908 | 17.6 | 0.105 | 3.085 | 17.6 | 57.16 | - | 0 |
+waiting: run_scenario running 0, cpu 54 %
+waiting: run_scenario running 0, cpu 51 %
+waiting: run_scenario running 0, cpu 43 %
+waiting: run_scenario running 0, cpu 50 %
+waiting: run_scenario running 0, cpu 53 %
+waiting: run_scenario running 0, cpu 48 %
+waiting: run_scenario running 0, cpu 28 %
+waiting: run_scenario running 0, cpu 29 %
+waiting: run_scenario running 0, cpu 32 %
+waiting: run_scenario running 0, cpu 38 %
+waiting: run_scenario running 0, cpu 34 %
+waiting: run_scenario running 0, cpu 30 %
+clear: cpu 22 %
+=== g11_wind_v5_3 19:23:13: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario wind
+| wind | reflex | 1.13 | 1.001 | 0.021 | 2.736 | 17.6 | 0.093 | 3.119 | 17.7 | 57.28 | - | 0 |
+clear: cpu 14 %
+=== g11_hover_rl 19:25:08: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario hover --rotor-loss models/prior_x500_rotor_loss.arc002
+| hover | reflex | 1.02 | 1.001 | 0.016 | 0.248 | 3.1 | None | None | None | 57.36 | - | 0 |
+clear: cpu 15 %
+=== g11_wind_rl 19:27:03: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario wind --rotor-loss models/prior_x500_rotor_loss.arc002
+| wind | reflex | 1.04 | 1.005 | 0.015 | 2.724 | 17.3 | 0.098 | 3.138 | 17.7 | 57.38 | - | 0 |
+clear: cpu 16 %
+=== g11_ctl_a10_rl 19:28:58: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 0 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 4.35 | 9.997 | 0.018 | 0.245 | 3.2 | 0.043 | 0.216 | 3.1 | 64.03 | - | 0 |
+waiting: run_scenario running 0, cpu 44 %
+waiting: run_scenario running 0, cpu 51 %
+waiting: run_scenario running 0, cpu 25 %
+waiting: run_scenario running 0, cpu 50 %
+waiting: run_scenario running 0, cpu 61 %
+waiting: run_scenario running 0, cpu 36 %
+waiting: run_scenario running 0, cpu 33 %
+waiting: run_scenario running 0, cpu 40 %
+waiting: run_scenario running 0, cpu 26 %
+waiting: run_scenario running 0, cpu 42 %
+waiting: run_scenario running 0, cpu 56 %
+waiting: run_scenario running 0, cpu 56 %
+waiting: run_scenario running 0, cpu 45 %
+waiting: run_scenario running 0, cpu 42 %
+waiting: run_scenario running 0, cpu 43 %
+waiting: run_scenario running 0, cpu 49 %
+waiting: run_scenario running 0, cpu 46 %
+waiting: run_scenario running 0, cpu 43 %
+waiting: run_scenario running 0, cpu 49 %
+waiting: run_scenario running 0, cpu 56 %
+waiting: run_scenario running 0, cpu 50 %
+waiting: run_scenario running 0, cpu 39 %
+waiting: run_scenario running 0, cpu 38 %
+waiting: run_scenario running 0, cpu 32 %
+waiting: run_scenario running 0, cpu 83 %
+waiting: run_scenario running 0, cpu 41 %
+waiting: run_scenario running 0, cpu 40 %
+waiting: run_scenario running 0, cpu 95 %
+waiting: run_scenario running 0, cpu 61 %
+waiting: run_scenario running 0, cpu 45 %
+waiting: run_scenario running 0, cpu 26 %
+waiting: run_scenario running 0, cpu 25 %
+clear: cpu 22 %
+=== g11_ctl_s12_a10_rl 19:54:39: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 0 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 1.95 | 9.995 | 0.022 | 0.207 | 2.8 | 0.055 | 0.233 | 3.0 | 63.83 | - | 0 |
+waiting: run_scenario running 0, cpu 85 %
+waiting: run_scenario running 0, cpu 51 %
+waiting: run_scenario running 0, cpu 75 %
+waiting: run_scenario running 0, cpu 82 %
+waiting: run_scenario running 0, cpu 50 %
+waiting: run_scenario running 0, cpu 34 %
+waiting: run_scenario running 0, cpu 37 %
+waiting: run_scenario running 0, cpu 36 %
+waiting: run_scenario running 0, cpu 48 %
+waiting: run_scenario running 0, cpu 42 %
+waiting: run_scenario running 0, cpu 94 %
+waiting: run_scenario running 0, cpu 50 %
+waiting: run_scenario running 0, cpu 37 %
+clear: cpu 16 %
+=== g11_ml_v5_m1 20:06:23: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 1
+| motor_loss | reflex | 4.24 | 9.398 | 2.132 | 9.883 | 1104.7 | 36.856 | 98.614 | 487603372158.9 | 33.12 | 37.35 | 9579 |
+clear: cpu 15 %
+=== g11_ml_v5_s12_m1 20:08:27: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 1 --motor-scale 1.2
+| motor_loss | reflex | 1.99 | 9.393 | 2.259 | 4.886 | 5461.8 | 15.108 | 38.36 | 1713.8 | 35.4 | 37.39 | 30583 |
+clear: cpu 13 %
+=== g11_ml_rl_a10_m1 20:10:32: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 1 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 4.38 | 9.668 | 1.306 | 2.666 | 33.8 | 10.507 | 2.736 | 73.9 | 35.84 | 40.46 | 0 |
+clear: cpu 24 %
+=== g11_ml_rl_a10_m2 20:12:37: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 4.3 | 9.68 | 1.269 | 2.258 | 33.3 | 10.495 | 2.098 | 38.8 | 35.96 | 40.26 | 0 |
+waiting: run_scenario running 0, cpu 47 %
+waiting: run_scenario running 0, cpu 42 %
+waiting: run_scenario running 0, cpu 93 %
+waiting: run_scenario running 0, cpu 42 %
+waiting: run_scenario running 0, cpu 35 %
+clear: cpu 18 %
+=== g11_ml_rl_a10_m3 20:18:27: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 3 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 4.24 | 9.726 | 1.098 | 2.289 | 30.1 | 10.465 | 2.06 | 77.6 | 36.24 | 40.69 | 0 |
+clear: cpu 21 %
+=== g11_ml_rl_a10_m4 20:20:33: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 4 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 4.38 | 9.68 | 1.264 | 2.559 | 37.8 | 10.556 | 2.424 | 14.0 | 35.88 | 40.26 | 0 |
+clear: cpu 12 %
+=== g11_s12_a10_m1_1 20:22:39: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 1 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 1.94 | 9.916 | 0.295 | 2.236 | 31.7 | 1.662 | 2.19 | 239.1 | 39.07 | 41.01 | 0 |
+clear: cpu 15 %
+=== g11_s12_a10_m2_2 20:24:45: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 2 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.29 | 9.917 | 0.266 | 1.936 | 28.3 | 1.897 | 1.98 | 249.8 | 38.79 | 41.08 | 0 |
+clear: cpu 16 %
+=== g11_s12_a10_m3_3 20:26:54: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 3 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.04 | 9.929 | 0.25 | 2.057 | 27.4 | 1.618 | 2.003 | 240.0 | 38.98 | 41.02 | 0 |
+clear: cpu 14 %
+=== g11_s12_a10_m4_4 20:29:01: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 4 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.24 | 9.908 | 0.298 | 2.238 | 30.0 | 2.115 | 1.898 | 211.1 | 38.78 | 41.01 | 0 |
+clear: cpu 10 %
+=== g11_s12_a10_m1_5 20:31:08: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 1 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.24 | 9.897 | 0.348 | 2.547 | 34.3 | 2.04 | 2.252 | 206.4 | 38.75 | 40.98 | 0 |
+clear: cpu 10 %
+=== g11_s12_a10_m3_6 20:33:14: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 10 --fail-at 40 --seconds 70 --fail-motor 3 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 2.26 | 9.894 | 0.354 | 2.328 | 32.7 | 2.219 | 2.073 | 225.9 | 38.77 | 41.02 | 0 |
+clear: cpu 11 %
+=== g11_s12_a30_m1_7 20:35:20: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 1 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 3.45 | 29.918 | 0.291 | 2.373 | 207.6 | 1.736 | 2.13 | 226.3 | 70.29 | 73.74 | 0 |
+waiting: run_scenario running 0, cpu 71 %
+waiting: run_scenario running 0, cpu 70 %
+waiting: run_scenario running 0, cpu 42 %
+waiting: run_scenario running 0, cpu 43 %
+waiting: run_scenario running 0, cpu 44 %
+waiting: run_scenario running 0, cpu 38 %
+waiting: run_scenario running 0, cpu 49 %
+waiting: run_scenario running 0, cpu 43 %
+waiting: run_scenario running 0, cpu 49 %
+waiting: run_scenario running 0, cpu 40 %
+waiting: run_scenario running 0, cpu 37 %
+waiting: run_scenario running 0, cpu 36 %
+clear: cpu 17 %
+=== g11_s12_a30_m2_8 20:46:51: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 2 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 3.48 | 29.927 | 0.252 | 2.049 | 189.4 | 2.204 | 2.071 | 211.5 | 70.9 | 74.38 | 0 |
+waiting: run_scenario running 0, cpu 57 %
+waiting: run_scenario running 0, cpu 76 %
+waiting: run_scenario running 0, cpu 64 %
+waiting: run_scenario running 0, cpu 63 %
+waiting: run_scenario running 0, cpu 64 %
+waiting: run_scenario running 0, cpu 63 %
+waiting: run_scenario running 0, cpu 54 %
+waiting: run_scenario running 0, cpu 56 %
+waiting: run_scenario running 0, cpu 75 %
+waiting: run_scenario running 0, cpu 82 %
+waiting: run_scenario running 0, cpu 36 %
+waiting: run_scenario running 0, cpu 45 %
+waiting: run_scenario running 0, cpu 37 %
+waiting: run_scenario running 0, cpu 49 %
+waiting: run_scenario running 0, cpu 40 %
+waiting: run_scenario running 0, cpu 36 %
+waiting: run_scenario running 0, cpu 33 %
+waiting: run_scenario running 0, cpu 30 %
+waiting: run_scenario running 0, cpu 34 %
+waiting: run_scenario running 0, cpu 30 %
+waiting: run_scenario running 0, cpu 29 %
+waiting: run_scenario running 0, cpu 30 %
+waiting: run_scenario running 0, cpu 36 %
+waiting: run_scenario running 0, cpu 39 %
+waiting: run_scenario running 0, cpu 40 %
+waiting: run_scenario running 0, cpu 38 %
+waiting: run_scenario running 0, cpu 33 %
+waiting: run_scenario running 0, cpu 40 %
+waiting: run_scenario running 0, cpu 40 %
+waiting: run_scenario running 0, cpu 41 %
+waiting: run_scenario running 0, cpu 74 %
+waiting: run_scenario running 0, cpu 81 %
+waiting: run_scenario running 0, cpu 73 %
+waiting: run_scenario running 0, cpu 62 %
+waiting: run_scenario running 0, cpu 56 %
+waiting: run_scenario running 0, cpu 55 %
+waiting: run_scenario running 0, cpu 51 %
+waiting: run_scenario running 0, cpu 45 %
+waiting: run_scenario running 0, cpu 25 %
+waiting: run_scenario running 0, cpu 50 %
+clear: cpu 19 %
+=== g11_s12_a30_m3_9 21:18:43: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 3 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 4.07 | 29.907 | 0.34 | 2.283 | 263.9 | 2.149 | 1.908 | 222.3 | 69.95 | 74.02 | 0 |
+waiting: run_scenario running 0, cpu 37 %
+clear: cpu 15 %
+=== g11_s12_a30_m4_10 21:22:13: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 4 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 3.44 | 29.939 | 0.215 | 1.841 | 189.9 | 1.542 | 2.024 | 212.6 | 70.9 | 74.34 | 0 |
+clear: cpu 16 %
+=== g11_s12_a30_m2_11 21:24:58: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 2 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 4.06 | 29.896 | 0.383 | 2.212 | 196.2 | 2.083 | 2.26 | 220.8 | 69.91 | 73.97 | 0 |
+clear: cpu 10 %
+=== g11_s12_a30_m4_12 21:27:43: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario motor_loss --alt 30 --fail-at 75 --seconds 110 --fail-motor 4 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002
+| motor_loss | reflex | 3.46 | 29.932 | 0.233 | 1.854 | 201.1 | 2.363 | 2.043 | 218.2 | 70.69 | 74.14 | 0 |
+waiting: run_scenario running 0, cpu 29 %
+waiting: run_scenario running 0, cpu 92 %
+clear: cpu 18 %
+=== g11_g6_kill_1 21:32:03: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --standby px4 --watchdog-clock sim --seconds 50 --scenario bridge_loss --loss-at 30 --loss-kind kill
+| bridge_loss | reflex | 1.84 | 0.996 | 0.108 | 0.233 | 2.8 | 2.029 | 0.057 | 1.7 | 48.27 | - | - |
+waiting: run_scenario running 0, cpu 32 %
+clear: cpu 9 %
+=== g11_g6_kill_2 21:34:33: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --standby px4 --watchdog-clock sim --seconds 50 --scenario bridge_loss --loss-at 30 --loss-kind kill
+| bridge_loss | reflex | 1.86 | 0.996 | 0.108 | 0.236 | 2.9 | 2.001 | 0.168 | 2.4 | 46.45 | - | - |
+clear: cpu 10 %
+=== g11_g6_kill_3 21:36:16: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --standby px4 --watchdog-clock sim --seconds 50 --scenario bridge_loss --loss-at 30 --loss-kind kill
+| bridge_loss | reflex | 1.84 | 0.996 | 0.111 | 0.216 | 2.7 | 2.027 | 0.178 | 2.2 | 48.37 | - | - |
+clear: cpu 11 %
+=== g11_g6_kill_4 21:38:01: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --standby px4 --watchdog-clock sim --seconds 50 --scenario bridge_loss --loss-at 30 --loss-kind kill
+| bridge_loss | reflex | 1.84 | 0.992 | 0.117 | 0.207 | 2.8 | 1.99 | 0.185 | 2.7 | 47.47 | - | - |
+clear: cpu 10 %
+=== g11_g6_kill_5 21:39:45: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --standby px4 --watchdog-clock sim --seconds 50 --scenario bridge_loss --loss-at 30 --loss-kind kill
+| bridge_loss | reflex | 1.92 | 0.993 | 0.116 | 0.192 | 2.5 | 1.969 | 0.092 | 2.5 | 46.33 | - | - |
+clear: cpu 10 %
+=== g11_g6_kill_6 21:41:28: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --standby px4 --watchdog-clock sim --seconds 50 --scenario bridge_loss --loss-at 30 --loss-kind kill
+| bridge_loss | reflex | 1.78 | 0.993 | 0.121 | 0.201 | 2.8 | 2.007 | 0.186 | 1.8 | 46.43 | - | - |
+clear: cpu 11 %
+=== g11_g6_hang_1 21:43:11: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --standby px4 --watchdog-clock sim --seconds 50 --scenario bridge_loss --loss-at 30 --loss-kind hang
+| bridge_loss | reflex | 1.85 | 0.99 | 0.103 | 0.193 | 3.2 | 2.014 | 0.14 | 2.2 | 48.3 | - | - |
+clear: cpu 10 %
+=== g11_g6_hang_2 21:46:15: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --standby px4 --watchdog-clock sim --seconds 50 --scenario bridge_loss --loss-at 30 --loss-kind hang
+| bridge_loss | reflex | 1.78 | 0.988 | 0.099 | 0.212 | 4.6 | 2.002 | 0.129 | 3.4 | 46.43 | - | - |
+waiting: run_scenario running 0, cpu 38 %
+waiting: run_scenario running 0, cpu 37 %
+waiting: run_scenario running 0, cpu 36 %
+clear: cpu 10 %
+=== g11_g6_hang_3 21:51:29: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --standby px4 --watchdog-clock sim --seconds 50 --scenario bridge_loss --loss-at 30 --loss-kind hang
+| bridge_loss | reflex | 1.73 | 0.984 | 0.105 | 0.233 | 3.6 | 1.962 | 0.09 | 2.6 | 46.58 | - | - |
+clear: cpu 10 %
+=== g11_g6_nofault_1 21:54:33: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --standby px4 --watchdog-clock sim --seconds 50 --scenario hover
+| hover | reflex | 1.8 | 1.001 | 0.016 | 0.216 | 2.8 | None | None | None | 46.4 | - | 0 |
+clear: cpu 10 %
+=== g11_g6_nofault_2 21:56:16: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --standby px4 --watchdog-clock sim --seconds 50 --scenario hover
+| hover | reflex | 1.82 | 1.001 | 0.019 | 0.232 | 2.7 | None | None | None | 46.44 | - | 0 |
+clear: cpu 18 %
+=== g11_g6_nofault_3 21:58:00: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --standby px4 --watchdog-clock sim --seconds 50 --scenario hover
+| hover | reflex | 1.74 | 1.0 | 0.013 | 0.205 | 3.1 | None | None | None | 46.57 | - | 0 |
+waiting: run_scenario running 0, cpu 30 %
+waiting: run_scenario running 0, cpu 35 %
+clear: cpu 10 %
+=== g11_g6_nofault_4 22:01:10: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --standby px4 --watchdog-clock sim --seconds 50 --scenario hover
+| hover | reflex | 1.76 | 1.001 | 0.017 | 0.242 | 3.3 | None | None | None | 46.45 | - | 0 |
+G11 DONE Tue Oct 20 22:02:40 MPST 2026
+skip g11_hover_v5_1 (done)
+clear: cpu 12 %
+=== g11_hover_v5_2 22:04:48: --arm reflex --arc-side container --bridge-linux build-g11-linux/px4_bridge --witness --rig direct --scenario hover
+| hover | reflex | 0.88 | 0.999 | 0.017 | 0.239 | 3.0 | None | None | None | 57.44 | - | 0 |
+skip g11_hover_v5_3 (done)
+skip g11_wind_v5_1 (done)
+skip g11_wind_v5_2 (done)
+skip g11_wind_v5_3 (done)
+skip g11_hover_rl (done)
+skip g11_wind_rl (done)
+skip g11_ctl_a10_rl (done)
+skip g11_ctl_s12_a10_rl (done)
+G11 DONE Tue Oct 20 22:06:30 MPST 2026

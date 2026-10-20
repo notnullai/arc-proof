@@ -1,0 +1,11 @@
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: injector READY
+SCENARIO: inject fail 1 -> OK fail 1
+SCENARIO: motor 1 failed at 40.0s
+SCENARIO: streamer: GZ_IMU_STREAM: 11698 records in 72.0s gyro=gz-imu attitude=px4+propagated(2340) att_age_ms mean 12.0 range -76.0..24.0
+SCENARIO: GZ_MOTOR_PUB: command gaps: 47000 lines, 71 over 20 ms, worst 1319.9 ms (sim time in the logged gaps: worst 100.0 ms)
+SCENARIO: gap attribution {"lines": 47000, "over_ms": 20.0, "n_over": 71, "worst_ms": 1319.9, "worst_sim_ms_in_gaps": 100.0, "worst_ms_in_window": 1319.9, "machine_stalls_in_window": 6, "worst_ms_outside_machine_stalls_in_window": 315.2, "worst_ms_added_by_arc_side_in_window": 315.2, "worst_sim_ms": 100.0, "machine_stalls": 6, "worst_ms_outside_machine_stalls": 315.2, "worst_stall_probe_ms": 1042.7, "worst_ms_in_flight": 1319.9, "machine_stalls_in_flight": 6, "worst_ms_outside_machine_stalls_in_flight": 315.2, "worst_ms_added_by_arc_side_in_flight": 315.2, "worst_stream_arrival_ms": 1046.7}
+SCENARIO RESULT {"records": 11698, "sim_s": 46.788, "takeoff_s": 4.24, "airborne": true, "settled": {"alt_rms": 2.215, "alt_max_err": 10.816, "alt_mean": 9.398, "alt_jitter_rms": 2.132, "xy_max": 9.883, "tilt_max_deg": 1104.7}, "disturbed": {"alt_rms": 11.491, "alt_max_err": 36.856, "alt_mean": 0.468, "alt_jitter_rms": 6.418, "xy_max": 98.614, "tilt_max_deg": 487603372158.9}, "tilt_fault_s": 37.35, "ground_impact_s": 38.64, "survival_s": 33.12, "survived_run": false}
+| motor_loss | reflex | 4.24 | 9.398 | 2.132 | 9.883 | 1104.7 | 36.856 | 98.614 | 487603372158.9 | 33.12 | 37.35 | 9579 |

@@ -189,6 +189,35 @@ by the handover latency.
 | g6_nofault_v5_3 | reflex | - | px4 | True | 50.1 | eof | 0 | 37 | nan | nan | nan | nan | nan | False | 185.0 | 2 | 33.9 | 33.9 | 185.0 |
 | g6_nofault_v5_4 | reflex | - | px4 | True | 49.96 | eof | 0 | 29 | nan | nan | nan | nan | nan | False | 186.5 | 2 | 60.2 | 60.2 | 186.5 |
 
+### The direct rig (G11, 2026-10-20)
+
+The same matrix (v5, PX4 standby, plant-clock watchdog at 200 ms, 50 s,
+loss at 30 s, Arc side in the container) on the direct rig
+(`run_scenario.py --rig direct`, `docs/px4_sitl_method.md`, direct rig): records from
+Gazebo's IMU topic at 250 Hz with PX4's estimate, every tick published as it
+arrives. The watchdog and the takeover path are the same code. Per-run
+table `docs/px4_sitl_results/g6/direct/summary.md` (records in the private
+repository; script `tools/px4/run_g11.sh` phase `g6`).
+
+| case | runs | survived | false takeovers | detection | route + arm + takeoff | altitude lost (from ~1.0 m) | tilt max |
+|---|---|---|---|---|---|---|---|
+| Arc killed | 6 | **6 / 6** | 0 | 0–4 ms (stream closed) | 15–31 ms | 0.44–0.56 m | 2.2–3.0° |
+| Arc hung | 3 | **3 / 3** | 0 | 200 ms (plant time) | 16–19 ms | 0.47–0.55 m | 3.2–4.7° |
+| no fault, fallback armed | 4 | **4 / 4** | **0** | only at end of stream, after the window | (19–31 ms there) | — | — |
+
+The same as on the MAVLink rig (0.45–0.54 m lost, 2.4–3.8°, 21–36 ms takeover):
+altitude lost is PX4's takeover from fresh controllers, not the transport.
+Command gaps: the worst in flight in 12 of 13 runs is a machine-wide VM
+stall of 1.06–1.08 s (seen by the stall probe; sim time advanced 4 ms
+through it); outside machine stalls 0 in 11 runs, 36 ms and 104 ms in two,
+both also holes in the IMU record stream; the Arc side added 0 ms in all 13.
+
+`summarize_bridge_loss.py` now takes the loss time in sim time from the
+bridge's last logged tick: these VM stalls put sim time about 2 s behind the
+wall clock at the loss, and the scheduled (wall) time had moved the
+before/after windows across it (the earlier runs' stalls were too short to
+matter; without the bridge log it falls back to the wall time as before).
+
 ## What this does and does not claim
 
 - Arc crashing or hanging mid-flight is survivable: 13 of 13 losses survived

@@ -33,6 +33,10 @@ one burst, and wait for both COMMAND_ACKs. PX4's own controller then owns the
 motors with fresh state. One-way: authority never returns to Arc in a run.
 The motor plugins hold their last command in the gap.
 
+Immediate mode (--immediate, the direct rig): each command line is published the moment it arrives,
+from the reader thread, instead of the newest line being re-published on the --rate grid (which adds up
+to one grid period, 4 ms at 250 Hz, plus the wait for the main loop). The watchdog is unchanged.
+
 Gap log (--gap-log PATH): every interval between command lines longer than
 --gap-log-ms (default 20 ms; records arrive every 20 ms and the bridge writes
 a burst of lines per record) is written to PATH as "wall_time gap_ms
@@ -156,6 +160,8 @@ def main():
     ap.add_argument('--mav', default=None,
                     help='with --handover-ms: the PX4 MAVLink link for the handover, e.g. udp:127.0.0.1:14603')
     ap.add_argument('--gz-bridge', default='/opt/px4-gazebo/bin/px4-gz_bridge')
+    ap.add_argument('--immediate', action='store_true',
+                    help='publish each command line as it arrives (direct rig) instead of the newest on the --rate grid')
     ap.add_argument('--gap-log', default=None, help='write every command gap over --gap-log-ms here')
     ap.add_argument('--gap-log-ms', type=float, default=20.0)
     ap.add_argument('--watchdog-clock', default='sim', choices=['sim', 'wall'],
@@ -176,6 +182,9 @@ def main():
     time.sleep(0.5)  # let discovery settle so the first messages land
 
     latest = [0.0, 0.0, 0.0, 0.0]
+    pub_lock = threading.Lock()
+    stopped = [False]   # set once this process stops publishing (handover or end)
+    count = [0]
     done = threading.Event()
     last_line = [time.time()]
     last_sim = [None]
@@ -192,6 +201,13 @@ def main():
                 except ValueError:
                     continue
                 latest[:] = vals
+                if args.immediate:
+                    with pub_lock:
+                        if not stopped[0]:
+                            im = Actuators()
+                            im.velocity.extend(vals)
+                            pub.publish(im)
+                            count[0] += 1
                 now = time.time()
                 st = sim_t[0]
                 if got_line[0]:
@@ -235,6 +251,8 @@ def main():
             sim_clock = args.watchdog_clock == 'sim' and st is not None and ls is not None
             stale_ms = (st - ls) * 1000.0 if sim_clock else wall_ms
             if done.is_set() or stale_ms > args.handover_ms:
+                with pub_lock:
+                    stopped[0] = True
                 t_h = time.time()
                 why = 'eof' if done.is_set() else 'stale'
                 ok, detail = handover(link, args.gz_bridge)
@@ -248,11 +266,17 @@ def main():
             break
         if deadline is not None and time.time() >= deadline:
             break
+        if args.immediate:
+            time.sleep(0.001)   # the reader publishes; this loop only runs the watchdog
+            continue
         del msg.velocity[:]
         msg.velocity.extend(latest)
         pub.publish(msg)
         n += 1
         time.sleep(period)
+    with pub_lock:
+        stopped[0] = True
+    n += count[0]
     # Leave the plant idle (not after a handover: PX4 owns the topic then).
     if handed is None:
         del msg.velocity[:]

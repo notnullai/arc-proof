@@ -5,8 +5,9 @@
 what is needed to check the results: the bridge binaries under `bin/` (the mode
 is in them, off by default, `--rotor-loss`), the model
 `models/prior_x500_rotor_loss.arc002`, the Gazebo harness (`tools/px4/`:
-`run_scenario.py --rotor-loss … --motor-scale …`, `run_g10.sh`, `run_g10_hold.sh`, `run_g10_spread.sh`,
-`summarize_rotor_loss.py`) and every run's evidence under `docs/rotor_loss_results/`.
+`run_scenario.py --rotor-loss … --motor-scale … --rig mavlink|direct --witness`, `run_g10.sh`,
+`run_g10_hold.sh`, `run_g10_spread.sh`, `run_g11.sh`, `gz_imu_stream.py`, `gz_witness.py`,
+`rig_latency.py`, `summarize_rotor_loss.py`) and every run's evidence under `docs/rotor_loss_results/`.
 
 Owner (2026-10-19): "start the rotor-loss work (G10), hermetic first, then
 Gazebo, with honest limits stated."
@@ -297,7 +298,90 @@ without are within the peak-rate spread), and the gain claimed is the
 hermetic one only. Shortening the Gazebo catch needs a shorter sensor and
 command path (the Arc side reading Gazebo's IMU and motor topics directly,
 or lockstep), not a controller change; on the real vehicle Arc runs on board
-with the gyro at 1 kHz, where the hermetic catch is 20° median.
+with the gyro at 1 kHz, where the hermetic catch is 20° median. That rig is
+built and measured below (G11).
+
+### The direct rig (G11, 2026-10-20)
+
+`run_scenario.py --rig direct` (needs `--arc-side container`). Same bridge
+binary, same models, same controllers; only the transport changes. The
+records come from Gazebo's IMU topic, one per sample (250 Hz, the stock
+world's 4 ms physics step), stamped with the sample's sim time: rates, gyro
+and accelerometer from that sample (body FLU to FRD, as PX4's own gz bridge
+converts them), PX4's attitude propagated from its own stamp to the sample
+with the gyro samples in between (it is 4–24 ms old when it arrives, median
+12), PX4's position, velocity and baro as received
+(`tools/px4/gz_imu_stream.py`). Every bridge tick goes to the motor
+publisher, which publishes each line as it arrives instead of re-sending
+the newest on a 250 Hz grid (`gz_motor_pub.py --immediate`). PX4 stays the
+estimator and the fallback (G6, `docs/bridge_loss_method.md`). The MAVLink
+rig stays the default (`--rig mavlink`); no golden hash, model or bridge
+byte changed: the bridge binaries under `bin/` are the G10 ones (private
+01e73ef; the private, unstripped rebuild used for these runs matched its G10
+build's SHA-256).
+
+**Latency, measured the same way on both rigs.** `tools/px4/gz_witness.py`
+logs Gazebo's own IMU, motor command, motor-failure and model-pose topics on
+the sim clock; `tools/px4/rig_latency.py` takes the onset (the first true IMU
+sample after the failure command above 20 rad/s²; the failure is a step from
+about 2 to 52 rad/s² within one sample), the first motor command with the
+opposite rotor at or below half its last-second mean (the cut), and the true
+tilt (the model pose, 50 Hz, carried between samples with the true gyro).
+
+| rig | runs | onset to the opposite rotor's cut | peak roll/pitch rate, first 0.3 s | true catch tilt, first 1.5 s |
+|---|---|---|---|---|
+| MAVLink (the G10 rig, with the witness; ×1.2, mode on) | 6 | **40–60 ms** (median 50) | 2.8–4.2 rad/s | 67–97°, median 81° |
+| **direct** (×1.2 and stock, mode on) | 16 | **8 ms in every run** | 1.25–1.53 rad/s | **28–40°, median 34°** (×1.2 alone: 28–38°, median 33°) |
+
+The command acts from the next physics step, so the opposite rotor's thrust
+starts going 12 ms after the onset on the direct rig, against 44–64 ms
+before. Of the 8 ms, 4 are the bridge's clock (a record's ticks run when the
+next record arrives: the clock never runs ahead of the data) and 4 the step
+in which the command is published; in every run the cut landed in the step
+after the detecting sample. The machine-wide stalls of the Docker VM (now
+0.8–1.05 s, about twice per run, each seen by the stall probe) stop Gazebo
+with everything else: sim time advanced 4 ms through each, so they cost no
+plant time. Lockstep (stepping Gazebo only after each command) was
+therefore not built: it would remove nothing that was measured. What would
+shorten the path further is the bridge's record clock (an end-of-record
+mark, so a record's own tick runs on arrival) and a 1 kHz IMU and physics
+step; both change more than the transport and are left as follow-ups.
+
+**Rotor failure on the direct rig** (`gazebo_direct/`, table `summary.md`;
+detection 4 ms and confirmation 20 ms after the onset in every run, the
+right rotor every time):
+
+| airframe, height | runs | outcome | lowest point | last 20 s | catch tilt (true) |
+|---|---|---|---|---|---|
+| ×1.2 motors, 30 m | 6 (each rotor; 2 and 4 twice) | **6/6 held** to the end (34–36 s) | 27.6–28.5 m: **1.5–2.4 m lost** (G10 rig: 11–26 m) | 28.8–30.5 m, position within 2.1 m, spin 14.6–14.7 rad/s | 28–38° |
+| ×1.2 motors, 10 m | 6 (each rotor; 1 and 3 twice) | **6/6 held** to the end (31 s) (G10 rig: every 10 m run touched down) | 7.8–8.4 m | 9.1–10.2 m, within 1.6 m | 30–37° |
+| stock x500 (T/W 1.69), 10 m | 4 (each rotor) | falls upright, touchdown 5.0–5.2 m/s (G10 rig: 7.6–13.0) | – | – | 33–40° |
+| v5 alone, stock and ×1.2, 10 m | 2 | flips (171–174°), 13.4–13.5 m/s, as before | – | – | – |
+| baseline: MAVLink rig, ×1.2, 10 m and 30 m | 6 | 30 m: 4/4 held, lowest 4.5–14.1 m; 10 m: touchdown 2.9–3.1 m/s | | | 67–97° |
+
+The records' own attitude (PX4's, propagated) reads up to 179° in the spin
+on both rigs, because PX4's attitude fails at 14–15 rad/s (item 2 below);
+the mode does not fly on it after the hand-over, and the catch tilts above
+are Gazebo's pose, not the records'.
+
+**Normal flight on the direct rig** (mode on, no failure, 0 detections in
+every run): hover 1 m, station 0.25 m, tilt 3.1°, largest residual along a
+rotor 2.6 rad/s²; wind 3 N + 1.5 N every 6 s, excursion 3.14 m, tilt 17.7°,
+altitude error 0.10 m, largest residual 3.5 rad/s² (G10 rig: 9.7); control
+flights at 10 m, stock and ×1.2, station ≤ 0.25 m, altitude error ≤ 0.06 m,
+largest residual 2.7 rad/s². The v5 regressions (G9 matrix, mode off) are
+in `docs/px4_sitl_method.md` (direct rig): hover unchanged, wind excursion 0.05–0.16 m
+larger.
+
+**So the Gazebo catch now approaches the hermetic figures but does not
+reach them.** Median 33° on the ×1.2 airframe (hermetic on board: 20°,
+range 9–61°); no failure lost in 12 against about one in eight before; less
+height lost than hermetically (1.5–2.4 m at 30 m; hermetic ≤ 5.9 m when
+held, which includes failures inside gusts; no gusts here). What still
+separates the two: 12 ms from onset to actuation against 0–4 ms on board
+(the 4 ms physics step and the bridge's record clock), and an attitude that
+is PX4's, 4–24 ms old and carried forward by the gyro, where the hermetic
+records carry the plant's.
 
 The hold: with PX4's height the altitude swung ±4.5 m around the station
 (a ~5.5 s cycle between full and minimum collective); with the mode's own
@@ -360,16 +444,17 @@ as evidence:
   and height; every tested case holds at T/W ≥ 2.0 from 10 m up hermetically,
   and from 30 m in Gazebo. The stock Gazebo x500 (1.69) only falls with the
   attitude held; heavier or weaker airframes fall faster.
-- **The catch and the height to recover.** In Gazebo the vehicle tips to
-  70–110° before the law catches it (median 93°, 34 runs) and about one
-  failure in eight is lost (tips past ~105°: 2 of 18 at 30 m, 2 of 16 land
-  at 12.5 m/s from 10 m); the held ones lose 11–26 m at 30 m. The cause is
-  the SITL pipeline's 50–80 ms from the failure to the opposite rotor's
-  thrust going (section 4); the controller cannot remove it, and the
-  pre-emptive cut does not change it in Gazebo. With an on-board 1 kHz gyro
-  the hermetic catch is 20° median (61–68° when the failure comes inside a
-  gust) and the height lost ≤ 7 m. Not shown in Gazebo: a shorter sensor
-  path there (follow-up).
+- **The catch and the height to recover.** The catch is set by the time
+  from the failure to the opposite rotor's thrust going. Through PX4's
+  MAVLink stream (the G10 rig, 44–64 ms in Gazebo) the vehicle tips to
+  70–110° (median 93°, 34 runs) and about one failure in eight is lost.
+  With the Arc side reading Gazebo's IMU directly (the G11 rig, 12 ms) the
+  catch is 28–38° (median 33°, ×1.2 airframe), 12 of 12 held from 10 and
+  30 m, 1.5–2.4 m lost (section 4). With an on-board 1 kHz gyro the
+  hermetic catch is 20° median (61–68° when the failure comes inside a
+  gust). The real vehicle's figure depends on its own sensor-to-motor path,
+  which a board run must measure (G9); failures inside gusts were not
+  repeated on the direct rig.
 - **Yaw is given up.** The vehicle spins at 13–17 rad/s (2–2.7 rev/s) for
   the rest of the flight; payload pointing (camera, antenna) is lost.
 - **Tilt.** The relaxed-hover axis is 19° off the body axis by design;
@@ -383,7 +468,8 @@ as evidence:
 - **Landing.** No commanded descent profile; an airframe that can hold
   holds the station altitude; a landing still spins.
 - **Detection latency** depends on the sensor path: the 50 Hz MAVLink
-  stream used in SITL costs height that an on-board 1 kHz gyro does not.
+  stream costs height that a direct 250 Hz IMU path (Gazebo: detection 4 ms,
+  confirmation 20 ms after the onset) or an on-board 1 kHz gyro does not.
 - **The estimator.** PX4's attitude and vertical velocity are not usable
   at the relaxed-hover spin (above); the mode flies on rates integrated from
   the hand-over, which drift with the gyro bias over minutes, and on baro

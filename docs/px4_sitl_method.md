@@ -308,6 +308,58 @@ without drift (gap register G5); the flight default has no learning to
 test. Arc-process loss on v5 (also Track H) is in
 `docs/bridge_loss_method.md`.
 
+## Direct rig: Gazebo IMU in, motor topic out (added 2026-10-20)
+
+Method (`tools/px4/run_scenario.py --rig direct --arc-side container`,
+campaign `tools/px4/run_g11.sh`, sequential, fresh container per run, host
+CPU under 25 % before each run, every run kept):
+
+- **Sensor path.** `tools/px4/gz_imu_stream.py` replaces the MAVLink record
+  streamer: one v3 record per Gazebo IMU sample (250 Hz on the stock world),
+  stamped with its sim time; rates, gyro and accelerometer from Gazebo's IMU
+  topic (body FLU to FRD); PX4's attitude propagated from its own stamp to
+  the sample with the gyro; PX4's position, velocity and baro as received.
+  PX4 is still the estimator, and the fallback for G6.
+- **Command path.** Every bridge tick (`--every 1`) to the motor publisher,
+  which publishes each line on arrival (`gz_motor_pub.py --immediate`)
+  instead of re-sending the newest on its 250 Hz grid.
+- **Witness.** `--witness` runs `tools/px4/gz_witness.py` beside either rig:
+  Gazebo's IMU, motor command, motor-failure and model-pose topics on the sim
+  clock; `tools/px4/rig_latency.py` turns it into failure-to-command latency
+  and the true catch tilt.
+- **Unchanged.** The bridge binaries under `bin/` (the G10 ones), the
+  models, every golden hash; the MAVLink rig stays the
+  default. Dropout and random-schedule scenarios are refused on the direct
+  rig (it does not model record dropouts).
+
+v5 regressions, mode off (G9 matrix: 1 m, 60 s; wind 3 N + 1.5 N for 1 s
+every 6 s from 15 s; evidence table `docs/px4_sitl_results/g11/summary.md`; records in the private
+repository):
+
+| | survived | station / excursion | peak tilt | altitude error max |
+|---|---|---|---|---|
+| hover, direct rig | 3/3 | station 0.23–0.25 m | 3.0–3.1° | – |
+| hover, G9 (MAVLink rig) | 3/3 | station 0.24–0.30 m | 3.3–3.4° | – |
+| wind, direct rig | 3/3 | excursion 3.09–3.21 m | 17.6–17.7° | 0.09–0.11 m |
+| wind, G9 (MAVLink rig) | 3/3 | excursion 2.96–3.05 m | 17.6–18.4° | 0.09–0.11 m |
+
+Hover is the same or tighter; the wind excursion is 0.05–0.16 m larger on
+the direct rig (tilt and altitude the same). Not attributed: the two rigs
+differ in rate source (PX4's filtered rates against the raw IMU), record
+rate and command timing at once, and G9 ran on another day.
+
+One run is kept as `g11_hover_v5_2_streamer_exit_crash`: the direct
+streamer crashed at exit (pybind11, while gz-transport was inside its
+callback), 0.6 s before the end of the stream and after the 60 s window; the
+exit was fixed (no unsubscribe, `os._exit` after closing) and the run
+repeated. Machine-wide stalls of the Docker VM were 0.8–1.05 s in this
+session (stall probe), about twice per run in every run on both rigs; sim
+time advanced 4 ms through each (Gazebo stops too).
+
+Rotor-loss results on this rig: `docs/rotor_loss.md` 4 (catch median 33°
+against 81° on the MAVLink rig, 12/12 held). G6 handover on this rig:
+`docs/bridge_loss_method.md` (13/13).
+
 ## What this does and does not show
 
 It shows the runtime's timing, fault contract and determinism on

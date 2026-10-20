@@ -23,7 +23,11 @@ def summarize(path):
         r = json.load(f)
     base = path[:-5]
     rec = REC3 if r.get('att_fallback') not in (None, 'none') or r.get('record') == 'v3' else REC
-    d = open(base + '.bin', 'rb').read()
+    if os.path.exists(base + '.bin'):
+        d = open(base + '.bin', 'rb').read()
+    else:   # evidence kept compressed (the direct rig's 250 Hz records)
+        import gzip
+        d = gzip.open(base + '.bin.gz', 'rb').read()
     rows = [rec.unpack_from(d, i * rec.size) for i in range(len(d) // rec.size)]
     if not rows:
         return None
