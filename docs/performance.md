@@ -1,7 +1,7 @@
 # Arc — Performance and Footprint
 
 Measured numbers for the binary-only engine shipped in this repository
-(libraries and `targets/` built from the private Arc repo at commit `0010edb`, bridge binaries at `3ce6f7d`). Every row is measured, none estimated; rows marked private repo are
+(libraries and `targets/` built from the private Arc repo at commit `27365bb`, bridge binaries at `5854e0f`). Every row is measured, none estimated; rows marked private repo are
 reported here and reproducible only from that repo.
 
 ## Tick time (host, x86_64)
@@ -20,7 +20,7 @@ is the on-target DWT cycle-count, below.
 ## On-target tick time (Cortex-M7, Teensy 4.x)
 
 Every number in this section was measured on the ELFs in `targets/`
-(built from the private repo at `0010edb`), with
+(built from the private repo at `27365bb`), with
 `ci/run_mcu_timing.sh <target> mps2-an500|mps2-an385` under QEMU icount
 (1 instruction = 1 ns, SysTick resolution 40 instructions). The x500 rows
 run a fixed brain at the shipped geometry (96 hidden, 480 or 832 input
@@ -145,7 +145,7 @@ and the real memory map; one DWT_CYCCNT reading of the same image's worst
 tick on the delivered board closes it.
 
 Synthetic twin, original measurements (kept for the record). They were
-taken on the images built from `fba7469`, before the plasticity-pass
+taken on the images built from `7d08866`, before the plasticity-pass
 rewrite and the inline popcount; the images in `targets/` now give the
 64 × 64 row of the table above (p50 17,360 / 17,400 instructions on M7 /
 M3), and the commands below reproduce that row, not these figures:

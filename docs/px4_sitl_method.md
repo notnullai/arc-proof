@@ -279,7 +279,7 @@ estimator freeze cost 1.40 m of altitude and a 3.0 s freeze was lost at
 33.6 s (the trained prior: 0.18 m / 0.77 m on the same test). The cause is
 in "Frozen estimator with a live IMU" above: SITL baro noise saturated the
 gain-matched vertical-velocity channel. The carry was replaced by the
-baro + accelerometer complementary filter (v3 record, private `1a5e83c`;
+baro + accelerometer complementary filter (v3 record, private `1dd7d78`;
 the binaries in `bin/` contain it). After the fix, every v5 freeze run
 survived (10 of 10):
 

@@ -14,7 +14,7 @@ elseif(MSVC)
 endif()
 
 # Engine: prebuilt, binary-only. Built from the private Arc repository
-# at commit 3ce6f7d (Windows: MSVC 19.38 x64; Linux: GCC 13.3 x86_64 and aarch64;
+# at commit 5854e0f (Windows: MSVC 19.38 x64; Linux: GCC 13.3 x86_64 and aarch64;
 # Cortex-M7: Arm GNU Toolchain 14.2).
 add_library(arc_runtime STATIC IMPORTED)
 if(WIN32)

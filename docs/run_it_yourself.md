@@ -17,10 +17,10 @@ is in this repository plus the public PX4 image; nothing is fetched from us.
 | `tests/fixtures/px4_ekf_ground.bin` | 922 PX4 estimator records from a disarmed gz_x500 on the ground, for the offline determinism check |
 
 Both binaries were built on 2026-10-19 from the private repository at commit
-`3ce6f7d` (MSVC 19.38 x64; GCC 13.3 x86_64, `-static -s`). Its bridge and
-engine source is the same as at `a915dc5`, the build the published v5
-handover matrix used; the Track H freeze runs used the same carry (`1a5e83c`).
-The earlier binaries in this repository were built from `396cc0f`, before the
+`5854e0f` (MSVC 19.38 x64; GCC 13.3 x86_64, `-static -s`). Its bridge and
+engine source is the same as at `ccf4fed`, the build the published v5
+handover matrix used; the Track H freeze runs used the same carry (`1dd7d78`).
+The earlier binaries in this repository were built from `84c16c0`, before the
 baro + accelerometer carry, the inline popcount and `arc_load_inference`.
 **No engine or bridge source is published.**
 The binaries are stripped, which removes symbol names and debug information;
@@ -191,8 +191,8 @@ One hover each, from a clone of this repository, with the binaries, model and ha
 Both survived with 0 faults. Takeoff and tilt on the Linux run, and survival on both, sit just outside the 3-run published ranges: that is the run-to-run noise described above.
 The offline check printed `hash=00cffd5d35dc57d9` on both.
 
-Those two hovers used the binaries built from `396cc0f`. With the binaries now
-in `bin/` (built from `3ce6f7d`), from a clone of this repository, on 2026-10-19:
+Those two hovers used the binaries built from `84c16c0`. With the binaries now
+in `bin/` (built from `5854e0f`), from a clone of this repository, on 2026-10-19:
 
 | host | takeoff s | alt mean m | alt jitter rms m | station max m | tilt max ° | survival s | fault ticks | max wall stall ms |
 |---|---|---|---|---|---|---|---|---|
@@ -203,7 +203,7 @@ takeoff and survival just outside them (noise). The offline check printed
 `hash=00cffd5d35dc57d9` on both new binaries, the same as before: the carry,
 popcount and loader changes leave the fixture's commands bit-identical.
 The Arc-loss handover was not re-flown on these binaries; its numbers are the
-`a915dc5` build's, which has the same bridge source.
+`ccf4fed` build's, which has the same bridge source.
 
 ## Windows
 
