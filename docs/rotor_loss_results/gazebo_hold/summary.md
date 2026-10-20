@@ -1,0 +1,12 @@
+| run | arm | motor x | failed motor (gz index + 1) | alt at failure m | onset s | detected after ms | confirmed after ms | rotor | outcome | lowest alt m | touchdown m/s | max tilt deg | mean spin rad/s | max drift m | flown after s | last 20 s |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| g10h_s12_a30_m1 | v5 + rotor-loss | 1.20 | 1 | 29.97 | 71.88 | 0 | 16 | 0 | held | 8.12 | - | 179.5 | 14.2 | 4.47 | 35.6 | 29.6-30.5 m, xy 1.2 m |
+| g10h_s12_a30_m2 | v5 + rotor-loss | 1.20 | 2 | 29.99 | 71.86 | 0 | 24 | 1 | held | 11.13 | - | 179.5 | 14.4 | 2.88 | 35.6 | 29.1-30.1 m, xy 1.5 m |
+| g10h_s12_a30_m3 | v5 + rotor-loss | 1.20 | 3 | 30.01 | 71.74 | 0 | 16 | 2 | held | 19.32 | - | 179.5 | 14.4 | 2.97 | 35.6 | 29.6-30.6 m, xy 1.5 m |
+| g10h_s12_a30_m4 | v5 + rotor-loss | 1.20 | 4 | 30.01 | 71.74 | 0 | 24 | 3 | held | 6.54 | - | 178.4 | 14.3 | 5.17 | 36.8 | 29.3-30.2 m, xy 1.0 m |
+| g10h_s12_a30_m4_r2 | v5 + rotor-loss | 1.20 | 4 | 29.99 | 71.74 | 0 | 24 | 3 | held | 6.51 | - | 179.2 | 14.3 | 4.88 | 35.6 | 29.4-30.6 m, xy 1.3 m |
+| g10h_s12_a30_m4_r3 | v5 + rotor-loss | 1.20 | 4 | 30.0 | 71.70 | 0 | 24 | 3 | held | 11.87 | - | 179.3 | 14.4 | 3.21 | 35.6 | 29.3-30.1 m, xy 1.2 m |
+| g10h_s12_m1 | v5 + rotor-loss | 1.20 | 1 | 10.01 | 38.06 | 0 | 24 | 0 | touchdown | 0.06 | 4.11 | 81.9 | 7.0 | 2.93 | 2.7 | - |
+| g10h_s12_m2 | v5 + rotor-loss | 1.20 | 2 | 9.98 | 38.02 | 0 | 24 | 1 | touchdown | 0.03 | 6.26 | 100.8 | 5.2 | 4.39 | 2.1 | - |
+| g10h_s12_m3 | v5 + rotor-loss | 1.20 | 3 | 9.97 | 38.08 | 0 | 24 | 2 | touchdown | 0.04 | 6.01 | 99.5 | 5.4 | 4.59 | 2.2 | - |
+| g10h_s12_m4 | v5 + rotor-loss | 1.20 | 4 | 9.98 | 38.02 | 0 | 16 | 3 | touchdown | 0.04 | 5.45 | 93.5 | 5.8 | 4.2 | 2.3 | - |

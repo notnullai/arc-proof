@@ -1,0 +1,173 @@
+
+== auto-clear after 25 fresh level records (500 ms), live_dof_mask=0x00, fallback=off, frozen dropouts 50-1000 ms ==
+episodes=300 events=803 faults_entered=565 clears=489 survived=106 crashed=194
+  dropout        events=119  crash_attributed=46 (ground impact 4, tilt 42)
+  gust           events=122  crash_attributed=4 (ground impact 3, tilt 1)
+  attitude_kick  events=129  crash_attributed=5 (ground impact 1, tilt 4)
+  estop_pulse    events=121  crash_attributed=32 (ground impact 1, tilt 31)
+  motor_loss     events=53  crash_attributed=0 (ground impact 0, tilt 0)
+  ekf_dropout    events=137  crash_attributed=47 (ground impact 44, tilt 3)
+  pos_dropout(xy) events=122  crash_attributed=7 (ground impact 4, tilt 3)
+  motor-loss episodes=53 fault seen=53 max latency=6804 ticks
+  rotor-loss detector (observer): false detections 5 (in a motor-loss episode before the loss: 0) gust:1 attitude_kick:2 ekf_dropout:1 pos_dropout(xy):1; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/97/83/58/39 % of armed records, max 160.5; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
+episodes without motor loss crashed = 141 / 247
+PASS: C1 estop -> fault within one tick, every event
+PASS: C2 fault path holds the safe state exactly after the ramp, every fault
+PASS: C3 controller resumes within 200 ticks of every clear
+PASS: C5 loop ticked the full episode every time
+PASS: motor loss -> fault path entered in every motor-loss episode
+gust survival = 0.967
+PASS: gust survival floor 90 %
+
+== auto-clear after 10 fresh level records (200 ms), live_dof_mask=0x00, fallback=off, frozen dropouts 50-1000 ms ==
+episodes=300 events=803 faults_entered=807 clears=756 survived=138 crashed=162
+  dropout        events=119  crash_attributed=38 (ground impact 3, tilt 35)
+  gust           events=122  crash_attributed=5 (ground impact 4, tilt 1)
+  attitude_kick  events=129  crash_attributed=3 (ground impact 1, tilt 2)
+  estop_pulse    events=121  crash_attributed=9 (ground impact 2, tilt 7)
+  motor_loss     events=53  crash_attributed=0 (ground impact 0, tilt 0)
+  ekf_dropout    events=137  crash_attributed=47 (ground impact 45, tilt 2)
+  pos_dropout(xy) events=122  crash_attributed=7 (ground impact 5, tilt 2)
+  motor-loss episodes=53 fault seen=53 max latency=6861 ticks
+  rotor-loss detector (observer): false detections 5 (in a motor-loss episode before the loss: 0) gust:1 attitude_kick:2 ekf_dropout:1 pos_dropout(xy):1; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/97/83/58/39 % of armed records, max 174.8; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
+episodes without motor loss crashed = 109 / 247
+PASS: C1 estop -> fault within one tick, every event
+PASS: C2 fault path holds the safe state exactly after the ramp, every fault
+PASS: C3 controller resumes within 200 ticks of every clear
+PASS: C5 loop ticked the full episode every time
+PASS: motor loss -> fault path entered in every motor-loss episode
+gust survival = 0.959
+PASS: gust survival floor 90 %
+
+== auto-clear after 5 fresh level records (100 ms), live_dof_mask=0x00, fallback=off, frozen dropouts 50-1000 ms ==
+episodes=300 events=803 faults_entered=979 clears=938 survived=149 crashed=151
+  dropout        events=119  crash_attributed=34 (ground impact 2, tilt 32)
+  gust           events=122  crash_attributed=3 (ground impact 3, tilt 0)
+  attitude_kick  events=129  crash_attributed=2 (ground impact 1, tilt 1)
+  estop_pulse    events=121  crash_attributed=8 (ground impact 3, tilt 5)
+  motor_loss     events=53  crash_attributed=0 (ground impact 0, tilt 0)
+  ekf_dropout    events=137  crash_attributed=45 (ground impact 44, tilt 1)
+  pos_dropout(xy) events=122  crash_attributed=6 (ground impact 4, tilt 2)
+  motor-loss episodes=53 fault seen=53 max latency=6870 ticks
+  rotor-loss detector (observer): false detections 5 (in a motor-loss episode before the loss: 0) gust:1 attitude_kick:2 ekf_dropout:1 pos_dropout(xy):1; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/98/83/59/39 % of armed records, max 194.4; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
+episodes without motor loss crashed = 98 / 247
+PASS: C1 estop -> fault within one tick, every event
+PASS: C2 fault path holds the safe state exactly after the ramp, every fault
+PASS: C3 controller resumes within 200 ticks of every clear
+PASS: C5 loop ticked the full episode every time
+PASS: motor loss -> fault path entered in every motor-loss episode
+gust survival = 0.975
+PASS: gust survival floor 90 %
+
+== auto-clear after 5 fresh level records (100 ms), live_dof_mask=0x0e, fallback=off, frozen dropouts 50-1000 ms ==
+episodes=300 events=803 faults_entered=975 clears=949 survived=157 crashed=143
+  dropout        events=119  crash_attributed=31 (ground impact 1, tilt 30)
+  gust           events=122  crash_attributed=3 (ground impact 3, tilt 0)
+  attitude_kick  events=129  crash_attributed=2 (ground impact 1, tilt 1)
+  estop_pulse    events=121  crash_attributed=4 (ground impact 3, tilt 1)
+  motor_loss     events=53  crash_attributed=0 (ground impact 0, tilt 0)
+  ekf_dropout    events=137  crash_attributed=45 (ground impact 44, tilt 1)
+  pos_dropout(xy) events=122  crash_attributed=5 (ground impact 4, tilt 1)
+  motor-loss episodes=53 fault seen=53 max latency=6889 ticks
+  rotor-loss detector (observer): false detections 5 (in a motor-loss episode before the loss: 0) gust:1 attitude_kick:2 ekf_dropout:1 pos_dropout(xy):1; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/97/84/59/40 % of armed records, max 186.2; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
+episodes without motor loss crashed = 90 / 247
+PASS: C1 estop -> fault within one tick, every event
+PASS: C2 fault path holds the safe state exactly after the ramp, every fault
+PASS: C3 controller resumes within 200 ticks of every clear
+PASS: C5 loop ticked the full episode every time
+PASS: motor loss -> fault path entered in every motor-loss episode
+gust survival = 0.975
+PASS: gust survival floor 90 %
+
+== auto-clear after 1 fresh level records (20 ms), live_dof_mask=0x0e, fallback=off, frozen dropouts 50-1000 ms ==
+episodes=300 events=803 faults_entered=1192 clears=1170 survived=155 crashed=145
+  dropout        events=119  crash_attributed=30 (ground impact 1, tilt 29)
+  gust           events=122  crash_attributed=4 (ground impact 4, tilt 0)
+  attitude_kick  events=129  crash_attributed=2 (ground impact 1, tilt 1)
+  estop_pulse    events=121  crash_attributed=4 (ground impact 3, tilt 1)
+  motor_loss     events=53  crash_attributed=0 (ground impact 0, tilt 0)
+  ekf_dropout    events=137  crash_attributed=46 (ground impact 45, tilt 1)
+  pos_dropout(xy) events=122  crash_attributed=6 (ground impact 5, tilt 1)
+  motor-loss episodes=53 fault seen=53 max latency=6860 ticks
+  rotor-loss detector (observer): false detections 5 (in a motor-loss episode before the loss: 0) gust:1 attitude_kick:2 ekf_dropout:1 pos_dropout(xy):1; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/97/82/58/40 % of armed records, max 187.7; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
+episodes without motor loss crashed = 92 / 247
+PASS: C1 estop -> fault within one tick, every event
+PASS: C2 fault path holds the safe state exactly after the ramp, every fault
+PASS: C3 controller resumes within 200 ticks of every clear
+PASS: C5 loop ticked the full episode every time
+PASS: motor loss -> fault path entered in every motor-loss episode
+gust survival = 0.967
+PASS: gust survival floor 90 %
+
+== auto-clear after 5 fresh level records (100 ms), live_dof_mask=0x00, fallback=gyro attitude (2 s window), frozen dropouts 50-1000 ms ==
+episodes=300 events=803 faults_entered=974 clears=933 survived=148 crashed=152
+  dropout        events=119  crash_attributed=35 (ground impact 2, tilt 33)
+  gust           events=122  crash_attributed=3 (ground impact 3, tilt 0)
+  attitude_kick  events=129  crash_attributed=2 (ground impact 2, tilt 0)
+  estop_pulse    events=121  crash_attributed=8 (ground impact 3, tilt 5)
+  motor_loss     events=53  crash_attributed=0 (ground impact 0, tilt 0)
+  ekf_dropout    events=137  crash_attributed=46 (ground impact 45, tilt 1)
+  pos_dropout(xy) events=122  crash_attributed=5 (ground impact 3, tilt 2)
+  motor-loss episodes=53 fault seen=53 max latency=6870 ticks
+  rotor-loss detector (observer): false detections 5 (in a motor-loss episode before the loss: 0) gust:1 attitude_kick:2 ekf_dropout:1 pos_dropout(xy):1; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/97/83/58/39 % of armed records, max 194.4; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+  fallback: 3441 frozen records carried, 0 records past the window (estop)
+contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
+episodes without motor loss crashed = 99 / 247
+PASS: C1 estop -> fault within one tick, every event
+PASS: C2 fault path holds the safe state exactly after the ramp, every fault
+PASS: C3 controller resumes within 200 ticks of every clear
+PASS: C5 loop ticked the full episode every time
+PASS: motor loss -> fault path entered in every motor-loss episode
+gust survival = 0.975
+PASS: gust survival floor 90 %
+
+== auto-clear after 5 fresh level records (100 ms), live_dof_mask=0x00, fallback=imu (gyro attitude + baro altitude, 2 s window), frozen dropouts 50-1000 ms ==
+episodes=300 events=803 faults_entered=994 clears=951 survived=208 crashed=92
+  dropout        events=119  crash_attributed=30 (ground impact 1, tilt 29)
+  gust           events=122  crash_attributed=0 (ground impact 0, tilt 0)
+  attitude_kick  events=129  crash_attributed=1 (ground impact 0, tilt 1)
+  estop_pulse    events=121  crash_attributed=5 (ground impact 0, tilt 5)
+  motor_loss     events=53  crash_attributed=0 (ground impact 0, tilt 0)
+  ekf_dropout    events=137  crash_attributed=1 (ground impact 0, tilt 1)
+  pos_dropout(xy) events=122  crash_attributed=2 (ground impact 0, tilt 2)
+  motor-loss episodes=53 fault seen=53 max latency=6888 ticks
+  rotor-loss detector (observer): false detections 6 (in a motor-loss episode before the loss: 0) dropout:1 attitude_kick:3 estop_pulse:2; would be confirmed (no motor loss in the episode) 4; residual RMS over 3/5/8/12/20: 100/97/86/58/41 % of armed records, max 192.4; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+  fallback: 3441 frozen records carried, 0 records past the window (estop)
+contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
+episodes without motor loss crashed = 39 / 247
+PASS: C1 estop -> fault within one tick, every event
+PASS: C2 fault path holds the safe state exactly after the ramp, every fault
+PASS: C3 controller resumes within 200 ticks of every clear
+PASS: C5 loop ticked the full episode every time
+PASS: motor loss -> fault path entered in every motor-loss episode
+gust survival = 1.000
+PASS: gust survival floor 90 %
+
+== auto-clear after 5 fresh level records (100 ms), live_dof_mask=0x00, fallback=imu (gyro attitude + baro altitude, 2 s window), frozen dropouts 150-3000 ms ==
+episodes=300 events=803 faults_entered=992 clears=936 survived=191 crashed=109
+  dropout        events=119  crash_attributed=33 (ground impact 1, tilt 32)
+  gust           events=122  crash_attributed=0 (ground impact 0, tilt 0)
+  attitude_kick  events=129  crash_attributed=3 (ground impact 0, tilt 3)
+  estop_pulse    events=121  crash_attributed=7 (ground impact 1, tilt 6)
+  motor_loss     events=53  crash_attributed=0 (ground impact 0, tilt 0)
+  ekf_dropout    events=137  crash_attributed=9 (ground impact 0, tilt 9)
+  pos_dropout(xy) events=122  crash_attributed=4 (ground impact 0, tilt 4)
+  motor-loss episodes=53 fault seen=53 max latency=6888 ticks
+  rotor-loss detector (observer): false detections 7 (in a motor-loss episode before the loss: 0) dropout:1 attitude_kick:3 estop_pulse:3; would be confirmed (no motor loss in the episode) 5; residual RMS over 3/5/8/12/20: 100/97/85/57/42 % of armed records, max 192.4; motor losses detected 0 of 53, right rotor 0, latency 0-0 ms
+  fallback: 8585 frozen records carried, 1222 records past the window (estop)
+contract: latency_violations=0 hold_violations=0 resume_violations=0 tick_violations=0
+episodes without motor loss crashed = 56 / 247
+PASS: C1 estop -> fault within one tick, every event
+PASS: C2 fault path holds the safe state exactly after the ramp, every fault
+PASS: C3 controller resumes within 200 ticks of every clear
+PASS: C5 loop ticked the full episode every time
+PASS: motor loss -> fault path entered in every motor-loss episode
+gust survival = 1.000
+PASS: gust survival floor 90 %
+
+x500 random faults: PASS (0 failures)

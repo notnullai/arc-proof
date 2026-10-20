@@ -115,6 +115,24 @@ python3 tools/px4/summarize_bridge_loss.py runs/loss
 Keep the bridge-loss runs in their own directory: that summarizer reads the
 `.log` next to every `.json`. Remove the last container with `docker rm -f px4gz`.
 
+Rotor loss (G10, `docs/rotor_loss.md`): the rotor-loss mode rides along with
+`--rotor-loss models/prior_x500_rotor_loss.arc002`; `--fail-motor N` stops gz rotor
+N-1 at `--fail-at` seconds (1-based; 0 = none); `--motor-scale 1.2` flies the x500
+with every rotor's `motorConstant` x1.2 (thrust-to-weight 2.03; the stock x500's
+1.69 cannot hold after a rotor loss). The 30 m hold, Arc side in the container:
+
+```sh
+mkdir -p runs/g10
+for m in 1 2 3 4; do python3 tools/px4/run_scenario.py --arm reflex --scenario motor_loss --alt 30 --fail-at 75 \
+    --fail-motor $m --seconds 110 --motor-scale 1.2 --rotor-loss models/prior_x500_rotor_loss.arc002 \
+    --arc-side container --out runs/g10 --tag hold_m$m; done
+python3 tools/px4/summarize_rotor_loss.py runs/g10/*.json
+```
+
+Published: rotor confirmed 16-24 ms after the onset, held to the end of the run,
+last 20 s altitude 29.1-30.6 m, position within 1.5 m
+(`docs/rotor_loss_results/gazebo_hold/summary.md`).
+
 ## 4. What you should get
 
 These are scenario statistics on float physics, not bit-exact: PX4's EKF and

@@ -1,0 +1,163 @@
+{
+ "tag": "g10_wind_rl",
+ "arm": "reflex",
+ "scenario": "wind",
+ "seconds": 60.0,
+ "alt": 1.0,
+ "hover_rad_s": 769.0,
+ "px4_hover_mean_rad_s": null,
+ "gains": "",
+ "residual_gain": 16384,
+ "plasticity": "off",
+ "fault_policy": null,
+ "brain": "D:\\arc-g10\\models\\prior_x500_candidate_v5.arc002",
+ "bits": 832,
+ "att_fallback": "none",
+ "streamer": "EKF_STREAM: 3002 records in 62.0s gyro=HIGHRES_IMU(3001)",
+ "wind": {
+  "n": 3.0,
+  "every": 6.0,
+  "len": 1.0,
+  "from": 15.0,
+  "windows": [
+   [
+    15.045074224472046,
+    16.058892488479614
+   ],
+   [
+    21.047253131866455,
+    22.060022354125977
+   ],
+   [
+    27.049860954284668,
+    28.06177592277527
+   ],
+   [
+    33.0487060546875,
+    34.06044316291809
+   ],
+   [
+    39.04565715789795,
+    40.06024694442749
+   ],
+   [
+    45.04778170585632,
+    46.06089639663696
+   ],
+   [
+    51.047545194625854,
+    52.060523986816406
+   ],
+   [
+    57.04899454116821,
+    58.062686920166016
+   ]
+  ]
+ },
+ "motor_loss": null,
+ "rotor_loss": {
+  "brain": "models/prior_x500_rotor_loss.arc002",
+  "detect_only": false
+ },
+ "motor_scale": 1.0,
+ "record": "v3",
+ "dropout": null,
+ "random_stall_kind": null,
+ "random_schedule": null,
+ "seed": 1,
+ "standby": "none",
+ "handover_ms": null,
+ "watchdog_clock": null,
+ "bridge_loss": null,
+ "handover": null,
+ "handover_host_t_s": null,
+ "arc_side": "container",
+ "false_takeover": null,
+ "command_gaps": {
+  "lines": 15004,
+  "over_ms": 20.0,
+  "n_over": 1084,
+  "worst_ms": 556.0,
+  "worst_sim_ms_in_gaps": 128.0,
+  "worst_ms_in_window": 556.0,
+  "machine_stalls_in_window": 4,
+  "worst_ms_outside_machine_stalls_in_window": 129.9,
+  "worst_ms_added_by_arc_side_in_window": 129.9,
+  "worst_sim_ms": 128.0,
+  "machine_stalls": 4,
+  "worst_ms_outside_machine_stalls": 129.9,
+  "worst_stall_probe_ms": 535.7,
+  "worst_ms_in_flight": 556.0,
+  "machine_stalls_in_flight": 3,
+  "worst_ms_outside_machine_stalls_in_flight": 129.9,
+  "worst_ms_added_by_arc_side_in_flight": 129.9,
+  "worst_stream_arrival_ms": 556.0
+ },
+ "bridge": {
+  "ok": "1",
+  "ticks": "60016",
+  "records": "3002",
+  "rejected": "0",
+  "gaps": "0",
+  "dropout_ticks": "0",
+  "estop_ticks": "0",
+  "fault_ticks": "0",
+  "stabilised_fault_ticks": "0",
+  "clears": "0",
+  "sim_span_us": "60016000",
+  "max_wall_tick_us": "129789",
+  "hash": "77c410b27612b43c",
+  "att_fallback_records": "0",
+  "att_fallback_entries": "0",
+  "att_fallback_max_ms": "0",
+  "att_stale_records": "0",
+  "rl_detections": "0",
+  "rl_aborts": "0",
+  "rl_rotor": "-1",
+  "rl_first_detect_us": "0",
+  "rl_handover_us": "0",
+  "rl_confirm_us": "0",
+  "rl_ticks": "0",
+  "rl_sat_ticks": "0",
+  "rl_cal": "1.0000",
+  "rl_max_residual": "9.68"
+ },
+ "metrics": {
+  "records": 3002,
+  "sim_s": 60.016,
+  "takeoff_s": 0.96,
+  "airborne": true,
+  "settled": {
+   "alt_rms": 0.033,
+   "alt_max_err": 0.084,
+   "alt_mean": 0.995,
+   "alt_jitter_rms": 0.033,
+   "xy_max": 2.844,
+   "tilt_max_deg": 17.1
+  },
+  "disturbed": {
+   "alt_rms": 0.043,
+   "alt_max_err": 0.122,
+   "alt_mean": 1.0,
+   "alt_jitter_rms": 0.043,
+   "xy_max": 2.968,
+   "tilt_max_deg": 19.1
+  },
+  "tilt_fault_s": null,
+  "ground_impact_s": null,
+  "survival_s": 59.06,
+  "survived_run": true,
+  "wind_recovery_s": [
+   41.9,
+   35.9,
+   29.9,
+   23.9,
+   17.9,
+   11.9,
+   5.9,
+   null
+  ],
+  "wind_recovery_max_s": 41.9,
+  "wind_unrecovered": 1
+ }
+}

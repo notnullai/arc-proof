@@ -50,6 +50,10 @@ IMAGE = 'px4io/px4-sitl-gazebo:latest'
 TILT_FAULT = 0.7854
 
 
+def sh(cmd, **kw):
+    return subprocess.run(cmd, capture_output=True, text=True, **kw)
+
+
 def default_bridge():
     """The prebuilt, stripped bridge shipped under bin/ for this host."""
     root = os.path.abspath(os.path.join(HERE, '..', '..'))
@@ -58,17 +62,32 @@ def default_bridge():
     return os.path.join(root, 'bin', 'linux-x86_64', 'px4_bridge')
 
 
-def sh(cmd, **kw):
-    return subprocess.run(cmd, capture_output=True, text=True, **kw)
+X500_SDF = '/opt/px4-gazebo/share/gz/models/x500/model.sdf'
 
 
-def restart_container(name):
+def motor_scaled_sdf(scale, out_dir):
+    """G10: the gz x500 with every rotor's motorConstant x scale (thrust per rotor speed, so the maximum
+    thrust; reaction torque follows thrust). Read from the image, written next to the run, bind-mounted
+    over the model. scale 1 = the stock model, nothing mounted."""
+    r = sh(['docker', 'run', '--rm', '--entrypoint', 'cat', IMAGE, X500_SDF])
+    if r.returncode != 0 or 'motorConstant' not in r.stdout:
+        raise SystemExit('cannot read %s from %s' % (X500_SDF, IMAGE))
+    txt = re.sub(r'<motorConstant>([0-9.eE+-]+)</motorConstant>',
+                 lambda m: '<motorConstant>%.6e</motorConstant>' % (float(m.group(1)) * scale), r.stdout)
+    path = os.path.abspath(os.path.join(out_dir, 'x500_motor_x%.2f.sdf' % scale))
+    with open(path, 'w', newline='\n') as f:
+        f.write(txt)
+    return path
+
+
+def restart_container(name, model_sdf=None):
     sh(['docker', 'rm', '-f', name])
     # Docker Desktop (Windows, macOS) needs the published port; on Linux docker-proxy would take
     # host UDP 14550 from this harness, and PX4 reaches the host through host-gateway without it.
     ports = [] if sys.platform.startswith('linux') else ['-p', '14550:14550/udp']
+    mounts = ['-v', '%s:%s:ro' % (model_sdf, X500_SDF)] if model_sdf else []
     r = sh(['docker', 'run', '-d', '--name', name, '--add-host=host.docker.internal:host-gateway',
-            '-e', 'HEADLESS=1', '-e', 'PX4_SIM_MODEL=gz_x500'] + ports + [IMAGE])
+            '-e', 'HEADLESS=1', '-e', 'PX4_SIM_MODEL=gz_x500'] + ports + mounts + [IMAGE])
     if r.returncode != 0:
         raise SystemExit('docker run failed: ' + r.stderr)
 
@@ -350,6 +369,12 @@ def main():
     ap.add_argument('--wind-from', type=float, default=15.0)
     ap.add_argument('--fail-motor', type=int, default=1)
     ap.add_argument('--fail-at', type=float, default=30.0)
+    ap.add_argument('--rotor-loss', default=None,
+                    help='G10: rotor-loss brain for the bridge (docs/rotor_loss.md), e.g. models/prior_x500_rotor_loss.arc002; '
+                         'a detected rotor failure hands the vehicle to it; default off')
+    ap.add_argument('--rotor-loss-detect-only', action='store_true', help='G10: detect and count, never hand over')
+    ap.add_argument('--motor-scale', type=float, default=1.0,
+                    help='G10: x500 variant with motorConstant x this (more thrust margin); 1 = the stock model')
     ap.add_argument('--gains', default='')
     ap.add_argument('--residual-gain', type=int, default=16384)
     ap.add_argument('--plasticity', default=None, choices=['on', 'off'],
@@ -412,7 +437,7 @@ def main():
     os.makedirs(args.out, exist_ok=True)
     base = os.path.join(args.out, tag)
     if not args.no_restart:
-        restart_container(args.container)
+        restart_container(args.container, motor_scaled_sdf(args.motor_scale, args.out) if args.motor_scale != 1.0 else None)
         print('SCENARIO: container restarted', flush=True)
     mav = Mav()
     if not mav.wait_global():
@@ -464,6 +489,8 @@ def main():
             subprocess.run(['docker', 'cp', args.bridge_linux, '%s:%s/px4_bridge' % (args.container, CT_DIR)], check=True)
             if args.brain:
                 subprocess.run(['docker', 'cp', args.brain, '%s:%s/brain.arc002' % (args.container, CT_DIR)], check=True)
+            if args.rotor_loss:
+                subprocess.run(['docker', 'cp', args.rotor_loss, '%s:%s/rotor_loss.arc002' % (args.container, CT_DIR)], check=True)
             start_mavlink_link(args.container, ARC_LINK, streams=GCS_STREAMS)
         if args.standby == 'px4':
             start_mavlink_link(args.container, WD_LINK, mode='minimal', rate=100000)
@@ -484,7 +511,9 @@ def main():
     # Streamer and bridge options; paths depend on where the Arc side runs.
     rec_path = CT_DIR + '/rec.bin' if in_ct else base + '.bin'
     sargs = ['--seconds', str(stream_secs), '--tee', rec_path]
-    v2 = args.att_fallback != 'none'
+    # v3 records also when the rotor-loss mode is on: it propagates the attitude from its own timestamp
+    # (a v1 record's attitude is the newest ATTITUDE message, up to a record period older than the record)
+    v2 = args.att_fallback != 'none' or bool(args.rotor_loss)
     if v2:
         sargs += ['--record', 'v3']
     if args.scenario == 'bridge_loss':
@@ -513,6 +542,10 @@ def main():
             bargs += ['--plasticity', args.plasticity]
         if args.brain:
             bargs += ['--brain', CT_DIR + '/brain.arc002' if in_ct else args.brain]
+        if args.rotor_loss:
+            bargs += ['--rotor-loss', CT_DIR + '/rotor_loss.arc002' if in_ct else args.rotor_loss]
+            if args.rotor_loss_detect_only:
+                bargs += ['--rotor-loss-detect-only', '1']
         if args.bits:
             bargs += ['--bits', str(args.bits)]
         if args.gains:
@@ -717,6 +750,8 @@ def main():
               'wind': {'n': args.wind_n, 'every': args.wind_every, 'len': args.wind_len, 'from': args.wind_from,
                        'windows': wind_windows} if args.scenario == 'wind' else None,
               'motor_loss': {'motor': args.fail_motor, 'at': args.fail_at} if args.scenario == 'motor_loss' else None,
+              'rotor_loss': {'brain': args.rotor_loss, 'detect_only': args.rotor_loss_detect_only} if args.rotor_loss else None,
+              'motor_scale': args.motor_scale, 'record': 'v3' if v2 else 'v1',
               'dropout': {'at': args.stall_at, 'len': args.stall_len, 'kind': args.stall_kind} if args.scenario == 'dropout' else None,
               'random_stall_kind': args.stall_kind if args.scenario == 'random' else None,
               'random_schedule': random_events if args.scenario == 'random' else None, 'seed': args.seed,
