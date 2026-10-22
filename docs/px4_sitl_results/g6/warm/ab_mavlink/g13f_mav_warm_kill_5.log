@@ -1,0 +1,11 @@
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: bridge killed at 30.0s
+SCENARIO: streamer: EKF_STREAM: 2589 records in 52.0s
+SCENARIO: GZ_MOTOR_PUB: input gap 217 ms (sim 20 ms) at 1792627378.837
+SCENARIO: GZ_MOTOR_PUB: HANDOVER to PX4 (eof, 20 ms since last command, route+arm+takeoff 28 ms, warm, params +3 ms, routed_polls=1 +16 ms, params_unconfirmed=-, offboard_ack=0, arm_ack=0, in_air=True caught=True (vz 0.12) +204 ms, takeoff_ack=0 +220 ms, hover_thrust=0.728 (15 standby updates), ok, watchdog clock sim, wall 23 ms since last command) at 1792627384.280 (host t=30.33s)
+SCENARIO: GZ_MOTOR_PUB: command gaps: 7310 lines, 516 over 20 ms, worst 216.9 ms (sim time in the logged gaps: worst 24.0 ms)
+SCENARIO: gap attribution {"lines": 7310, "over_ms": 20.0, "n_over": 516, "worst_ms": 216.9, "worst_sim_ms_in_gaps": 24.0, "worst_ms_in_window": 216.9, "machine_stalls_in_window": 1, "worst_ms_outside_machine_stalls_in_window": 59.4, "worst_ms_added_by_arc_side_in_window": 59.4, "worst_sim_ms": 24.0, "machine_stalls": 1, "worst_ms_outside_machine_stalls": 59.4, "worst_stall_probe_ms": 196.8, "worst_ms_in_flight": 216.9, "machine_stalls_in_flight": 1, "worst_ms_outside_machine_stalls_in_flight": 20.6, "worst_ms_added_by_arc_side_in_flight": 20.1, "worst_stream_arrival_ms": 216.8}
+SCENARIO RESULT {"records": 2590, "sim_s": 51.784, "takeoff_s": 1.82, "airborne": true, "settled": {"alt_rms": 0.029, "alt_max_err": 0.271, "alt_mean": 0.996, "alt_jitter_rms": 0.029, "xy_max": 0.225, "tilt_max_deg": 2.9}, "disturbed": {"alt_rms": 1.827, "alt_max_err": 1.962, "alt_mean": 2.798, "alt_jitter_rms": 0.321, "xy_max": 0.15, "tilt_max_deg": 0.9}, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 49.96, "survived_run": true}
+| bridge_loss | reflex | 1.82 | 0.996 | 0.029 | 0.225 | 2.9 | 1.962 | 0.15 | 0.9 | 49.96 | - | - |

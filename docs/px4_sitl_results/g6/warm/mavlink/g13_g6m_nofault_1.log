@@ -1,0 +1,9 @@
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: streamer: EKF_STREAM: 2618 records in 52.0s
+SCENARIO: GZ_MOTOR_PUB: HANDOVER to PX4 (eof, 4 ms since last command, route+arm+takeoff 25 ms, warm, params +4 ms, routed_polls=0 +15 ms, params_unconfirmed=-, offboard_ack=0, arm_ack=0, in_air=True caught=True (vz 0.13) +184 ms, takeoff_ack=0 +193 ms, hover_thrust=0.729 (21 standby updates), ok, watchdog clock sim, wall 3 ms since last command) at 1792642408.128 (host t=52.93s)
+SCENARIO: GZ_MOTOR_PUB: command gaps: 13250 lines, 1074 over 20 ms, worst 29.7 ms (sim time in the logged gaps: worst 32.0 ms)
+SCENARIO: gap attribution {"lines": 13250, "over_ms": 20.0, "n_over": 1074, "worst_ms": 29.7, "worst_sim_ms_in_gaps": 32.0, "worst_ms_in_window": 26.4, "machine_stalls_in_window": 0, "worst_ms_outside_machine_stalls_in_window": 26.4, "worst_ms_added_by_arc_side_in_window": 21.8, "worst_sim_ms": 24.0, "machine_stalls": 0, "worst_ms_outside_machine_stalls": 26.4, "worst_stall_probe_ms": 0.0, "worst_ms_in_flight": 26.4, "machine_stalls_in_flight": 0, "worst_ms_outside_machine_stalls_in_flight": 26.4, "worst_ms_added_by_arc_side_in_flight": 21.8, "worst_stream_arrival_ms": 26.2}
+SCENARIO RESULT {"records": 2618, "sim_s": 52.336, "takeoff_s": 1.7, "airborne": true, "settled": {"alt_rms": 0.026, "alt_max_err": 0.055, "alt_mean": 0.998, "alt_jitter_rms": 0.026, "xy_max": 0.228, "tilt_max_deg": 3.3}, "disturbed": null, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 50.64, "survived_run": true}
+| hover | reflex | 1.7 | 0.998 | 0.026 | 0.228 | 3.3 | None | None | None | 50.64 | - | 0 |

@@ -5,7 +5,8 @@
 # is running and host CPU has been under 25 %; every run kept. Every run carries the Gazebo witness (--witness)
 # for tools/px4/rig_latency.py.
 # Usage: tools/px4/run_g11.sh <out dir> <static linux bridge> [phase ...]   (repo root, Git Bash on Windows)
-#   phases: before (the MAVLink rig with the witness, the latency baseline), normal, rotor, rotor10 (x1.2 from 10 m only), g6 (default: all but rotor10)
+#   phases: before (the MAVLink rig with the witness, the latency baseline), normal, rotor, rotor10 (x1.2 from 10 m only), g6,
+#   g6mav (G6 on the MAVLink rig) (default: before normal rotor g6)
 # G12: P=<tag prefix> (default g11) and EXTRA="<run_scenario args>" for the direct-rig phases, e.g.
 #   P=g12 EXTRA="--record-clock own --physics-hz 1000" tools/px4/run_g11.sh runs/g12 bin/linux-x86_64/px4_bridge rotor
 set -u
@@ -67,6 +68,11 @@ g6)       # G6 handover matrix (docs/bridge_loss_method.md): v5, PX4 standby, pl
   for i in 1 2 3 4 5 6; do run ${P}_g6_kill_$i "${G6[@]}" --scenario bridge_loss --loss-at 30 --loss-kind kill; done
   for i in 1 2 3; do run ${P}_g6_hang_$i "${G6[@]}" --scenario bridge_loss --loss-at 30 --loss-kind hang; done
   for i in 1 2 3 4; do run ${P}_g6_nofault_$i "${G6[@]}" --scenario hover; done ;;
+g6mav)    # the same G6 matrix on the MAVLink rig (PX4's estimate at its stream rate, the 250 Hz world); EXTRA applies
+  G6M=(--arm reflex "${CT[@]}" --rig mavlink "${EX[@]}" --standby px4 --watchdog-clock sim --seconds 50)
+  for i in 1 2 3 4 5 6; do run ${P}_g6m_kill_$i "${G6M[@]}" --scenario bridge_loss --loss-at 30 --loss-kind kill; done
+  for i in 1 2 3; do run ${P}_g6m_hang_$i "${G6M[@]}" --scenario bridge_loss --loss-at 30 --loss-kind hang; done
+  for i in 1 2 3 4; do run ${P}_g6m_nofault_$i "${G6M[@]}" --scenario hover; done ;;
 esac; done
 # the last run leaves its Gazebo container running: remove it (Docker is shared)
 docker rm -f px4gz >/dev/null 2>&1

@@ -371,6 +371,19 @@ takeovers in 4 no-fault flights, route + arm + takeoff 14–30 ms, altitude
 lost 0.46–0.54 m, the same as at 250 Hz (`docs/bridge_loss_method.md`,
 summary `docs/px4_sitl_results/g6/direct_g12/summary.md`).
 
+G13 (2026-10-22): that altitude loss was PX4's Takeoff trajectory starting at
+0.7 m/s down (its ground-state reset) and its hover thrust taken from
+`MPC_THR_HOVER` (0.60, against 0.72 flown). The warm takeover
+(`gz_motor_pub.py --takeover warm`, the default; stock PX4, parameters and
+MAVLink only) keeps the standby's `MPC_THR_HOVER` at the hover thrust being
+flown, arms PX4 in Offboard behind a velocity-hold stream that catches the
+vehicle, and enters Takeoff from the live state once PX4 is in the air and the
+vehicle has stopped sinking. G6 at 1 kHz on this rig: 13/13, 0 false
+takeovers, altitude lost −0.00–0.09 m (cold 0.46–0.54 m); on the MAVLink rig
+13/13, 0 false, −0.01–0.10 m (cold 0.45–0.54 m); route + arm unchanged in a
+same-day interleaved A/B (`docs/bridge_loss_method.md`, evidence
+`docs/px4_sitl_results/g6/warm/`).
+
 ## What this does and does not show
 
 It shows the runtime's timing, fault contract and determinism on

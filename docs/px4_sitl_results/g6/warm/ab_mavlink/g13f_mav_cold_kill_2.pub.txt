@@ -1,0 +1,5 @@
+1792625808.046 GZ_MOTOR_PUB: input gap 194 ms (sim 20 ms) at 1792625808.045
+1792625813.741 Killed
+1792625813.766 GZ_MOTOR_PUB: HANDOVER to PX4 (eof, 4 ms since last command, route+arm+takeoff 25 ms, cold, params +4 ms, routed_polls=0 +10 ms, params_unconfirmed=-, arm_ack=0, mode_ack=0, hover_thrust=boot (0 standby updates), ok, watchdog clock sim, wall 7 ms since last command) at 1792625813.812
+1792625813.766 GZ_MOTOR_PUB: command gaps: 7330 lines, 492 over 20 ms, worst 194.2 ms (sim time in the logged gaps: worst 20.0 ms)
+1792625813.770 GZ_MOTOR_PUB: 6931 messages in 28.7s on /x500_0/command/motor_speed

@@ -1,0 +1,9 @@
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: streamer: GZ_IMU_STREAM: 52277 records in 52.0s gyro=gz-imu attitude=px4+propagated(2614) att_age_ms mean 12.4 range -78.0..23.0
+SCENARIO: GZ_MOTOR_PUB: HANDOVER to PX4 (eof, 1 ms since last command, route+arm+takeoff 51 ms, warm, params +11 ms, routed_polls=1 +28 ms, params_unconfirmed=-, offboard_ack=0, arm_ack=0, in_air=True caught=True (vz 0.13) +196 ms, takeoff_ack=0 +205 ms, hover_thrust=0.724 (13 standby updates), ok, watchdog clock sim, wall 0 ms since last command) at 1792641138.758 (host t=52.80s)
+SCENARIO: GZ_MOTOR_PUB: command gaps: 53000 lines, 0 over 20 ms, worst 10.3 ms (sim time in the logged gaps: worst -1.0 ms)
+SCENARIO: gap attribution {"lines": 53000, "over_ms": 20.0, "n_over": 0, "worst_ms": 10.3, "worst_sim_ms_in_gaps": -1.0, "worst_ms_in_window": 0.0, "machine_stalls_in_window": 0, "worst_ms_outside_machine_stalls_in_window": 0.0, "worst_ms_added_by_arc_side_in_window": 0.0, "worst_sim_ms": 0.0, "machine_stalls": 0, "worst_ms_outside_machine_stalls": 0.0, "worst_stall_probe_ms": 0.0, "worst_ms_in_flight": 0.0, "machine_stalls_in_flight": 0, "worst_ms_outside_machine_stalls_in_flight": 0.0, "worst_ms_added_by_arc_side_in_flight": 0.0, "worst_stream_arrival_ms": 100.8}
+SCENARIO RESULT {"records": 52277, "sim_s": 52.276, "takeoff_s": 1.8, "airborne": true, "settled": {"alt_rms": 0.017, "alt_max_err": 0.034, "alt_mean": 1.0, "alt_jitter_rms": 0.017, "xy_max": 0.214, "tilt_max_deg": 2.5}, "disturbed": null, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 50.48, "survived_run": true}
+| hover | reflex | 1.8 | 1.0 | 0.017 | 0.214 | 2.5 | None | None | None | 50.48 | - | 0 |

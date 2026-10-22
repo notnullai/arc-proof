@@ -1,0 +1,6 @@
+1792639806.169 GZ_MOTOR_PUB: warm takeover, PX4 output model EC_MIN [150, 150, 150, 150] EC_MAX [1000, 1000, 1000, 1000] THR_MDL_FAC 0.000
+1792639806.326 GZ_MOTOR_PUB: input gap 101 ms (sim 30 ms) at 1792639806.233
+1792639834.885 Killed
+1792639835.016 GZ_MOTOR_PUB: HANDOVER to PX4 (eof, 1 ms since last command, route+arm+takeoff 13 ms, warm, params +3 ms, routed_polls=0 +10 ms, params_unconfirmed=-, offboard_ack=0, arm_ack=0, in_air=True caught=True (vz 0.13) +123 ms, takeoff_ack=0 +131 ms, hover_thrust=0.722 (4 standby updates), ok, watchdog clock sim, wall 0 ms since last command) at 1792639834.767
+1792639835.016 GZ_MOTOR_PUB: command gaps: 29545 lines, 1 over 20 ms, worst 101.1 ms (sim time in the logged gaps: worst 30.0 ms)
+1792639835.016 GZ_MOTOR_PUB: 29545 messages in 28.8s on /x500_0/command/motor_speed

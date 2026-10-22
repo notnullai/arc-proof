@@ -9,7 +9,7 @@ metrics JSON, and appends a Markdown row.
          [--fail-motor 1] [--fail-at 30] [--gains k=v,...] [--residual-gain 16384]
          [--fault raw|stabilised]
 
-G6 handover: [--standby px4 --handover-ms 200 --watchdog-clock sim|wall]
+G6 handover: [--standby px4 --handover-ms 200 --watchdog-clock sim|wall --takeover warm|cold]
 [--scenario bridge_loss --loss-kind kill|hang --loss-at 30]
 [--arc-side host|container --bridge-linux bin/linux-x86_64/px4_bridge]
 (container = the Arc side next to PX4 as on a companion computer: its own PX4
@@ -443,6 +443,9 @@ def main():
     ap.add_argument('--standby', default='none', choices=['none', 'px4'],
                     help='G6: PX4 (disarmed estimator) is the fallback controller: when Arc goes stale the motor publisher routes PX4 outputs, arms it in the air and switches it to Hold')
     ap.add_argument('--handover-ms', type=float, default=200.0)
+    ap.add_argument('--takeover', default='warm', choices=['warm', 'cold'],
+                    help='--standby px4: warm = PX4 takes over from the live state (gz_motor_pub.py: hover thrust '
+                         'from the last commands, Takeoff entered from Offboard); cold = arm + Takeoff (before 2026-10-21)')
     ap.add_argument('--loss-at', type=float, default=30.0, help='bridge_loss: seconds into the run')
     ap.add_argument('--loss-kind', default='kill', choices=['kill', 'hang'],
                     help='bridge_loss: kill = process killed (crash), hang = process suspended (alive, silent)')
@@ -641,7 +644,7 @@ def main():
             pargs += ['--immediate']
         if args.standby == 'px4':
             pargs += ['--handover-ms', str(args.handover_ms), '--mav', 'udp:127.0.0.1:%d' % WD_LINK[1],
-                      '--watchdog-clock', args.watchdog_clock]
+                      '--watchdog-clock', args.watchdog_clock, '--takeover', args.takeover]
         pyenv = 'PYTHONPATH=' + CT_PYLIB
         if in_ct:
             # One pipeline inside the container: PX4 link -> streamer -> bridge -> motor publisher.
@@ -803,6 +806,15 @@ def main():
             sh(['docker', 'cp', '%s:%s/witness.txt' % (args.container, CT_DIR), base + '.witness.txt'])
         if not in_ct:
             sh(['docker', 'cp', '%s:%s/stalls.txt' % (args.container, CT_DIR), base + '.stalls.txt'])
+        if args.standby == 'px4':
+            # PX4's own flight log (ulog, tools/px4/takeover_trace.py): what its controllers did in the takeover
+            r = sh(['docker', 'exec', args.container, 'sh', '-c',
+                    'ls -t $(find / -name "*.ulg" 2>/dev/null) 2>/dev/null | head -1'])
+            ulg = r.stdout.strip()
+            if ulg:
+                sh(['docker', 'cp', '%s:%s' % (args.container, ulg), base + '.ulg'])
+        with open(base + '.pub.txt', 'w') as pf:   # the motor publisher's whole output (host wall time, line)
+            pf.writelines('%.3f %s\n' % tl for tl in pub_lines)
         for t_line, line in pub_lines:
             if 'HANDOVER' in line:
                 handover = line.strip()
@@ -851,6 +863,7 @@ def main():
               'random_schedule': random_events if args.scenario == 'random' else None, 'seed': args.seed,
               'standby': args.standby, 'handover_ms': args.handover_ms if args.standby == 'px4' else None,
               'watchdog_clock': args.watchdog_clock if args.standby == 'px4' else None,
+              'takeover': args.takeover if args.standby == 'px4' else None,
               'bridge_loss': {'at': args.loss_at, 'kind': args.loss_kind} if args.scenario == 'bridge_loss' else None,
               'handover': handover, 'handover_host_t_s': handover_t, 'arc_side': args.arc_side if args.arm != 'px4' else None,
               # a takeover before the loss (or, without a loss, inside the flight window) is a false takeover

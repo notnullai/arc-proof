@@ -1,0 +1,13 @@
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: bridge killed at 30.0s
+SCENARIO: streamer: GZ_IMU_STREAM: 51294 records in 52.0s gyro=gz-imu attitude=px4+propagated(2565) att_age_ms mean 13.4 range -89.0..24.0
+SCENARIO: GZ_MOTOR_PUB: input gap 101 ms (sim 13 ms) at 1792627669.701
+SCENARIO: GZ_MOTOR_PUB: input gap 142 ms (sim 1 ms) at 1792627681.976
+SCENARIO: GZ_MOTOR_PUB: input gap 407 ms (sim 1 ms) at 1792627682.567
+SCENARIO: GZ_MOTOR_PUB: HANDOVER to PX4 (eof, 1 ms since last command, route+arm+takeoff 22 ms, cold, params +5 ms, routed_polls=1 +17 ms, params_unconfirmed=-, arm_ack=0, mode_ack=0, hover_thrust=boot (0 standby updates), ok, watchdog clock sim, wall 1 ms since last command) at 1792627698.221 (host t=30.12s)
+SCENARIO: GZ_MOTOR_PUB: command gaps: 28876 lines, 3 over 20 ms, worst 407.3 ms (sim time in the logged gaps: worst 13.0 ms)
+SCENARIO: gap attribution {"lines": 28876, "over_ms": 20.0, "n_over": 3, "worst_ms": 407.3, "worst_sim_ms_in_gaps": 13.0, "worst_ms_in_window": 407.3, "machine_stalls_in_window": 2, "worst_ms_outside_machine_stalls_in_window": 101.1, "worst_ms_added_by_arc_side_in_window": 0.0, "worst_sim_ms": 13.0, "machine_stalls": 2, "worst_ms_outside_machine_stalls": 101.1, "worst_stall_probe_ms": 406.3, "worst_ms_in_flight": 407.3, "machine_stalls_in_flight": 2, "worst_ms_outside_machine_stalls_in_flight": 0.0, "worst_ms_added_by_arc_side_in_flight": 0.0, "worst_stream_arrival_ms": 407.3}
+SCENARIO RESULT {"records": 51294, "sim_s": 51.293, "takeoff_s": 1.76, "airborne": true, "settled": {"alt_rms": 0.078, "alt_max_err": 0.458, "alt_mean": 0.984, "alt_jitter_rms": 0.076, "xy_max": 0.205, "tilt_max_deg": 2.6}, "disturbed": {"alt_rms": 1.812, "alt_max_err": 2.022, "alt_mean": 2.74, "alt_jitter_rms": 0.505, "xy_max": 0.181, "tilt_max_deg": 2.2}, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 49.53, "survived_run": true}
+| bridge_loss | reflex | 1.76 | 0.984 | 0.076 | 0.205 | 2.6 | 2.022 | 0.181 | 2.2 | 49.53 | - | - |

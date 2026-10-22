@@ -29,6 +29,12 @@ before that, a chain of PX4 shell-client calls):
    (`DO_SET_MODE`) in one burst, confirmed by both `COMMAND_ACK`s. Takeoff
    climbs to `MIS_TAKEOFF_ALT` and switches itself to Hold.
 
+That is the cold takeover (`--takeover cold`). Since 2026-10-22 the default is
+the warm takeover (G13 below): the same routing, PX4 switched to Offboard while
+still disarmed and armed with the arm command alone, a velocity-hold catch, and
+Takeoff entered from the live state; the standby's hover thrust is kept at the
+one being flown.
+
 Authority is one-way: it never returns to Arc within a flight. Run with
 `run_scenario.py --standby px4`; `--scenario bridge_loss --loss-kind kill|hang`
 kills or suspends the bridge process mid-hover. `--arc-side container` runs the
@@ -242,6 +248,100 @@ the loop rate or the transport. Command gaps: the worst in flight in 11 of
 5 had no gap over 20 ms in flight; outside machine stalls 0 in all 13, and
 the Arc side added 0 ms in all 13.
 
+### Warm takeover (G13, 2026-10-22)
+
+The altitude lost above did not change with the transport or PX4's loop rate,
+so it came from what PX4 restarts from. PX4's own flight log (ulog, kept for
+every standby run since this change; `tools/px4/takeover_trace.py`) shows two
+causes, both in stock PX4 (`PX4-Autopilot` `61907962`, the SITL image's build):
+
+1. **The takeoff trajectory starts downward.** While PX4 is disarmed its
+   position controller is in its ground state, and every cycle the flight mode
+   manager resets the auto flight task (`FlightModeManager.cpp`: `reActivate()`
+   while `takeoff_state < RAMPUP`), which sets the trajectory to the current
+   position and **0.7 m/s down** (`FlightTaskAuto::reActivate`, hard-coded
+   "on ground"). Hold and Takeoff share that task, so the Takeoff armed in the
+   air started from 0.7 m/s down and its jerk-limited trajectory needed
+   ~0.7 s to reverse: the setpoint itself went 0.44 m down
+   (`docs/px4_sitl_results/g6/warm/dev/p0_kill.takeover.txt`).
+2. **Hover thrust from the parameter.** Until PX4 counts itself flying, and
+   until its hover-thrust estimator is valid (5–6 s after the takeover), its
+   controller uses `MPC_THR_HOVER` (0.60 on the x500 model); the x500 hovers at
+   0.72 (PX4's own estimate, and Arc's commands).
+
+Integrators were not the cause (they are reset in the ground state either way).
+
+The warm takeover (`gz_motor_pub.py --takeover warm`, the default; no PX4
+change, stock parameters and MAVLink only):
+
+- **Hover thrust:** during flight the watchdog keeps the standby PX4's
+  `MPC_THR_HOVER` at the hover thrust being flown: Arc's mean motor command over
+  the last second, mapped through PX4's own output model (`SIM_GZ_EC_MIN/MAX`,
+  `THR_MDL_FAC`, read from PX4), checked once a second and sent past a 0.005
+  change (3–31 updates per 50 s flight). Nothing extra is sent at the handover.
+- **The catch:** during the routing wait PX4 is switched, still disarmed, to
+  Offboard behind a velocity-hold setpoint stream (0.1 m/s up, which PX4 reads
+  as a takeoff request; 50 Hz until the arm, 500 Hz after), and the arm burst
+  carries the arm command alone. PX4's velocity loop, which has no jerk-limited
+  trajectory, catches the vehicle.
+- **Into Takeoff from the live state:** once PX4 reports itself in the air
+  (`EXTENDED_SYS_STATE`, 3 samples) and the vehicle has stopped sinking
+  (`LOCAL_POSITION_NED` |vz| < 0.15 m/s, 2 samples), the watchdog switches to
+  Takeoff and stops the stream. Coming from Offboard (no flight task), PX4
+  starts the Takeoff task with no prior setpoint, i.e. from the current
+  position and velocity (`FlightModeManager::switchTask`). From then on PX4
+  flies on its own, as before.
+
+Two conditions in that sequence were found by measurement. Entering Takeoff
+while the land detector still reported "landed" (it starts so at arming) put
+the controller back in its ground state, and a falling vehicle then lost 1.1 m
+(`dev/p1_kill_warm.takeover.txt`). Entering Takeoff while the vehicle was still
+sinking after a hang made the trajectory keep descending for 0.3 s
+(`dev/g13r_g6m_hang_4.takeover.txt`; 0.23 and 0.84 m lost).
+
+Results (v5, Arc side in the container, PX4 standby, plant-clock watchdog at
+200 ms, 50 s, loss at 30 s; sequential, fresh container, host CPU below 25 %
+before each run). Evidence `docs/px4_sitl_results/g6/warm/` (per-run tables
+`summary.md`, PX4's takeover traces `*.takeover.txt`, two full ulogs in
+`ulog/`; raw bridge records and witness streams kept in the private repository; scripts `tools/px4/run_g11.sh` phases `g6` and `g6mav`, `final.sh`).
+
+| rig | case | runs | survived | false takeovers | detection | route + arm (PX4 in control) | Takeoff entered | altitude lost, warm | altitude lost, cold (before) | tilt max |
+|---|---|---|---|---|---|---|---|---|---|---|
+| direct, 1 kHz | Arc killed | 6 | **6 / 6** | 0 | 1 ms | 13–29 ms | +131–193 ms | **−0.00–0.06 m** | 0.47–0.54 m (G12) | 0.9–2.8° |
+| direct, 1 kHz | Arc hung | 3 | **3 / 3** | 0 | 200–201 ms | 14–32 ms | +138–231 ms | **0.02–0.09 m** | 0.46–0.53 m (G12) | 2.7–4.8° |
+| direct, 1 kHz | no fault | 4 | **4 / 4** | **0** | end of stream only | (22–51 ms there) | | | | |
+| MAVLink, 250 Hz | Arc killed | 6 | **6 / 6** | 0 | 0–20 ms | 19–35 ms | +152–223 ms | **−0.01–0.10 m** | 0.48–0.54 m (v5) | 1.7–2.8° |
+| MAVLink, 250 Hz | Arc hung | 3 | **3 / 3** | 0 | 200–204 ms | 22–32 ms | +123–202 ms | **−0.00–0.08 m** | 0.45–0.52 m (v5) | 4.1–8.2° |
+| MAVLink, 250 Hz | no fault | 4 | **4 / 4** | **0** | end of stream only | (18–25 ms there) | | | | |
+
+Same-day A/B, cold and warm interleaved, 6 kills each, same build
+(`ab_direct/`, `ab_mavlink/`):
+
+| rig | altitude lost cold → warm | route + arm cold → warm (mean, range) | of which arm/mode acks cold → warm |
+|---|---|---|---|
+| direct, 1 kHz | 0.45–0.53 → **0.01–0.04 m** | 23.8 (19–28) → 24.0 (14–36) ms | 7.2 → 6.0 ms |
+| MAVLink | 0.42–0.53 → **0.01–0.09 m** | 25.8 (21–32) → 23.8 (17–33) ms | 11.3 → 10.5 ms |
+
+Detection and the time until PX4 is armed and in control are unchanged, and no
+false takeover occurred: the watchdog and the routing are the same code; the
+arm burst carries one command instead of two. The tilt peak after a hang on the
+MAVLink rig is higher than cold (4.1–8.2° against 3.4–3.8°), from the catch's
+hard vertical arrest at 250 Hz; on the direct rig it is not (2.7–4.8° against
+3.6–4.9°). Command gaps outside machine stalls: direct 0 in 12 of 13 runs
+(88 ms in one, not added by the Arc side); MAVLink 20.5–37.6 ms, of which the
+Arc side added 20.1–21.8 ms.
+
+Development runs, kept in the run folders, not in the evidence: the first
+version read PX4's parameters at the publisher's start, before it drained Arc's
+command pipe, which delayed the pipe and caused 100–250 ms command gaps during
+spin-up and two false takeovers on the MAVLink rig (fixed: the reads run after
+the reader starts); one later version had one false takeover in 13 no-fault
+flights on the MAVLink rig after a 428 ms command gap that only the Arc side
+saw (PX4's record stream and the stall probe show no hole; cause not
+established; not seen in the 102 warm runs since); earlier versions took
+2.5–3 ms longer to arm (Offboard switched in the arm burst), now removed, as
+the A/B shows.
+
 ## What this does and does not claim
 
 - Arc crashing or hanging mid-flight is survivable: 13 of 13 losses survived
@@ -251,9 +351,11 @@ the Arc side added 0 ms in all 13.
   stock parameters set at boot (`COM_SPOOLUP_TIME`, `MPC_TKO_RAMP_T`,
   `MIS_TAKEOFF_ALT`, the motor functions off, and the keep-alive function on
   ESC channel 5).
-- The takeover costs altitude: 0.16–0.70 m from a 1.0–1.1 m hover.
-  **The fallback needs at least 1 m above ground**, and this is stated as an
-  operating limit.
+- The takeover costs altitude: 0.16–0.70 m from a 1.0–1.1 m hover with the
+  earlier (cold) takeover; with the warm takeover (G13, the default since
+  2026-10-22) −0.01–0.10 m in 30 losses on two rigs. **The fallback needs at
+  least 1 m above ground**: this stays the stated operating limit until the
+  warm takeover has been measured from lower hovers.
 - Route + arm + takeoff takes 21–37 ms in SITL (one MAVLink connection, the
   keep-alive channel). On hardware the same sequence is a flight-controller-side
   watchdog (an IO or ESC timeout that switches to the FMU's own mixer). The SITL
