@@ -256,6 +256,10 @@ def main():
     ap.add_argument("--wf", type=int, default=0, help="wait states per instruction-fetch word")
     ap.add_argument("--wd", type=int, default=0, help="wait states per data word")
     ap.add_argument("--budget-us", type=float, default=1000.0)
+    ap.add_argument("--stride", type=int, default=1,
+                    help="keep every STRIDE-th segment between CVR reads, from --offset (2 / 1 for the "
+                         "worst-case plasticity twins, whose arming between ticks is cut out by a second read)")
+    ap.add_argument("--offset", type=int, default=0)
     a = ap.parse_args()
 
     tmpdir = None
@@ -281,6 +285,8 @@ def main():
             shutil.rmtree(tmpdir, ignore_errors=True)
     if not ticks:
         raise SystemExit("no ticks found (no SysTick CVR reads in the trace)")
+    if a.stride > 1:
+        ticks, systicks = ticks[a.offset::a.stride], systicks[a.offset::a.stride]
 
     # Cross-check: the trace's per-tick instruction count must agree with the firmware's SysTick
     # delta (25 MHz, 40 instructions per count at shift=0) to within one count.

@@ -15,8 +15,11 @@ ELF=$1; MACHINE=$2; SHIFT=${3:-0}
 NM=${NM:-arm-none-eabi-nm}
 addr() { $NM "$ELF" | awk -v s="$1" '$3 == s {print $1}'; }
 A_HASH=$(addr g_drone_loop_hash); A_HIST=$(addr g_tick_hist); A_CNT=$(addr g_tick_count)
+# Worst-case plasticity twins (G8) also export their own check counters.
+A_WARM=$(addr g_worst_armed); A_WBAD=$(addr g_worst_bad); A_WMAX=$(addr g_worst_flips_max)
 OUT=$( ( sleep 25
          printf 'xp /gx 0x%s\n' "$A_HASH"
+         if [ -n "$A_WARM" ]; then for a in "$A_WARM" "$A_WBAD" "$A_WMAX"; do printf 'xp /wx 0x%s\n' "$a"; done; fi
          printf 'xp /wx 0x%s\n' "$A_CNT"
          printf 'xp /2000wx 0x%s\n' "$A_HIST"
          sleep 2
@@ -25,7 +28,10 @@ OUT=$( ( sleep 25
            -icount shift=$SHIFT,align=off -kernel "$ELF" 2>&1 | tr -d '\033\r' | tr -d '[]K' )
 HASH=$(echo "$OUT" | grep -i "^0*$A_HASH:" | head -1 | sed 's/.*: *//')
 CNT=$(echo "$OUT" | grep -i "^0*$A_CNT:" | head -1 | sed 's/.*: *//')
-VALS=$(echo "$OUT" | grep -E '^0*[0-9a-f]+: 0x' | grep -v -i "^0*$A_HASH:" | grep -v -i "^0*$A_CNT:"   | sed 's/^[^:]*: *//' | tr ' ' '
+rd() { echo "$OUT" | grep -i "^0*$1:" | head -1 | sed 's/.*: *//'; }
+SKIP="^0*$A_HASH:|^0*$A_CNT:"
+[ -n "$A_WARM" ] && SKIP="$SKIP|^0*$A_WARM:|^0*$A_WBAD:|^0*$A_WMAX:"
+VALS=$(echo "$OUT" | grep -E '^0*[0-9a-f]+: 0x' | grep -v -i -E "$SKIP"   | sed 's/^[^:]*: *//' | tr ' ' '
 ' | grep -E '^0x' | head -n $((CNT))   | while read -r h; do printf '%d
 ' $(( (h * 40) >> SHIFT )); done)
 N=$(echo "$VALS" | wc -l)
@@ -35,4 +41,7 @@ P50=$(pick $(( N * 50 / 100 + 1 ))); P90=$(pick $(( N * 90 / 100 ))); P99=$(pick
 MEAN=$(echo "$VALS" | awk '{ s += $1 } END { printf "%d", s / NR }')
 HEAVY=$(echo "$VALS" | awk -v m="$MEAN" '$1 > 2 * m { c++ } END { print c + 0 }')
 echo "MCU_TIMING $MACHINE hash=$HASH ticks=$N instr/tick p50=$P50 p90=$P90 p99=$P99 max=$MAX mean=$MEAN heavy_ticks(>2x_mean)=$HEAVY"
+if [ -n "$A_WARM" ]; then
+  echo "MCU_TIMING $MACHINE worst-case plasticity: armed calls $(( $(rd $A_WARM) )), missed $(( $(rd $A_WBAD) )), flips per call max $(( $(rd $A_WMAX) ))"
+fi
 echo "MCU_TIMING $MACHINE at 600 MHz: p50 $(( P50 / 600 ))-$(( P50 * 2 / 600 )) us, max $(( MAX / 600 ))-$(( MAX * 2 / 600 )) us (1-2 cycles/instr); tick budget 1000 us"

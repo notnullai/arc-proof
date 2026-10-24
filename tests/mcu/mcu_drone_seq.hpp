@@ -185,9 +185,130 @@ static inline bool dloop_estop(void* ctx) { return ((DLoopCtx*)ctx)->tick >= kEs
 #ifndef ARC_MCU_TICK_HOOK
 #define ARC_MCU_TICK_HOOK() ((void)0)   /* timing builds sample SysTick here; no effect on the hash */
 #endif
+#ifndef ARC_MCU_TICK_RESAMPLE
+#define ARC_MCU_TICK_RESAMPLE() ((void)0)   /* restart the tick clock (excludes the arming below) */
+#endif
+
+#ifdef ARC_MCU_WORST_PLASTICITY
+/* Worst-case plasticity twin (gap register G8; timing only, own hash). Before
+   every tick, outside the timed window, the rows the coming plasticity call
+   visits are armed so that every branch of arc_plasticity_step goes the
+   expensive way: every post neuron spikes (the trace pass loads pre_f), every
+   trace crosses the threshold on the same side (|E| near the clamp; SIGN -1:
+   E < -th, both compares run), every synapse can move (state 0) and is
+   drifted before and after the move (prior = -SIGN), so it is never blocked
+   and the Hamming distance stays put; with AT_BOUND the distance sits at the
+   ceiling, so every word takes the ceiling-aware loop and every iteration
+   runs the ceiling mask; every flip cooldown has expired. So every one of
+   the call's (rows x (hidden - motor)) synapses flips. The next tick's wait
+   checks that it did: flips, final state of every armed synapse, the
+   Hamming distance, the post spikes. g_worst_bad counts armed ticks where
+   any check failed; the host twin requires 0. The arming state is outside
+   what learning reaches (more drifted synapses than the distance counts),
+   so the timed figure bounds the reachable worst case from above. */
+#ifndef ARC_MCU_WORST_SIGN
+#define ARC_MCU_WORST_SIGN -1
+#endif
+#ifndef ARC_MCU_WORST_AT_BOUND
+#define ARC_MCU_WORST_AT_BOUND 1          /* 0: distance 0, the fast (unblocked) word loop */
+#endif
+extern "C" {
+volatile uint32_t g_worst_armed = 0;      /* armed ticks checked */
+volatile uint32_t g_worst_bad = 0;        /* armed ticks that missed the worst case */
+volatile uint32_t g_worst_flips_max = 0;  /* most flips in one plasticity call */
+volatile uint32_t g_worst_flips_total = 0;
+}
+struct WorstArm { int lo, hi; uint32_t fc0, ham, expect; };
+static WorstArm g_warm = {0, 0, 0, 0, 0};
+
+static inline int8_t worst_sign(int pre) {
+#if ARC_MCU_WORST_SIGN == 0
+    return (pre & 1) ? (int8_t)1 : (int8_t)-1;   /* mixed: both mask words change */
+#else
+    (void)pre;
+    return (int8_t)ARC_MCU_WORST_SIGN;
+#endif
+}
+
+static inline void worst_check(arc_engine* e) {
+    arc_plasticity* p = e->plasticity;
+    if (g_warm.expect == 0) return;
+    const int H = e->geom.hidden_neurons, M = e->geom.motor_neurons, nw = e->geom.hidden_words;
+    const uint32_t flips = p->flip_count - g_warm.fc0;
+    bool ok = flips == g_warm.expect && *p->hamming == g_warm.ham;
+    for (int post = g_warm.lo; post < g_warm.hi; ++post) {
+        if (e->spike[post] != 1) ok = false;
+        for (int pre = M; pre < H; ++pre) {
+            const uint32_t b = 1u << (pre & 31);
+            const size_t w = (size_t)post * (size_t)nw + (size_t)(pre >> 5);
+            const int st = (e->rec_exc[w] & b) ? 1 : (e->rec_inh[w] & b) ? -1 : 0;
+            if (st != worst_sign(pre)) ok = false;   /* moved 0 -> SIGN */
+            if (p->E[(size_t)post * (size_t)H + (size_t)pre] != 0) ok = false;
+        }
+    }
+    ++g_worst_armed;
+    if (!ok) ++g_worst_bad;
+    if (flips > g_worst_flips_max) g_worst_flips_max = flips;
+    g_worst_flips_total += flips;
+    g_warm.expect = 0;
+}
+
+static inline void worst_arm(arc_engine* e, uint32_t tick) {
+    arc_plasticity* p = e->plasticity;
+    const int H = e->geom.hidden_neurons, M = e->geom.motor_neurons, nw = e->geom.hidden_words;
+    g_warm.expect = 0;
+    if (tick + 1 >= (uint32_t)kEstopTick) return;   /* the estop fault gates learning */
+    /* Rows of the coming call, as arc_plasticity_step picks them. */
+    const uint32_t interval = p->cfg.plasticity_interval;
+    uint32_t slices = p->slices;
+    if (slices > interval) slices = interval;
+    int lo, hi;
+    if (slices <= 1) {
+        if (p->tick_accum + 1 < interval) return;
+        lo = M; hi = H;
+    } else {
+        const uint32_t k = p->tick_accum;
+        if (k >= slices) return;
+        const int per = (H - M + (int)slices - 1) / (int)slices;
+        lo = M + (int)k * per; hi = lo + per;
+        if (hi > H) hi = H;
+        if (lo >= hi) return;
+    }
+    uint32_t* rex = (uint32_t*)e->rec_exc;
+    uint32_t* rin = (uint32_t*)e->rec_inh;
+    for (int post = lo; post < hi; ++post) {
+        for (int pre = M; pre < H; ++pre) {
+            const size_t idx = (size_t)post * (size_t)H + (size_t)pre;
+            const int8_t sg = worst_sign(pre);
+            p->E[idx] = sg < 0 ? -(int32_t)0x3FFFFFFF : (int32_t)0x3FFFFFFF;
+            p->last_flip[idx] = tick - 100u;
+            const uint32_t b = 1u << (pre & 31);
+            const size_t w = (size_t)post * (size_t)nw + (size_t)(pre >> 5);
+            rex[w] &= ~b; rin[w] &= ~b;                       /* state 0 */
+            if (sg < 0) { p->prior_exc[w] |= b; p->prior_inh[w] &= ~b; }   /* prior +1 */
+            else        { p->prior_exc[w] &= ~b; p->prior_inh[w] |= b; }   /* prior -1 */
+        }
+    }
+    const uint32_t pn = (uint32_t)(H - M);
+    const uint32_t bound = (uint32_t)(((uint64_t)p->cfg.max_hamming_fraction_q16 * (pn * pn)) >> 16);
+    *p->hamming = ARC_MCU_WORST_AT_BOUND ? bound : 0u;
+    *p->mod_state = 65536;                                   /* m_sign = +1 */
+    for (int n = 0; n < H; ++n) e->V[n] = 1 << 20;           /* every neuron spikes +1 */
+    g_warm.lo = lo; g_warm.hi = hi;
+    g_warm.fc0 = p->flip_count;
+    g_warm.ham = *p->hamming;
+    g_warm.expect = (uint32_t)(hi - lo) * pn;
+}
+#endif
+
 static inline void dloop_wait(void* ctx, uint64_t /*deadline*/) {
     DLoopCtx* c = (DLoopCtx*)ctx;
     ARC_MCU_TICK_HOOK();
+#ifdef ARC_MCU_WORST_PLASTICITY
+    worst_check(c->e);
+    worst_arm(c->e, c->tick);
+    ARC_MCU_TICK_RESAMPLE();
+#endif
 #if defined(ARC_MCU_DENSE_INPUT) && defined(ARC_MCU_NO_PLASTICITY)
     /* inference stress: no reward callback, so the dense input is fed here */
     static uint32_t lcg_inf = 0x2545F491u;

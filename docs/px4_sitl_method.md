@@ -118,9 +118,19 @@ and the learning demonstration amortised under dense stress 93,200
 instruction mix (`tools/mcu_cycle_bound.py`) gives the flight default
 124,082 cycles on Cortex-M3, 123,061 on Cortex-M4 (Arm TRM tables) and
 156,042 on a stated Cortex-M7 envelope (≥ 125 / 124 / 157 MHz for 1 kHz),
-and the learning demonstration with learning on 167,964 / 161,378 /
-199,456 (≥ 168 / 162 / 200 MHz), so a 168/180 MHz Cortex-M4 fits both.
-The bound is analytic; a board's DWT cycle count confirms it.
+and the learning demonstration with learning on, under the dense stress,
+167,964 / 161,378 / 199,456 (≥ 168 / 162 / 200 MHz).
+
+*Worst case, 2026-10-25 (gap register G8):* the dense stress is not the
+worst case. With every synapse of the slice flipping and every branch taken
+the expensive way (an adversarial twin in `targets/`, proven to flip all 920
+synapses per call), the learning demonstration's worst tick is 131,960
+instructions on M7 and 132,440 on M3, and the cycle bound 243,297 / 236,707
+/ 292,159 (≥ 244 / 237 / 293 MHz). So a Teensy 4.x at 600 MHz runs it with
+learning on (2.1× on the envelope) and a 168/180 MHz Cortex-M4 does not; the
+earlier "fits both" is withdrawn for learning on. The flight default
+(plasticity off) still fits the M4 at 124 MHz. Closing action (open research item): a faster bit-exact plasticity pass that brings the worst case back under 168 MHz on a Cortex-M4. Never a longer plasticity interval or a cap on flips: both would slow learning. The bound is
+analytic; a board's DWT cycle count confirms it.
 
 ## Random faults, not fixed ones (added 2026-10-17)
 

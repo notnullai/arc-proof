@@ -41,6 +41,10 @@ static inline void timing_hook() {
     s_started = 1;
 }
 #define ARC_MCU_TICK_HOOK() timing_hook()
+/* Restart the tick clock after the worst-case twin's arming (not part of the
+   tick). This is one more CVR read: tools/mcu_cycle_bound.py --stride 2
+   keeps the tick segments only. */
+#define ARC_MCU_TICK_RESAMPLE() (s_prev = SYST_CVR & 0xFFFFFFu)
 
 #include "mcu_drone_seq.hpp"
 

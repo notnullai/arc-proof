@@ -46,6 +46,11 @@ endfunction()
 # Bit-exactness twin: the same reflex loop that runs on target hardware,
 # compared against the committed golden hash.
 add_proof_test(test_mcu_drone_loop_reference tests/test_mcu_drone_loop_reference.cpp)
+# Worst-case plasticity twin (gap register G8): every armed plasticity call flips every
+# synapse it visits; the Cortex-M images of the same sequence are in targets/.
+add_proof_test(test_plasticity_worst_case_480_sliced_worst tests/test_plasticity_worst_case.cpp)
+target_compile_definitions(test_plasticity_worst_case_480_sliced_worst PRIVATE
+    ARC_MCU_INPUT_BITS=480 ARC_MCU_HIDDEN=96 ARC_MCU_DENSE_INPUT ARC_MCU_WORST_PLASTICITY ARC_MCU_PLASTICITY_SLICES=10)
 
 # Safety contract: rate-limited setpoints, fault ramp, watchdog.
 add_proof_test(test_safety tests/test_safety.cpp)
