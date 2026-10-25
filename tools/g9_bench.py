@@ -8,9 +8,9 @@ the firmware's own read-back, interrupts masked, no fault, boot header sane), th
 worst tick with the G9 cycle-bound rows and reports the measured cycles per instruction.
 
 Before the run, the hypotheses and what each predicts (printed with every verdict):
-  H1  The stated Cortex-M7 envelope bounds the tick: worst tick <= 156,042 cycles (flight default),
-      <= 199,456 (learning demo, amortised, dense stress) and <= 292,159 (learning demo, amortised,
-      worst case: every synapse of the slice flips, G8). One worst tick above its row refutes the
+  H1  The stated Cortex-M7 envelope bounds the tick: worst tick <= 135,284 cycles (flight default),
+      <= 195,408 (learning demo, amortised, dense stress) and <= 211,745 (learning demo, amortised,
+      worst case: every synapse of the slice flips, ceiling walk, G8). One worst tick above its row refutes the
       envelope and reopens G9.
   H2  "1 cycle per instruction" (the clock floors in gap register G8): worst cycles <= QEMU
       instructions, i.e. CPI <= 1.00. CPI above 1 refutes it; G9 can still close on H1, but the G8
@@ -43,22 +43,23 @@ WORST_FLIPS = 920        # every synapse of a 10-row slice: 10 x (96 - 4)
 TICKS = 1999
 
 # G9 rows: docs/gap_register.md G9 and docs/px4_sitl.md D5 (static worst-case cycle bound,
-# 2026-10-19, M7 build, mps2-an500). instr = exact executed instructions of the timing image's worst
+# 2026-10-25 after the G8 fast plasticity pass, M7 build, mps2-an500). instr = exact executed instructions of the timing image's worst
 # tick from tools/mcu_cycle_bound.py; bench_bound / bench_instr = the same tool on this bench's own
 # stand-in image (g9_bench_mps2_<row>), 2026-10-25: its M7-envelope bound and its exact maximum
 # instructions in any tick (the bench's tick hook is lighter than the timing image's, so both are a
 # little lower). CPI is measured against bench_instr, the instruction count of the code that ran.
 ROWS = {
     "flight_dense": dict(label="flight default (candidate v5) 832/96 inference, dense stress",
-                         bound=156042, instr=79848, bench_bound=155944, bench_instr=79856,
+                         bound=135284, instr=73604, bench_bound=135186, bench_instr=73612,
                          image="mcu_drone_loop_timing_x500_832_inference_dense"),
     "learn_sliced_dense": dict(label="learning demo 480/96, plasticity amortised x10, dense stress",
-                               bound=199456, instr=93194, bench_bound=199354, bench_instr=93160,
+                               bound=195408, instr=97459, bench_bound=195306, bench_instr=97432,
                                image="mcu_drone_loop_timing_x500_480_sliced_dense"),
-    # G8 2026-10-25 (docs/px4_sitl.md D5 "Worst-case plasticity bound"): every synapse of the slice flips.
+    # G8 2026-10-25 (docs/px4_sitl.md D5 "Worst-case plasticity bound", fast pass): every synapse of the
+    # slice flips; the worst arming is the ceiling walk (moves onto and off the prior alternate).
     "learn_sliced_worst": dict(label="learning demo 480/96, amortised x10, WORST CASE (every synapse flips)",
-                               bound=292159, instr=131960, bench_bound=292159, bench_instr=131952,
-                               image="mcu_drone_loop_timing_x500_480_sliced_worst"),
+                               bound=211745, instr=105945, bench_bound=211745, bench_instr=105945,
+                               image="mcu_drone_loop_timing_x500_480_sliced_worst_walk"),
 }
 CORE_HZ = 600000000
 
@@ -429,7 +430,7 @@ def rows_and_hypotheses(wls, ref, standin, core_hz):
             return "not tested (stand-in counts instructions)"
         return "supported" if h and all(h) else "refuted" if h else "not tested"
     hyp = {
-        "H1_m7_envelope_bounds_tick": {"prediction": "worst tick <= 156,042 (flight), <= 199,456 (learning, dense) and <= 292,159 (learning, worst case) cycles",
+        "H1_m7_envelope_bounds_tick": {"prediction": "worst tick <= 135,284 (flight), <= 195,408 (learning, dense) and <= 211,745 (learning, worst case) cycles",
                                        "result": judge(h1)},
         "H2_one_cycle_per_instruction": {"prediction": "worst-tick cycles <= QEMU instructions (CPI <= 1.00)",
                                          "result": judge(h2)},

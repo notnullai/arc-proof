@@ -285,8 +285,16 @@ static inline void worst_arm(arc_engine* e, uint32_t tick) {
             const uint32_t b = 1u << (pre & 31);
             const size_t w = (size_t)post * (size_t)nw + (size_t)(pre >> 5);
             rex[w] &= ~b; rin[w] &= ~b;                       /* state 0 */
+#ifdef ARC_MCU_WORST_WALK
+            /* Moves back onto the prior (even pre: prior = the target, Hamming
+               -1) alternate with moves off it (odd pre: prior 0, +1), so at the
+               ceiling every move off the prior is checked and allowed. */
+            p->prior_exc[w] &= ~b; p->prior_inh[w] &= ~b;
+            if ((pre & 1) == 0) { if (sg > 0) p->prior_exc[w] |= b; else p->prior_inh[w] |= b; }
+#else
             if (sg < 0) { p->prior_exc[w] |= b; p->prior_inh[w] &= ~b; }   /* prior +1 */
             else        { p->prior_exc[w] &= ~b; p->prior_inh[w] |= b; }   /* prior -1 */
+#endif
         }
     }
     const uint32_t pn = (uint32_t)(H - M);

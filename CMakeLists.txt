@@ -51,6 +51,12 @@ add_proof_test(test_mcu_drone_loop_reference tests/test_mcu_drone_loop_reference
 add_proof_test(test_plasticity_worst_case_480_sliced_worst tests/test_plasticity_worst_case.cpp)
 target_compile_definitions(test_plasticity_worst_case_480_sliced_worst PRIVATE
     ARC_MCU_INPUT_BITS=480 ARC_MCU_HIDDEN=96 ARC_MCU_DENSE_INPUT ARC_MCU_WORST_PLASTICITY ARC_MCU_PLASTICITY_SLICES=10)
+add_proof_test(test_plasticity_worst_case_480_sliced_worst_walk tests/test_plasticity_worst_case.cpp)
+target_compile_definitions(test_plasticity_worst_case_480_sliced_worst_walk PRIVATE
+    ARC_MCU_INPUT_BITS=480 ARC_MCU_HIDDEN=96 ARC_MCU_DENSE_INPUT ARC_MCU_WORST_PLASTICITY ARC_MCU_WORST_WALK ARC_MCU_PLASTICITY_SLICES=10)
+# Differential test of the plasticity pass against its word-level rule on random states.
+add_proof_test(test_plasticity_equiv tests/test_plasticity_equiv.cpp)
+target_compile_definitions(test_plasticity_equiv PRIVATE ARC_MCU_INPUT_BITS=480 ARC_MCU_HIDDEN=96)
 
 # Safety contract: rate-limited setpoints, fault ramp, watchdog.
 add_proof_test(test_safety tests/test_safety.cpp)

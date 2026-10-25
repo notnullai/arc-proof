@@ -129,8 +129,14 @@ instructions on M7 and 132,440 on M3, and the cycle bound 243,297 / 236,707
 / 292,159 (≥ 244 / 237 / 293 MHz). So a Teensy 4.x at 600 MHz runs it with
 learning on (2.1× on the envelope) and a 168/180 MHz Cortex-M4 does not; the
 earlier "fits both" is withdrawn for learning on. The flight default
-(plasticity off) still fits the M4 at 124 MHz. Closing action (open research item): a faster bit-exact plasticity pass that brings the worst case back under 168 MHz on a Cortex-M4. Never a longer plasticity interval or a cap on flips: both would slow learning. The bound is
-analytic; a board's DWT cycle count confirms it.
+(plasticity off) still fitted the M4 then.
+
+*Fast bit-exact pass, 2026-10-25 (current):* the fast bit-exact plasticity pass of 2026-10-25: a constexpr nibble-table ceiling walk, flip-log writes the same call would overwrite skipped, and hand-scheduled ARMv7-M kernels for the trace, cooldown, apply, flip log and neuron drive, every hash unchanged on host, M3 and M7, gated by a differential test against the word-level rule (`test_plasticity_equiv`). The learning
+rule, interval and flip count are unchanged. The worst case (now the
+ceiling-walk arming) is 105,960 instructions on M7 and 106,080 on M3, cycle
+bound 178,331 / 171,741 / 211,745 (≥ 179 / 172 / 212 MHz). So **a 180 MHz Cortex-M4 runs the learning demonstration with learning on at 1 kHz in the worst case (4.3 % margin); a 168 MHz one does not (0.975×); a Teensy 4.x (Cortex-M7, 600 MHz) does with 2.8× on the envelope**.
+The flight default drops to 73,600 instructions and a 111,185-cycle M4 bound
+(112 MHz). The bound is analytic; a board's DWT cycle count confirms it.
 
 ## Random faults, not fixed ones (added 2026-10-17)
 

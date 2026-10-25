@@ -100,14 +100,26 @@ dense stress (unsliced, one pass of 8,464 flips: 753,040). The cycle bound
 needs `--stride 2 --offset 1` on these images (the set-up between ticks
 sits between two SysTick reads).
 
-So the learning demonstration with learning on needs ≥ 244 MHz on a
-Cortex-M3, ≥ 237 MHz on a Cortex-M4 (229 on the M7-build image) and
-≥ 293 MHz on the M7 envelope. **A Teensy 4.x (600 MHz Cortex-M7) fits it
-with 2.1× margin; a 168/180 MHz Cortex-M4 does not.** Closing action (open research item): a faster bit-exact plasticity pass that brings the worst case back under 168 MHz on a Cortex-M4. Never a longer plasticity interval or a cap on flips: both would slow learning.
+On that day's pass the learning demonstration with learning on needed
+≥ 244 MHz on a Cortex-M3, ≥ 237 MHz on a Cortex-M4 and ≥ 293 MHz on the M7
+envelope: no M4 fitted.
+
+### Fast bit-exact pass (gap register G8, 2026-10-25)
+
+The fast bit-exact plasticity pass of 2026-10-25: a constexpr nibble-table ceiling walk, flip-log writes the same call would overwrite skipped, and hand-scheduled ARMv7-M kernels for the trace, cooldown, apply, flip log and neuron drive, every hash unchanged on host, M3 and M7, gated by a differential test against the word-level rule (`test_plasticity_equiv`). The learning rule, the interval and the flip
+count are unchanged. A new worst arming, the ceiling walk (moves back onto
+the prior alternate with moves off it, at the ceiling;
+`targets/mcu_drone_loop_timing_x500_480_sliced_worst_walk_m3` / `_m7`, host twin
+`test_plasticity_worst_case_480_sliced_worst_walk`), is now the worst case:
+**105,960 instructions on M7, 106,080 on M3**, cycle bound 178,331 (M3) /
+**171,741 (M4)** (172,321 on the M7-build image) / 211,745 (M7 envelope).
+So **a 180 MHz Cortex-M4 runs the learning demonstration with learning on at 1 kHz in the worst case (4.3 % margin); a 168 MHz one does not (0.975×); a Teensy 4.x (Cortex-M7, 600 MHz) does with 2.8× on the envelope**. The inference kernel also takes the
+flight default from 79,880 to 73,600 instructions (M4 bound 123,422 →
+111,185).
 
 So, counted in instructions: the flight default fits 1 kHz on a 600 MHz
 Cortex-M7 with 7.5× margin at 1 cycle/instr and 3.7× at 2; the learning
-demonstration with learning on needs ≥ 132 MHz at 1 cycle/instr and
+demonstration with learning on needs ≥ 106 MHz at 1 cycle/instr (worst case, current pass; 132 MHz before it) and
 ≥ 264 MHz at 2 in its worst case (≥ 94 / 187 MHz under the dense stress).
 
 ### Static worst-case cycle bound (gap register G9)
@@ -152,15 +164,21 @@ those with the libgcc popcount call before it.
 | same | `x500_480_sliced_dense_m7` | – | 155,836 → 156 MHz (195,292; 239,458) | 199,456 → **200 MHz** (248,233; 332,904) |
 | learning demonstration, **worst case** (every synapse of the slice flips; 132,440 / 131,960) | `x500_480_sliced_worst_m3` | 243,297 → **244 MHz** | 236,707 → **237 MHz** | – |
 | same | `x500_480_sliced_worst_m7` | – | 228,377 → 229 MHz | 292,159 → **293 MHz** |
+| **current (fast pass):** flight default, 832 / 96 inference, dense stress (73,680 / 73,600) | `x500_832_inference_dense_m3` | 111,845 → **112 MHz** | 111,185 → **112 MHz** | – |
+| same | `x500_832_inference_dense_m7` | – | 111,043 → 112 MHz | 135,284 → **136 MHz** |
+| current: learning demonstration, amortised × 10, dense stress (97,640 / 97,480) | `x500_480_sliced_dense_m3` | 164,329 → 165 MHz | 157,743 → 158 MHz | – |
+| same | `x500_480_sliced_dense_m7` | – | 157,988 → 158 MHz | 195,408 → 196 MHz |
+| current: learning demonstration, **worst case** (ceiling walk; 106,080 / 105,960) | `x500_480_sliced_worst_walk_m3` | 178,331 → **179 MHz** | 171,741 → **172 MHz** | – |
+| same | `x500_480_sliced_worst_walk_m7` | – | 172,321 → 173 MHz | 211,745 → **212 MHz** |
 
-So on this bound a 600 MHz Cortex-M7 flies the flight default with 3.8×
-margin on the envelope and runs the learning demonstration with 3.0×; a
-168 or 180 MHz Cortex-M4 fits the flight default at 1 kHz (124 MHz needed:
-1.35× / 1.45× margin). With learning on it fits the dense stress (162
-MHz) but **not the worst case** (237 MHz; 229 on the M7-build image), so a
-168/180 MHz Cortex-M4 does not run the learning demonstration with learning
-on at 1 kHz; the 600 MHz M7 runs it with 2.1× on the envelope. A
-Cortex-M3 at ≤ 120 MHz fits neither (125 / 244 MHz needed).
+The rows above "current" are history (the code of their date; the timing
+images in `targets/` are the current build, so they reproduce the current
+rows). So, on the current rows: a 600 MHz Cortex-M7 flies the flight default
+with 4.4× margin on the envelope and runs the learning demonstration with
+learning on, worst case, with 2.8×. A 168 or 180 MHz Cortex-M4 fits the
+flight default (112 MHz needed: 1.51× / 1.62×). With learning on **a 180 MHz
+Cortex-M4 fits the worst case with 4.3 % margin and a 168 MHz one does not
+(0.975×)**. A Cortex-M3 at ≤ 120 MHz fits neither (112 / 179 MHz needed).
 
 Requirements on the firmware for these numbers to hold: code and per-tick
 data in zero-wait memory (ITCM / DTCM on an M7, zero-wait SRAM or CCM on an

@@ -41,9 +41,9 @@ Six tick sequences of the QEMU timing images in `targets/`, from the same source
 
 | workload | timing image | G9 bound row (M7 envelope) |
 |---|---|---|
-| `flight_dense`: flight default 832 / 96, inference, dense stress | `mcu_drone_loop_timing_x500_832_inference_dense` | **156,042** cycles |
-| `learn_sliced_dense`: learning demo 480 / 96, plasticity ÷10, dense | `mcu_drone_loop_timing_x500_480_sliced_dense` | **199,456** cycles |
-| `learn_sliced_worst`: learning demo, plasticity ÷10, **worst case**: every synapse of the slice flips, every branch the expensive way (G8) | `mcu_drone_loop_timing_x500_480_sliced_worst` | **292,159** cycles |
+| `flight_dense`: flight default 832 / 96, inference, dense stress | `mcu_drone_loop_timing_x500_832_inference_dense` | **135,284** cycles |
+| `learn_sliced_dense`: learning demo 480 / 96, plasticity ÷10, dense | `mcu_drone_loop_timing_x500_480_sliced_dense` | **195,408** cycles |
+| `learn_sliced_worst`: learning demo, plasticity ÷10, **worst case**: every synapse of the slice flips, every branch the expensive way (G8) | `mcu_drone_loop_timing_x500_480_sliced_worst_walk` (the ceiling-walk arming, the worst case of the fast pass) | **211,745** cycles |
 | `learn_dense`: learning demo, not amortised | `mcu_drone_loop_timing_x500_480_dense` | none (CPI only) |
 | `flight_plain`, `golden_twin`: one-bit input, golden hash | `…_832_inference`, `mcu_drone_loop_timing` | none (hash anchor) |
 
@@ -56,9 +56,9 @@ How the image runs them:
 
 ## Hypotheses, stated before the run
 
-- **H1: the M7 envelope bounds the tick.** Prediction: worst tick ≤ 156,042 cycles (flight), ≤ 199,456 (learning, dense) and ≤ 292,159 (learning, worst case). One tick over its row refutes the envelope.
-- **H2: one cycle per instruction**, the figure behind G8's clock floors. Prediction: worst cycles ≤ the bench's exact instruction count (79,856 / 93,160 / 131,952), i.e. CPI ≤ 1.00.
-- **Start value, not tested:** on this integer, TCM-resident code we expect CPI between 0.6 and 0.9, from M7 dual issue and single-cycle TCM. That would put the flight worst tick near 48k–72k cycles and the worst-case learning tick near 79k–119k, leaving the envelope 2–3× loose. Your run can prove this wrong in either direction.
+- **H1: the M7 envelope bounds the tick.** Prediction: worst tick ≤ 135,284 cycles (flight), ≤ 195,408 (learning, dense) and ≤ 211,745 (learning, worst case). One tick over its row refutes the envelope.
+- **H2: one cycle per instruction**, the figure behind G8's clock floors. Prediction: worst cycles ≤ the bench's exact instruction count (73,612 / 97,432 / 105,945), i.e. CPI ≤ 1.00.
+- **Start value, not tested:** on this integer, TCM-resident code we expect CPI between 0.6 and 0.9, from M7 dual issue and single-cycle TCM. That would put the flight worst tick near 44k–66k cycles and the worst-case learning tick near 64k–95k, leaving the envelope 2–3× loose. Your run can prove this wrong in either direction.
 
 ## Reading the verdict
 
@@ -89,8 +89,8 @@ If nothing arrives:
 ## Checked before shipping, and what only a board can check
 
 - **Hashes:** all six match the host twin, the stand-in, and the QEMU timing images in `targets/` (M3 and M7, `docs/performance.md`). The worst-case twin armed 1,499 calls, missed none, and flipped 920 synapses in each.
-- **Same tick as the bound:** the stand-in's own cycle bounds (`tools/mcu_cycle_bound.py`) are 155,944, 199,354 and 292,159 cycles, against the rows' 156,042, 199,456 and 292,159.
+- **Same tick as the bound:** the stand-in's own cycle bounds (`tools/mcu_cycle_bound.py`) are 135,186, 195,306 and 211,745 cycles, against the rows' 135,284, 195,408 and 211,745 (re-run 2026-10-25 after the G8 fast pass).
 - **No unaligned access:** none happened in any timed tick, with the trap armed.
-- **Image layout:** 28.9 KB of code in one ITCM bank and 409 KB of data in 15 DTCM banks. Flash holds only the boot header, the reset code and the vector table (940 bytes).
+- **Image layout:** 33.0 KB of code in one ITCM bank and 413 KB of data in 15 DTCM banks. Flash holds only the boot header, the reset code and the vector table (940 bytes).
 - **Boot header:** "FCFB" config block, IVT entry at the reset handler, boot data covering the image.
 - **Not checked until a board runs it:** that the boot ROM accepts this header (it follows PJRC's Teensy 4.0 layout), and the LPUART6, FlexRAM and clock register values on silicon.
