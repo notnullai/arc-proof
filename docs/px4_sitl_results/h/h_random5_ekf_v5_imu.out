@@ -1,0 +1,14 @@
+SCENARIO: random schedule seed 5: [{"kind": "dropout", "at": 13.1, "len": 0.24}, {"kind": "wind", "at": 26.47, "len": 1.23, "fx": 1.4, "fy": 1.04}, {"kind": "wind", "at": 36.66, "len": 0.97, "fx": 1.09, "fy": -0.78}, {"kind": "wind", "at": 40.19, "len": 1.24, "fx": 1.07, "fy": -3.67}]
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: injector READY
+SCENARIO: inject wind 1.400000 1.040000 0 -> OK wind 1.400000 1.040000 0
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 1.090000 -0.780000 0 -> OK wind 1.090000 -0.780000 0
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 1.070000 -3.670000 0 -> OK wind 1.070000 -3.670000 0
+SCENARIO: inject clear -> OK clear
+SCENARIO: streamer: EKF_STREAM: 2977 records in 62.0s gyro=HIGHRES_IMU(2977)
+SCENARIO RESULT {"records": 2977, "sim_s": 59.524, "takeoff_s": 1.04, "airborne": true, "settled": {"alt_rms": 0.031, "alt_max_err": 0.048, "alt_mean": 0.979, "alt_jitter_rms": 0.023, "xy_max": 0.198, "tilt_max_deg": 2.7}, "disturbed": {"alt_rms": 0.034, "alt_max_err": 0.168, "alt_mean": 1.0, "alt_jitter_rms": 0.034, "xy_max": 4.654, "tilt_max_deg": 19.4}, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 58.48, "survived_run": true, "wind_recovery_s": [0.0, 8.68, 4.89], "wind_recovery_max_s": 8.68, "wind_unrecovered": 0}
+| random | reflex | 1.04 | 0.979 | 0.023 | 0.198 | 2.7 | 0.168 | 4.654 | 19.4 | 58.48 | - | 0 |

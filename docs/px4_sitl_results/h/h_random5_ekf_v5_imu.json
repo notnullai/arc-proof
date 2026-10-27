@@ -1,0 +1,115 @@
+{
+ "tag": "h_random5_ekf_v5_imu",
+ "arm": "reflex",
+ "scenario": "random",
+ "seconds": 60.0,
+ "alt": 1.0,
+ "hover_rad_s": 769.0,
+ "px4_hover_mean_rad_s": null,
+ "gains": "",
+ "residual_gain": 16384,
+ "plasticity": "off",
+ "fault_policy": null,
+ "brain": "models/prior_x500_candidate_v5.arc002",
+ "bits": 832,
+ "att_fallback": "imu",
+ "streamer": "EKF_STREAM: 2977 records in 62.0s gyro=HIGHRES_IMU(2977)",
+ "wind": null,
+ "motor_loss": null,
+ "dropout": null,
+ "random_stall_kind": "ekf",
+ "random_schedule": [
+  {
+   "kind": "dropout",
+   "at": 13.1,
+   "len": 0.24
+  },
+  {
+   "kind": "wind",
+   "at": 26.47,
+   "len": 1.23,
+   "fx": 1.4,
+   "fy": 1.04,
+   "fired": true,
+   "off_at": 27.721900444030762,
+   "cleared": true
+  },
+  {
+   "kind": "wind",
+   "at": 36.66,
+   "len": 0.97,
+   "fx": 1.09,
+   "fy": -0.78,
+   "fired": true,
+   "off_at": 37.65468594551086,
+   "cleared": true
+  },
+  {
+   "kind": "wind",
+   "at": 40.19,
+   "len": 1.24,
+   "fx": 1.07,
+   "fy": -3.67,
+   "fired": true,
+   "off_at": 41.46676730155945,
+   "cleared": true
+  }
+ ],
+ "seed": 5,
+ "standby": "none",
+ "handover_ms": null,
+ "bridge_loss": null,
+ "handover": null,
+ "bridge": {
+  "ok": "1",
+  "ticks": "60000",
+  "records": "2977",
+  "rejected": "0",
+  "gaps": "0",
+  "dropout_ticks": "0",
+  "estop_ticks": "0",
+  "fault_ticks": "0",
+  "stabilised_fault_ticks": "0",
+  "clears": "0",
+  "sim_span_us": "60000000",
+  "max_wall_tick_us": "530",
+  "hash": "8b305df2a89ad407",
+  "att_fallback_records": "7",
+  "att_fallback_entries": "1",
+  "att_fallback_max_ms": "120",
+  "att_stale_records": "0"
+ },
+ "metrics": {
+  "records": 2977,
+  "sim_s": 59.524,
+  "takeoff_s": 1.04,
+  "airborne": true,
+  "settled": {
+   "alt_rms": 0.031,
+   "alt_max_err": 0.048,
+   "alt_mean": 0.979,
+   "alt_jitter_rms": 0.023,
+   "xy_max": 0.198,
+   "tilt_max_deg": 2.7
+  },
+  "disturbed": {
+   "alt_rms": 0.034,
+   "alt_max_err": 0.168,
+   "alt_mean": 1.0,
+   "alt_jitter_rms": 0.034,
+   "xy_max": 4.654,
+   "tilt_max_deg": 19.4
+  },
+  "tilt_fault_s": null,
+  "ground_impact_s": null,
+  "survival_s": 58.48,
+  "survived_run": true,
+  "wind_recovery_s": [
+   0.0,
+   8.68,
+   4.89
+  ],
+  "wind_recovery_max_s": 8.68,
+  "wind_unrecovered": 0
+ }
+}

@@ -1,0 +1,15 @@
+G6 routing-latency probe, 2026-10-19, fresh px4gz container (PX4 1.18.0 main 61907962), vehicle on the ground, disarmed.
+Each trial: SIM_GZ_EC_FUNC1..4 = 0, wait 2.5 s (clears gz_bridge's 1 s parameter_update interval), then one MAVLink
+PARAM_SET burst FUNC1..4 = 101..104 over the watchdog link, then poll `px4-gz_bridge status` until all four channels
+report func 101..104. Tuple = (burst + 4 PARAM_VALUE echoes ms, extra status polls, total ms to routed).
+Script: route_probe.py (this folder), using gz_motor_pub.Px4Link.
+
+SIM_GZ_EC_FUNC5 = 0 (all ESC channels disabled: PX4's mixer runs at its 300 ms low rate):
+[(1.9, 18, 203), (1.4, 13, 178), (2.3, 13, 140), (2.2, 10, 101), (1.2, 4, 67), (1.2, 2, 30), (1.1, 30, 291), (2.5, 16, 260)]
+SIM_GZ_EC_FUNC5 = 1 (Constant_Min on unused channel 5: mixer scheduled at 250 Hz; channel 1 unset, so nothing is published):
+[(1.1, 1, 22), (1.1, 0, 13), (0.9, 1, 19), (1.0, 0, 13), (2.0, 0, 16), (1.3, 1, 18), (1.6, 0, 15), (1.8, 0, 17)]
+
+Cause (PX4 source): MixingOutput::updateSubscriptions() applies new output functions only in the output module's own
+Run(); with every channel disabled that Run is scheduled at _lowrate_schedule_interval = 300 ms
+(src/lib/mixer_module/mixer_module.cpp). gz_bridge also reads parameter_update through a 1 s SubscriptionInterval
+(GZBridge.hpp), which admits a burst after an idle second.

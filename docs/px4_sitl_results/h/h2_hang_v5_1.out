@@ -1,0 +1,7 @@
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: bridge suspended at 30.0s
+SCENARIO: GZ_MOTOR_PUB: HANDOVER to PX4 (stale, 538 ms since last command, route+arm+takeoff 1028 ms, routed_polls=11, rc 0) at 1792346977.648
+SCENARIO RESULT {"records": 2490, "sim_s": 49.78, "takeoff_s": 1.0, "airborne": true, "settled": {"alt_rms": 0.347, "alt_max_err": 1.33, "alt_mean": 1.088, "alt_jitter_rms": 0.336, "xy_max": 0.345, "tilt_max_deg": 3.7}, "disturbed": {"alt_rms": 1.909, "alt_max_err": 1.984, "alt_mean": 2.904, "alt_jitter_rms": 0.136, "xy_max": 0.228, "tilt_max_deg": 0.5}, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 48.78, "survived_run": true}
+| bridge_loss | reflex | 1.0 | 1.088 | 0.336 | 0.345 | 3.7 | 1.984 | 0.228 | 0.5 | 48.78 | - | - |

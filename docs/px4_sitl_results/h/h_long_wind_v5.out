@@ -1,0 +1,901 @@
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: injector READY
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 15.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 21.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 27.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 33.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 39.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 45.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 51.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 57.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 63.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 69.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 75.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 81.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 87.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 93.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 99.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 105.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 111.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 117.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 123.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 129.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 135.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 141.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 147.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 153.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 159.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 165.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 171.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 177.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 183.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 189.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 195.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 201.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 207.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 213.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 219.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 225.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 231.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 237.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 243.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 249.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 255.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 261.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 267.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 273.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 279.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 285.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 291.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 297.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 303.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 309.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 315.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 321.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 327.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 333.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 339.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 345.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 351.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 357.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 363.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 369.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 375.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 381.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 387.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 393.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 399.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 405.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 411.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 417.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 423.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 429.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 435.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 441.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 447.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 453.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 459.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 465.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 471.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 477.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 483.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 489.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 495.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 501.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 507.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 513.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 519.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 525.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 531.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 537.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 543.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 549.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 555.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 561.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 567.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 573.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 579.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 585.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 591.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 597.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 603.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 609.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 615.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 621.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 627.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 633.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 639.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 645.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 651.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 657.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 663.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 669.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 675.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 681.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 687.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 693.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 699.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 705.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 711.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 717.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 723.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 729.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 735.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 741.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 747.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 753.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 759.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 765.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 771.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 777.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 783.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 789.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 795.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 801.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 807.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 813.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 819.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 825.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 831.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 837.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 843.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 849.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 855.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 861.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 867.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 873.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 879.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 885.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 891.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 897.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 903.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 909.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 915.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 921.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 927.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 933.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 939.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 945.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 951.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 957.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 963.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 969.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 975.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 981.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 987.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 993.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 999.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1005.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1011.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1017.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1023.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1029.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1035.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1041.1s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1047.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1053.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1059.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1065.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1071.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1077.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1083.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1089.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1095.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1101.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1107.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1113.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1119.1s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1125.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1131.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1137.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1143.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1149.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1155.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1161.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1167.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1173.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1179.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1185.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1191.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1197.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1203.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1209.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1215.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1221.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1227.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1233.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1239.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1245.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1251.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1257.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1263.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1269.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1275.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1281.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1287.1s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1293.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1299.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1305.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1311.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1317.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1323.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1329.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1335.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1341.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1347.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1353.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1359.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1365.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1371.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1377.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1383.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1389.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1395.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1401.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1407.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1413.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1419.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1425.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1431.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1437.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1443.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1449.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1455.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1461.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1467.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1473.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1479.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1485.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1491.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1497.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1503.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1509.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1515.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1521.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1527.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1533.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1539.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1545.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1551.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1557.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1563.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1569.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1575.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1581.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1587.1s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1593.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1599.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1605.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1611.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1617.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1623.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1629.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1635.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1641.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1647.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1653.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1659.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1665.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1671.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1677.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1683.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1689.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1695.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1701.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1707.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1713.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1719.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1725.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1731.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1737.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1743.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1749.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1755.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1761.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1767.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1773.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1779.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1785.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1791.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 3.000000 1.500000 0 -> OK wind 3.000000 1.500000 0
+SCENARIO: wind pulse at 1797.0s
+SCENARIO: inject clear -> OK clear
+SCENARIO: streamer: EKF_STREAM: 86381 records in 1802.0s
+SCENARIO RESULT {"records": 86381, "sim_s": 1727.6, "takeoff_s": 1.0, "airborne": true, "settled": {"alt_rms": 0.024, "alt_max_err": 0.044, "alt_mean": 1.003, "alt_jitter_rms": 0.024, "xy_max": 2.652, "tilt_max_deg": 17.0}, "disturbed": {"alt_rms": 0.042, "alt_max_err": 0.132, "alt_mean": 1.0, "alt_jitter_rms": 0.042, "xy_max": 3.567, "tilt_max_deg": 20.0}, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 1726.6, "survived_run": true, "wind_recovery_s": [1502.53, 1496.52, 1490.51, 1484.5, 1478.54, 1472.53, 1466.52, 1460.5, 1454.5, 1448.53, 1442.52, 1436.52, 1430.51, 1424.5, 1418.53, 1412.52, 1406.51, 1400.51, 1394.49, 1388.53, 1382.52, 1376.51, 1370.5, 1364.54, 1358.53, 1352.52, 1346.51, 1340.49, 1334.53, 1328.51, 1322.5, 1316.49, 1310.53, 1304.52, 1298.51, 1292.5, 1286.53, 1280.52, 1274.51, 1268.5, 1262.54, 1256.54, 1250.52, 1244.51, 1238.5, 1232.49, 1226.53, 1220.52, 1214.51, 1208.5, 1202.49, 1196.54, 1190.52, 1184.51, 1178.5, 1172.5, 1166.54, 1160.53, 1154.52, 1148.51, 1142.5, 1136.54, 1130.53, 1124.52, 1118.51, 1112.5, 1106.54, 1100.53, 1094.52, 1088.51, 1082.5, 1076.49, 1070.53, 1064.52, 1058.51, 1052.5, 1046.49, 1040.53, 1034.52, 1028.5, 1022.49, 1016.53, 1010.52, 1004.51, 998.5, 992.53, 986.53, 980.52, 974.51, 968.5, 962.54, 956.53, 950.52, 944.51, 938.5, 932.54, 926.53, 920.52, 914.51, 908.5, 902.54, 896.52, 890.52, 884.51, 878.5, 872.53, 866.52, 860.51, 854.5, 848.5, 842.54, 836.53, 830.52, 824.51, 818.5, 812.54, 806.53, 800.52, 794.5, 788.49, 782.53, 776.52, 770.51, 764.5, 758.49, 752.53, 746.52, 740.51, 734.49, 728.53, 722.52, 716.51, 710.51, 704.5, 698.53, 692.52, 686.5, 680.49, 674.53, 668.52, 662.51, 656.49, 650.53, 644.52, 638.52, 632.51, 626.5, 620.54, 614.53, 608.52, 602.51, 596.5, 590.49, 584.53, 578.52, 572.51, 566.5, 560.49, 554.53, 548.52, 542.51, 536.49, 530.54, 524.53, 518.52, 512.51, 506.49, 500.53, 494.52, 488.51, 482.5, 476.49, 470.53, 464.52, 458.51, 452.5, 446.53, 440.52, 434.51, 428.5, 422.54, 416.52, 410.52, 404.5, 398.49, 392.53, 386.52, 380.51, 374.49, 368.54, 362.53, 356.52, 350.51, 344.5, 338.5, 332.53, 326.52, 320.52, 314.51, 308.5, 302.49, 296.54, 290.53, 284.52, 278.51, 272.5, 266.49, 260.54, 254.53, 248.52, 242.51, 236.5, 230.49, 224.53, 218.52, 212.51, 206.5, 200.54, 194.53, 188.52, 182.51, 176.5, 170.49, 164.53, 158.51, 152.51, 146.5, 140.54, 134.53, 128.52, 122.51, 116.51, 110.49, 104.52, 98.5, 92.49, 86.53, 80.52, 74.5, 68.49, 62.53, 56.52, 50.51, 44.5, 38.54, 32.53, 26.51, 20.5, 14.54, 8.53, 2.52, 42.41, 36.4, 30.44, 24.43, 18.41, 12.4, 6.44, 0.43, 120.97, 114.96, 108.96, 102.95, 96.99, 90.98, 84.97, 78.96, 73.0, 66.99, 60.98, 54.97, 48.95, 42.99, 36.98, 30.97, 24.96, 18.95, 12.99, 6.99, 0.98, null, null, null, null, null, null], "wind_recovery_max_s": 1502.53, "wind_unrecovered": 6}
+| wind | reflex | 1.0 | 1.003 | 0.024 | 2.652 | 17.0 | 0.132 | 3.567 | 20.0 | 1726.6 | - | 0 |

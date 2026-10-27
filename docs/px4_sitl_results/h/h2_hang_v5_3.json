@@ -1,0 +1,57 @@
+{
+ "tag": "h2_hang_v5_3",
+ "arm": "reflex",
+ "scenario": "bridge_loss",
+ "seconds": 50.0,
+ "alt": 1.0,
+ "hover_rad_s": 769.0,
+ "px4_hover_mean_rad_s": null,
+ "gains": "",
+ "residual_gain": 16384,
+ "plasticity": "off",
+ "fault_policy": null,
+ "brain": "models/prior_x500_candidate_v5.arc002",
+ "bits": 832,
+ "att_fallback": "none",
+ "streamer": "",
+ "wind": null,
+ "motor_loss": null,
+ "dropout": null,
+ "random_stall_kind": null,
+ "random_schedule": null,
+ "seed": 1,
+ "standby": "px4",
+ "handover_ms": 200.0,
+ "bridge_loss": {
+  "at": 30.0,
+  "kind": "hang"
+ },
+ "handover": "GZ_MOTOR_PUB: HANDOVER to PX4 (stale, 632 ms since last command, route+arm+takeoff 149 ms, routed_polls=5, rc 0) at 1792347573.077",
+ "bridge": {},
+ "metrics": {
+  "records": 2489,
+  "sim_s": 49.764,
+  "takeoff_s": 0.96,
+  "airborne": true,
+  "settled": {
+   "alt_rms": 0.235,
+   "alt_max_err": 1.037,
+   "alt_mean": 1.037,
+   "alt_jitter_rms": 0.232,
+   "xy_max": 0.217,
+   "tilt_max_deg": 3.6
+  },
+  "disturbed": {
+   "alt_rms": 1.886,
+   "alt_max_err": 1.984,
+   "alt_mean": 2.875,
+   "alt_jitter_rms": 0.203,
+   "xy_max": 0.183,
+   "tilt_max_deg": 1.9
+  },
+  "tilt_fault_s": null,
+  "ground_impact_s": null,
+  "survival_s": 48.8,
+  "survived_run": true
+ }
+}

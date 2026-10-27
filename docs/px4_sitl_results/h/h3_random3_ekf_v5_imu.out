@@ -1,0 +1,8 @@
+SCENARIO: random schedule seed 3: [{"kind": "dropout", "at": 30.01, "len": 0.27}, {"kind": "dropout", "at": 32.68, "len": 0.21}]
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: injector READY
+SCENARIO: streamer: EKF_STREAM: 3089 records in 62.0s gyro=HIGHRES_IMU(3089)
+SCENARIO RESULT {"records": 3089, "sim_s": 61.76, "takeoff_s": 1.08, "airborne": true, "settled": {"alt_rms": 0.025, "alt_max_err": 0.05, "alt_mean": 1.003, "alt_jitter_rms": 0.025, "xy_max": 0.25, "tilt_max_deg": 3.0}, "disturbed": {"alt_rms": 0.026, "alt_max_err": 0.054, "alt_mean": 1.0, "alt_jitter_rms": 0.026, "xy_max": 0.248, "tilt_max_deg": 3.7}, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 60.68, "survived_run": true}
+| random | reflex | 1.08 | 1.003 | 0.025 | 0.25 | 3.0 | 0.054 | 0.248 | 3.7 | 60.68 | - | 0 |

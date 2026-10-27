@@ -1,0 +1,12 @@
+SCENARIO: random schedule seed 2: [{"kind": "wind", "at": 15.23, "len": 1.17, "fx": 1.64, "fy": -2.76}, {"kind": "wind", "at": 21.56, "len": 1.18, "fx": 0.26, "fy": 1.08}]
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: injector READY
+SCENARIO: inject wind 1.640000 -2.760000 0 -> OK wind 1.640000 -2.760000 0
+SCENARIO: inject clear -> OK clear
+SCENARIO: inject wind 0.260000 1.080000 0 -> OK wind 0.260000 1.080000 0
+SCENARIO: inject clear -> OK clear
+SCENARIO: streamer: EKF_STREAM: 3087 records in 62.0s gyro=HIGHRES_IMU(3086)
+SCENARIO RESULT {"records": 3087, "sim_s": 61.724, "takeoff_s": 1.06, "airborne": true, "settled": {"alt_rms": 0.026, "alt_max_err": 0.049, "alt_mean": 1.0, "alt_jitter_rms": 0.026, "xy_max": 1.963, "tilt_max_deg": 17.9}, "disturbed": {"alt_rms": 0.026, "alt_max_err": 0.084, "alt_mean": 1.002, "alt_jitter_rms": 0.026, "xy_max": 3.121, "tilt_max_deg": 18.3}, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 60.66, "survived_run": true, "wind_recovery_s": [6.65, 0.31], "wind_recovery_max_s": 6.65, "wind_unrecovered": 0}
+| random | reflex | 1.06 | 1.0 | 0.026 | 1.963 | 17.9 | 0.084 | 3.121 | 18.3 | 60.66 | - | 0 |

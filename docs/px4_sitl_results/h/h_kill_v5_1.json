@@ -1,0 +1,57 @@
+{
+ "tag": "h_kill_v5_1",
+ "arm": "reflex",
+ "scenario": "bridge_loss",
+ "seconds": 50.0,
+ "alt": 1.0,
+ "hover_rad_s": 769.0,
+ "px4_hover_mean_rad_s": null,
+ "gains": "",
+ "residual_gain": 16384,
+ "plasticity": "off",
+ "fault_policy": null,
+ "brain": "models/prior_x500_candidate_v5.arc002",
+ "bits": 832,
+ "att_fallback": "none",
+ "streamer": "OSError: [Errno 22] Invalid argument",
+ "wind": null,
+ "motor_loss": null,
+ "dropout": null,
+ "random_stall_kind": null,
+ "random_schedule": null,
+ "seed": 1,
+ "standby": "px4",
+ "handover_ms": 200.0,
+ "bridge_loss": {
+  "at": 30.0,
+  "kind": "kill"
+ },
+ "handover": "GZ_MOTOR_PUB: HANDOVER to PX4 (stale, 580 ms since last command, route+arm+takeoff 178 ms, routed_polls=6, rc 0) at 1792336752.794",
+ "bridge": {},
+ "metrics": {
+  "records": 2443,
+  "sim_s": 48.864,
+  "takeoff_s": 0.96,
+  "airborne": true,
+  "settled": {
+   "alt_rms": 2.05,
+   "alt_max_err": 2.108,
+   "alt_mean": 3.049,
+   "alt_jitter_rms": 0.044,
+   "xy_max": 0.117,
+   "tilt_max_deg": 0.4
+  },
+  "disturbed": {
+   "alt_rms": 1.986,
+   "alt_max_err": 2.077,
+   "alt_mean": 2.985,
+   "alt_jitter_rms": 0.061,
+   "xy_max": 0.113,
+   "tilt_max_deg": 0.3
+  },
+  "tilt_fault_s": null,
+  "ground_impact_s": null,
+  "survival_s": 47.9,
+  "survived_run": true
+ }
+}

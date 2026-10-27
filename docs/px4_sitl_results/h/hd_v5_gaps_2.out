@@ -1,0 +1,7 @@
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: streamer: EKF_STREAM: 2592 records in 52.0s
+SCENARIO: GZ_MOTOR_PUB: HANDOVER to PX4 (eof, 6 ms since last command, route+arm+takeoff 198 ms, routed_polls=5, rc 0) at 1792384609.054
+SCENARIO RESULT {"records": 2592, "sim_s": 51.824, "takeoff_s": 1.06, "airborne": true, "settled": {"alt_rms": 0.026, "alt_max_err": 0.048, "alt_mean": 1.0, "alt_jitter_rms": 0.026, "xy_max": 0.247, "tilt_max_deg": 3.7}, "disturbed": null, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 50.76, "survived_run": true}
+| hover | reflex | 1.06 | 1.0 | 0.026 | 0.247 | 3.7 | None | None | None | 50.76 | - | 0 |

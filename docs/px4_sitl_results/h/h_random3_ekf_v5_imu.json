@@ -1,0 +1,83 @@
+{
+ "tag": "h_random3_ekf_v5_imu",
+ "arm": "reflex",
+ "scenario": "random",
+ "seconds": 60.0,
+ "alt": 1.0,
+ "hover_rad_s": 769.0,
+ "px4_hover_mean_rad_s": null,
+ "gains": "",
+ "residual_gain": 16384,
+ "plasticity": "off",
+ "fault_policy": null,
+ "brain": "models/prior_x500_candidate_v5.arc002",
+ "bits": 832,
+ "att_fallback": "imu",
+ "streamer": "EKF_STREAM: 2977 records in 62.0s gyro=HIGHRES_IMU(2976)",
+ "wind": null,
+ "motor_loss": null,
+ "dropout": null,
+ "random_stall_kind": "ekf",
+ "random_schedule": [
+  {
+   "kind": "dropout",
+   "at": 30.01,
+   "len": 0.27
+  },
+  {
+   "kind": "dropout",
+   "at": 32.68,
+   "len": 0.21
+  }
+ ],
+ "seed": 3,
+ "standby": "none",
+ "handover_ms": null,
+ "bridge_loss": null,
+ "handover": null,
+ "bridge": {
+  "ok": "1",
+  "ticks": "60000",
+  "records": "2977",
+  "rejected": "0",
+  "gaps": "0",
+  "dropout_ticks": "0",
+  "estop_ticks": "0",
+  "fault_ticks": "0",
+  "stabilised_fault_ticks": "0",
+  "clears": "0",
+  "sim_span_us": "60000000",
+  "max_wall_tick_us": "636",
+  "hash": "8833a7459d16d807",
+  "att_fallback_records": "13",
+  "att_fallback_entries": "2",
+  "att_fallback_max_ms": "144",
+  "att_stale_records": "0"
+ },
+ "metrics": {
+  "records": 2977,
+  "sim_s": 59.516,
+  "takeoff_s": 0.94,
+  "airborne": true,
+  "settled": {
+   "alt_rms": 0.026,
+   "alt_max_err": 0.046,
+   "alt_mean": 1.003,
+   "alt_jitter_rms": 0.026,
+   "xy_max": 0.24,
+   "tilt_max_deg": 3.2
+  },
+  "disturbed": {
+   "alt_rms": 0.034,
+   "alt_max_err": 0.18,
+   "alt_mean": 1.0,
+   "alt_jitter_rms": 0.034,
+   "xy_max": 0.224,
+   "tilt_max_deg": 3.2
+  },
+  "tilt_fault_s": null,
+  "ground_impact_s": null,
+  "survival_s": 58.58,
+  "survived_run": true
+ }
+}

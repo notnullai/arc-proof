@@ -1,0 +1,29 @@
+start Sun Oct 18 21:32:20 MPST 2026
+h_dropout03_ekf_v5_imu rc=0 21:38:09
+h_dropout10_ekf_v5_imu rc=0 21:44:08
+h_dropout30_ekf_v5_imu rc=0 21:56:11
+h_dropout10_ekf_v5_gyro rc=0 22:02:10
+h_dropout10_ekf_v5_none rc=0 22:14:09
+h_random1_ekf_v5_imu rc=0 22:26:10
+cpu still 100% after 10 min
+h_random2_ekf_v5_imu rc=0 22:39:23
+cpu still 100% after 10 min
+h_random3_ekf_v5_imu rc=0 22:52:42
+cpu still 90% after 10 min
+h_random4_ekf_v5_imu rc=0 23:06:03
+h_random5_ekf_v5_imu rc=0 23:08:20
+h_random6_ekf_v5_imu rc=0 23:14:17
+h_kill_v5_1 rc=0 23:20:03
+h_kill_v5_2 rc=0 23:26:00
+h_kill_v5_3 rc=0 23:32:08
+h_kill_v5_4 rc=0 23:38:05
+h_kill_v5_5 rc=0 23:44:02
+h_kill_v5_6 rc=0 23:49:59
+h_hang_v5_1 rc=0 23:57:07
+h_hang_v5_2 rc=0 00:03:06
+h_hang_v5_3 rc=0 00:09:04
+h_nofault_v5_1 rc=0 00:14:04
+h_nofault_v5_2 rc=0 00:26:01
+h_long_wind_v5 rc=0 01:01:20
+h_long_hover_demo_plastic rc=0 01:37:13
+MATRIX DONE Mon Oct 19 01:37:13 MPST 2026

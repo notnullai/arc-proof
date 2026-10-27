@@ -1,0 +1,10 @@
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: bridge killed at 30.0s
+SCENARIO: streamer: EKF_STREAM: 2591 records in 52.0s
+SCENARIO: GZ_MOTOR_PUB: HANDOVER to PX4 (eof, 4 ms since last command, route+arm+takeoff 36 ms, routed_polls=1, params_unconfirmed=-, arm_ack=0, mode_ack=0, ok, watchdog clock sim, wall 4 ms since last command) at 1792392871.525 (host t=30.17s)
+SCENARIO: GZ_MOTOR_PUB: command gaps: 7359 lines, 611 over 20 ms, worst 25.6 ms (sim time in the logged gaps: worst 20.0 ms)
+SCENARIO: gap attribution {"lines": 7359, "over_ms": 20.0, "n_over": 611, "worst_ms": 25.6, "worst_sim_ms_in_gaps": 20.0, "worst_ms_in_window": 25.6, "worst_sim_ms": 20.0, "machine_stalls": 0, "worst_stall_probe_ms": 140.9, "worst_ms_outside_machine_stalls": 25.6, "worst_stream_arrival_ms": 161.0}
+SCENARIO RESULT {"records": 2592, "sim_s": 51.82, "takeoff_s": 1.94, "airborne": true, "settled": {"alt_rms": 0.044, "alt_max_err": 0.41, "alt_mean": 1.002, "alt_jitter_rms": 0.044, "xy_max": 0.227, "tilt_max_deg": 3.4}, "disturbed": {"alt_rms": 1.792, "alt_max_err": 2.031, "alt_mean": 2.688, "alt_jitter_rms": 0.602, "xy_max": 0.146, "tilt_max_deg": 1.9}, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 49.88, "survived_run": true}
+| bridge_loss | reflex | 1.94 | 1.002 | 0.044 | 0.227 | 3.4 | 2.031 | 0.146 | 1.9 | 49.88 | - | - |

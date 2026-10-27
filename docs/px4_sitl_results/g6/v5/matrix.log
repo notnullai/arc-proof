@@ -1,0 +1,32 @@
+start Mon Oct 19 14:49:48 MPST 2026
+cpu 8% 14:53:25
+g6_kill_v5_1 rc=0 14:54:56
+cpu 9% 14:59:38
+g6_kill_v5_2 rc=0 15:01:09
+cpu 2% 15:11:24
+g6_kill_v5_3 rc=0 15:12:55
+cpu 4% 15:17:22
+g6_kill_v5_4 rc=0 15:18:53
+cpu 5% 15:23:34
+g6_kill_v5_5 rc=0 15:25:03
+cpu 6% 15:29:29
+g6_kill_v5_6 rc=0 15:31:00
+cpu 7% 15:35:27
+g6_hang_v5_1 rc=0 15:36:59
+cpu 18% 15:41:26
+g6_hang_v5_2 rc=0 15:42:57
+cpu 4% 15:47:23
+g6_hang_v5_3 rc=0 15:48:54
+cpu 0% 15:53:21
+g6_nofault_v5_1 rc=0 15:54:52
+cpu 6% 15:59:19
+g6_nofault_v5_2 rc=0 16:00:49
+cpu 10% 16:05:32
+g6_nofault_v5_3 rc=0 16:07:03
+cpu 5% 16:11:29
+g6_nofault_v5_4 rc=0 16:12:59
+cpu 11% 16:17:25
+g6_hostbase_v5_1 rc=0 16:18:54
+cpu 4% 16:23:20
+g6_hostbase_v5_2 rc=0 16:24:49
+MATRIX DONE Mon Oct 19 16:24:49 MPST 2026

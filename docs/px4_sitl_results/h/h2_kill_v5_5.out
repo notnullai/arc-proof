@@ -1,0 +1,8 @@
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: bridge killed at 30.0s
+SCENARIO: streamer: OSError: [Errno 22] Invalid argument
+SCENARIO: GZ_MOTOR_PUB: HANDOVER to PX4 (stale, 585 ms since last command, route+arm+takeoff 1033 ms, routed_polls=13, rc 0) at 1792346476.455
+SCENARIO RESULT {"records": 2491, "sim_s": 49.8, "takeoff_s": 1.02, "airborne": true, "settled": {"alt_rms": 1.768, "alt_max_err": 1.796, "alt_mean": 2.767, "alt_jitter_rms": 0.034, "xy_max": 0.169, "tilt_max_deg": 0.3}, "disturbed": {"alt_rms": 1.785, "alt_max_err": 1.798, "alt_mean": 2.785, "alt_jitter_rms": 0.007, "xy_max": 0.169, "tilt_max_deg": 0.3}, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 48.78, "survived_run": true}
+| bridge_loss | reflex | 1.02 | 2.767 | 0.034 | 0.169 | 0.3 | 1.798 | 0.169 | 0.3 | 48.78 | - | - |

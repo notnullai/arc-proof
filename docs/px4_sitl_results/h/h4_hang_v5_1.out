@@ -1,0 +1,9 @@
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: bridge suspended at 30.0s
+SCENARIO: GZ_MOTOR_PUB: input gap 104 ms at 1792388531.490
+SCENARIO: GZ_MOTOR_PUB: input gap 153 ms at 1792388532.619
+SCENARIO: GZ_MOTOR_PUB: HANDOVER to PX4 (stale, 203 ms since last command, route+arm+takeoff 348 ms, routed_polls=12, rc 0) at 1792388560.882
+SCENARIO RESULT {"records": 2592, "sim_s": 51.824, "takeoff_s": 1.08, "airborne": true, "settled": {"alt_rms": 0.026, "alt_max_err": 0.045, "alt_mean": 0.999, "alt_jitter_rms": 0.026, "xy_max": 0.237, "tilt_max_deg": 14.6}, "disturbed": {"alt_rms": 1.734, "alt_max_err": 1.989, "alt_mean": 2.6, "alt_jitter_rms": 0.669, "xy_max": 0.472, "tilt_max_deg": 15.4}, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 50.74, "survived_run": true}
+| bridge_loss | reflex | 1.08 | 0.999 | 0.026 | 0.237 | 14.6 | 1.989 | 0.472 | 15.4 | 50.74 | - | - |

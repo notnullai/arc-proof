@@ -1,0 +1,6 @@
+SCENARIO: container restarted
+SCENARIO: mode arc-owns
+SCENARIO: EKF settle 20s done
+SCENARIO: streamer: EKF_STREAM: 2981 records in 62.0s
+SCENARIO RESULT {"records": 2981, "sim_s": 59.6, "takeoff_s": 1.08, "airborne": true, "settled": {"alt_rms": 0.032, "alt_max_err": 0.172, "alt_mean": 0.997, "alt_jitter_rms": 0.031, "xy_max": 0.239, "tilt_max_deg": 8.1}, "disturbed": {"alt_rms": 0.032, "alt_max_err": 0.181, "alt_mean": 1.003, "alt_jitter_rms": 0.032, "xy_max": 0.431, "tilt_max_deg": 11.7}, "tilt_fault_s": null, "ground_impact_s": null, "survival_s": 58.52, "survived_run": true}
+| dropout | reflex | 1.08 | 0.997 | 0.031 | 0.239 | 8.1 | 0.181 | 0.431 | 11.7 | 58.52 | - | 0 |
